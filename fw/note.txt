@@ -1,0 +1,1 @@
+g++   -Iinclude   test/test_max30102.c   src/spo2_algorithm.cpp   src/heartRate.cpp   -o test_max30102   -std=gnu++11   -Wall -Wextra -O2

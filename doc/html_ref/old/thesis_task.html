@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Thesis Task: Heart Rate and SpO2 Calculation with MAX30102 and RV32I</title>
+    <link rel="stylesheet" href="../css/style.css">
+</head>
+<body>
+    <h1>Thesis Task: Heart Rate and SpO2 Calculation with MAX30102 and RV32I</h1>
+
+    <div class="section">
+        <h2>MAX30102 Datasheet</h2>
+        <p><a href="https://www.analog.com/media/en/technical-documentation/data-sheets/max30102.pdf" target="_blank">MAX30102 Datasheet</a></p>
+    </div>
+
+    <div class="section">
+        <h2>Reference Repositories</h2>
+        <p>This repository contains the Arduino.h file, useful for reference:</p>
+        <p><a href="https://github.com/arduino/ArduinoCore-avr/blob/master/cores/arduino/Arduino.h" target="_blank">ArduinoCore-avr: Arduino.h</a></p>
+        <p>Useful repositories providing algorithms to calculate Heart Rate (HR) and SpO2, potentially compatible with RV32I:</p>
+        <ul>
+            <li><a href="https://github.com/aromring/MAX30102_by_RF" target="_blank">aromring/MAX30102_by_RF</a></li>
+            <li><a href="https://github.com/thewiseguyshivam/Arduino-MAX30102/blob/master/README.md" target="_blank">thewiseguyshivam/Arduino-MAX30102</a></li>
+            <li><a href="https://github.com/libdriver/max30102/blob/main/README.md" target="_blank">libdriver/max30102</a></li>
+	    <li><a href="https://github.com/sparkfun/SparkFun_MAX3010x_Sensor_Library/blob/master/README.md" target="_blank">SparkFun_MAX3010x_Sensor_Library
+/README.md</a></li>
+        </ul>
+        <p>Find more resources on GitHub by searching with the keyword: <strong>max30102</strong></p>
+    </div>
+
+    <div class="section">
+        <h2>Dataset from PhysioNet</h2>
+        <p><a href="https://physionet.org/content/pulse-transit-time-ppg/1.0.0/csv/" target="_blank">Pulse Transit Time PPG Dataset</a></p>
+        <h3>Dataset folder Structure</h3>
+        <pre class="code-block-text"><code>/dataset
+    /2_run.xlsx
+    /2_sit.xlsx
+    /2_wark.xlsx
+    /3_run.xlsx
+    /3_sit.xlsx
+    /3_wark.xlsx</code></pre>
+        <p>Each file contains two columns (over 246k pairs of samples):</p>
+        <pre class="code-block-text"><code>pleth_1    pleth_2
+77218      77952
+77198      77958
+77198      77958
+77217      77962
+77213      77968</code></pre>
+    </div>
+
+    <div class="section">
+        <h2>Information from PhysioNet</h2>
+        <p>2X Maxim Integrated MAX30101 PPG configured to measure:</p>
+        <ul>
+            <li>Infrared λ=880±20nm: pleth_1 and pleth_4</li>
+            <li>Red λ=660±10nm: pleth_2 and pleth_5</li>
+        </ul>
+    </div>
+
+    <div class="section">
+        <h2>Main Task</h2>
+        <p>Write an algorithm compatible with RV32I to calculate Heart Rate (HR) and SpO2 from the provided dataset.</p>
+    </div>
+
+    <div class="section">
+        <h2>Compiler Information</h2>
+        <p>Using the <a href="./risc_v_gnu_toolchain.html" target="_blank">Guild Build RV32I Toolchain</a>:</p>
+        <pre class="code-block-bash"><code>Using built-in specs.
+COLLECT_GCC=riscv32-unknown-elf-g++
+COLLECT_LTO_WRAPPER=/opt/riscv32i/libexec/gcc/riscv32-unknown-elf/15.1.0/lto-wrapper
+Target: riscv32-unknown-elf
+gcc version 15.1.0</code></pre>
+    </div>
+
+    <div class="section">
+        <h2>Example Output Files</h2>
+        <pre class="code-block-bash"><code>ls prime_sort/
+prime_sort.S  prime_sort.bin  prime_sort.c  prime_sort.coe  prime_sort.elf  prime_sort.txt</code></pre>
+    </div>
+
+    <div class="section">
+        <h2>RV32I Instruction Reference</h2>
+        <p>Refer to page 122 of <a href="../doc_ref/riscv-spec-v2.2.pdf" target="_blank">riscv-spec-v2.2.pdf</a> for all pseudo-instructions compatible with RV32I.</p>
+        <p>After compiling the code, use this document to verify compatibility between the assembly code and RV32I pseudo-instructions.</p>
+    </div>
+
+    <div class="section">
+        <h2>Example Program</h2>
+        <p>Program: <strong>add_two_numb.cpp</strong></p>
+        <pre class="code-block-cpp"><code>#include &lt;stdint.h&gt;
+
+// Simulated data memory
+volatile uint32_t data_mem[4];
+
+int main() {
+    // Write two immediate values to data memory
+    data_mem[0] = 7;   // first immediate value
+    data_mem[1] = 13;  // second immediate value
+
+    // Load them into "registers" (variables simulate registers)
+    uint32_t reg_a = data_mem[0];
+    uint32_t reg_b = data_mem[1];
+
+    // Add them
+    uint32_t reg_sum = reg_a + reg_b;
+
+    // Store the result back to memory
+    data_mem[2] = reg_sum;
+
+    // infinite loop to observe memory in simulator
+    while (1) {
+    }
+
+    return 0;
+}
+</code></pre>
+        <p>Compilation Commands:</p>
+        <pre class="code-block-bash"><code>riscv32-unknown-elf-g++ -O2 -march=rv32i -mabi=ilp32 -nostdlib -T link.ld -o add_two_numb.elf add_two_numb.cpp
+# Disassembly (.S)
+riscv32-unknown-elf-objdump -d add_two_numb.elf > add_two_numb.S
+# Binary (.bin)
+riscv32-unknown-elf-objcopy -O binary add_two_numb.elf add_two_numb.bin
+# Plain hex dump (.txt)
+xxd -p add_two_numb.bin | tr -d '\n' > add_two_numb.txt
+# COE file for ROM initialization
+echo "memory_initialization_radix=16;" > add_two_numb.coe
+echo "memory_initialization_vector=" >> add_two_numb.coe
+xxd -p add_two_numb.bin | sed 's/../& /g' >> add_two_numb.coe
+</code></pre>
+        <p>Output Files:</p>
+        <pre class="code-block-bash"><code>ls
+add_two_numb.S  add_two_numb.bin  add_two_numb.coe  add_two_numb.cpp  add_two_numb.elf  add_two_numb.txt
+</code></pre>
+        <p>Assembly Output (<strong>add_two_numb.S</strong>):</p>
+        <pre class="code-block-asm"><code>add_two_numb.elf:     file format elf32-littleriscv
+
+Disassembly of section .text:
+
+000100b4 <main>:
+   100b4:       000117b7                lui     a5,0x11
+   100b8:       10878793                addi    a5,a5,264 # 11108 <data_mem>
+   100bc:       00700713                li      a4,7
+   100c0:       00e7a023                sw      a4,0(a5)
+   100c4:       00d00713                li      a4,13
+   100c8:       00e7a223                sw      a4,4(a5)
+   100cc:       0007a703                lw      a4,0(a5)
+   100d0:       0047a683                lw      a3,4(a5)
+   100d4:       00d70733                add     a4,a4,a3
+   100d8:       00e7a423                sw      a4,8(a5)
+   100dc:       0000006f                j       100dc <main+0x28>
+</code></pre>
+        <p>COE File (<strong>add_two_numb.coe</strong>):</p>
+        <pre class="code-block-text"><code>memory_initialization_radix=16;
+memory_initialization_vector=
+b7 17 01 00 93 87 87 10 13 07 70 00 23 a0 e7 00 13 07 d0 00 23 a2 e7 00 03 a7 07 00 83 a6
+47 00 33 07 d7 00 23 a4 e7 00 6f 00 00 00 10 00 00 00 00 00 00 00 03 7a 52 00 01 7c 01 01
+1b 0c 02 00 10 00 00 00 18 00 00 00 b8 ff ff ff 2c 00 00 00 00 00 00 00
+</code></pre>
+    </div>
+    <div class="section">
+        <h2>Other references</h2>
+        <p>A C++ language and library reference site that helps you understand what features you can use when compiling C++ programs, including for RV32I targets.</p>
+        <p><a href="https://en.cppreference.com/w/cpp.html" target="_blank">C++ references</a></p>
+    </div>
+    <div class="section">
+        <h2>Final Note</h2>
+        <p>Hope we pass the final thesis!<br>God bless us!</p>
+    </div>
+</body>
+</html>

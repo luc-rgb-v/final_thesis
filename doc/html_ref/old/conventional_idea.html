@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Conventional</title>
+
+    <!-- Link to your CSS -->
+    <link rel="stylesheet" href="../css/style.css">
+</head>
+
+<body>
+    <h1>Brief view - Conventional project MCU used for HR SpO2 project</h1>
+    <div class="section">
+        <h2 class = "justify"> Some of conventional MCUs common use, specific for MAX301xx project</h2>
+        <p class = "justify"> For HR and SpO₂ projects with MAX3010xx sensors, low-power MCUs like TI MSP430 or Silicon Labs C8051 handle basic algorithms (peak detection, moving average, ratio-of-ratios) efficiently. Specialized MCUs like Holtek BH66F2560/HT32F59045 integrate the analog front-end, simplifying design, while 32-bit MCUs (STM32, nRF52) support more advanced filtering and adaptive algorithms, balancing power, processing, and sensor integration.</p>
+
+            <table>
+                <tr><th>MCU / Series</th><th>Core / Bits</th><th>Key Features for HR/SpO₂</th><th>Calculation Power</th><th>Suitable Algorithms for HR/SpO₂</th></tr>
+                <tr><td><strong><a href="https://www.ti.com/lit/gpn/MSP430G2553" target="_blank">TI MSP430</a></strong></td><td>16-bit RISC</td><td>Low power, integrated ADC & LCD driver</td><td>Low (tens of MIPS)</td><td>Simple peak detection, moving average, ratio-of-ratios SpO₂</td></tr>
+                <tr><td><strong><a href="https://www.silabs.com/documents/public/data-sheets/C8051F85x-86x.pdf" target="_blank">Silicon Labs C8051</a></strong></td><td>8051 / 8-bit</td><td>12-bit ADC/DAC, mixed-signal capabilities</td><td>Low–Medium (~10–25 MIPS)</td><td>Peak detection, FIR filtering, ratio-of-ratios SpO₂</td></tr>
+                <tr><td><strong><a href="https://www.holtek.com/webapi/5905185/WAS-2091EN_ReferenceDesign.pdf" target="_blank">Holtek BH66F2560</a> / <a href="https://www.holtek.com/webapi/116711/HT32F59045_Datasheet_v110.pdf" target="_blank">HT32F59045</a></strong></td><td>8-bit / 32-bit</td><td>Integrated LED driver & AFE</td><td>Low–Medium</td><td>On-chip AFE processing, moving average, peak detection</td></tr>
+                <tr><td><strong><a href="https://www.st.com/resource/en/datasheet/stm32f030f4.pdf" target="_blank">STM32 (Cortex-M0/M3)</a></strong></td><td>32-bit Cortex-M</td><td>High-speed ADC, timers, flexible I/Os</td><td>Medium (~40–100 MIPS)</td><td>FIR/IIR filtering, FFT, adaptive peak detection, ratio-of-ratios SpO₂</td></tr>
+                <tr><td><strong><a href="https://datasheet.octopart.com/NRF52810-QCAA-T-Nordic-Semiconductor-datasheet-136760423.pdf" target="_blank">Nordic nRF52 series</a></strong></td><td>32-bit Cortex-M4</td><td>ADC, BLE wireless, low power</td><td>Medium–High (~64–128 MIPS)</td><td>FIR/IIR filtering, FFT, adaptive algorithms, pulse rate variability</td></tr>
+            </table>
+        <p class = "center">List of common MCUs for Heart Rate and SpO₂ Applications and its capability </p>
+
+        <h2>Atmega 328b</h2>
+        <p class = "justify"> <a href="https://ww1.microchip.com/downloads/en/DeviceDoc/Atmel-7810-Automotive-Microcontrollers-ATmega328P_Datasheet.pdf" target="_blank">ATmega328P Datasheet</a></p>
+        <p class = "justify"><strong>The ATmega328P</strong> The ATmega328P is quite efficient for typical control and embedded tasks with an 8-bit ALU and a hardware multiplier, but it is not optimized for heavy number-crunching (large integer arithmetic, floating point, DSP style operations). Common boards that use the ATmega328P microcontroller include the <strong>Arduino Uno, Arduino Nano, and Arduino Pro Mini</strong>.</p>
+         
+        <table>
+            <tr><th>Feature</th><th>Details / Notes</th></tr>
+            <tr><td><strong>Architecture</strong></td><td>8-bit AVR RISC, 32 general-purpose registers directly connected to the ALU.</td></tr>
+            <tr><td><strong>Throughput</strong></td><td>Up to ~1&nbsp;MIPS per&nbsp;MHz (e.g., at 16&nbsp;MHz ≈ 16&nbsp;MIPS) under ideal conditions.</td></tr>
+            <tr><td><strong>Hardware Multiply</strong></td><td>Yes – 8×8 → 16-bit multiply instruction implemented in hardware (single instruction).</td></tr>
+            <tr><td><strong>Hardware Divide</strong></td><td>No dedicated divide instruction or hardware acceleration; handled via software or libraries.</td></tr>
+            <tr><td><strong>Floating-Point Unit (FPU)</strong></td><td>None – floating-point arithmetic is software-emulated.</td></tr>
+            <tr><td><strong>DSP / MAC Extensions</strong></td><td>None or minimal – standard 8-bit arithmetic without specialized multiply–accumulate unit.</td></tr>
+            <tr><td><strong>Native Word Size</strong></td><td>8-bit data bus; wider (16-/32-bit) arithmetic is implemented via multiple instructions.</td></tr>
+            <tr><td><strong>Instruction Timing (Arithmetic)</strong></td><td>Most arithmetic/logical instructions execute in a single clock cycle; multiply takes two cycles.</td></tr>
+        </table>
+        <p class = "center">Detail Atm328b capability </p>
+
+    </div>
+    <hr>
+    <h1>Algorithm and codes library to working with MAX3010xx series</h1>
+    <div class="section">
+        <h2 class = "justify"><a href="https://github.com/sparkfun/SparkFun_MAX3010x_Sensor_Library/blob/master/README.md" target="_blank">SparkFun MAX30105</a></h2>
+        <p class = "justify"> The SparkFun MAX30105 Arduino library reads raw red and IR signals from the sensor, applies a simple moving average to reduce noise, removes the DC baseline to isolate the AC component, and calculates heart rate via threshold-based peak detection. SpO₂ is estimated using the ratio-of-ratios method with floating-point arithmetic. The library relies on basic integer multiplication/division and simple smoothing, with no advanced filters, motion artifact handling, or user calibration, making it suitable for basic Arduino projects but limited in accuracy for more demanding or wearable applications.</p>
+        <li><a href="../assets/code_refs/src_MAX30105_Particle_Sensor_Breakout-master/MAX30105.cpp" target="_blank">MAX30105.cpp</a></li>
+        <li><a href="../assets/code_refs/src_MAX30105_Particle_Sensor_Breakout-master/MAX30105.h" target="_blank">MAX30105.h</a></li>
+        <li><a href="../assets/code_refs/src_MAX30105_Particle_Sensor_Breakout-master/heartRate.cpp" target="_blank">heartRate.cpp</a></li>
+        <li><a href="../assets/code_refs/src_MAX30105_Particle_Sensor_Breakout-master/heartRate.h" target="_blank">heartRate.h</a></li>
+        <li><a href="../assets/code_refs/src_MAX30105_Particle_Sensor_Breakout-master/spo2_algorithm.cpp" target="_blank">spo2_algorithm.cpp</a></li>
+        <li><a href="../assets/code_refs/src_MAX30105_Particle_Sensor_Breakout-master/spo2_algorithm.h" target="_blank">spo2_algorithm.h</a></li>
+        <li><a href="../assets/code_refs/src_MAX30105_Particle_Sensor_Breakout-master/README.md" target="_blank">README.md</a></li>
+
+        <h2 class = "justify"><a href="https://github.com/thewiseguyshivam/Arduino-MAX30102/blob/master/README.md" target="_blank">Arduino-MAX30102 by thewiseguyshivam</a></h2>
+        <p class = "justify">The Arduino-MAX30102 repo implements basic HR and SpO₂ measurement from MAX30102 sensors using software-based processing without advanced DSP. Raw red and IR signals are smoothed with simple moving averages, and heart rate is calculated via threshold-based peak detection, while SpO₂ is estimated using the ratio-of-ratios method with floating-point arithmetic. Multiplication and division are used for averages and ratio calculations, with floats handled in software on 8-bit MCUs and hardware-accelerated on 32-bit MCUs. There are no FIR/IIR filters, adaptive algorithms, motion artifact handling, or FFT-based processing, making the library lightweight and suitable for low-power MCUs but limited in accuracy and robustness for wearable or high-performance applications.</p>
+        <li><a href="../assets/code_refs/src_from_thewiseguyshivam/CircularBuffer.h" target="_blank">CircularBuffer.h</a></li>
+        <li><a href="../assets/code_refs/src_from_thewiseguyshivam/CircularBuffer.tpp" target="_blank">CircularBuffer.tpp</a></li>
+        <li><a href="../assets/code_refs/src_from_thewiseguyshivam/MAX30102.cpp" target="_blank">MAX30102.cpp</a></li>
+        <li><a href="../assets/code_refs/src_from_thewiseguyshivam/MAX30102.h" target="_blank">MAX30102.h</a></li>
+        <li><a href="../assets/code_refs/src_from_thewiseguyshivam/MAX30102_BeatDetector.cpp" target="_blank">MAX30102_BeatDetector.cpp</a></li>
+        <li><a href="../assets/code_refs/src_from_thewiseguyshivam/MAX30102_BeatDetector.h" target="_blank">MAX30102_BeatDetector.h</a></li>
+        <li><a href="../assets/code_refs/src_from_thewiseguyshivam/MAX30102_Filters.h" target="_blank">MAX30102_Filters.h</a></li>
+        <li><a href="../assets/code_refs/src_from_thewiseguyshivam/MAX30102_PulseOximeter.cpp" target="_blank">MAX30102_PulseOximeter.cpp</a></li>
+        <li><a href="../assets/code_refs/src_from_thewiseguyshivam/MAX30102_PulseOximeter.h" target="_blank">MAX30102_PulseOximeter.h</a></li>
+        <li><a href="../assets/code_refs/src_from_thewiseguyshivam/MAX30102_Registers.h" target="_blank">MAX30102_Registers.h</a></li>
+        <li><a href="../assets/code_refs/src_from_thewiseguyshivam/MAX30102_SpO2Calculator.cpp" target="_blank">MAX30102_SpO2Calculator.cpp</a></li>
+        <li><a href="../assets/code_refs/src_from_thewiseguyshivam/MAX30102_SpO2Calculator.h" target="_blank">MAX30102_SpO2Calculator.h</a></li>
+        <li><a href="../assets/code_refs/src_from_thewiseguyshivam/README.md" target="_blank">README.md</a></li>
+
+        <h2 class = "justify"><a href="https://github.com/aromring/MAX30102_by_RF" target="_blank">Arduino C code for MAX30102 pulse oximetry sensor</a></h2>
+        <p class = "justify">The MAX30102_by_RF library implements an enhanced signal-processing algorithm for the MAX30102 pulse oximeter, replacing the standard Maxim reference code with a more precise floating-point implementation. It incorporates autocorrelation and Pearson correlation coefficients to assess waveform quality, ensuring reliable heart-rate and SpO₂ estimation only from valid PPG segments. The algorithm includes improved moving-average filtering and refined peak detection logic for better temporal resolution. However, it lacks adaptive or motion-compensated filtering, relying instead on signal-quality metrics to reject corrupted data. Designed for mid-range MCUs with sufficient memory, the library provides a technically robust framework for stationary or low-motion PPG measurement applications.</p>
+        <li><a href="../assets/code_refs/MAX30102_by_RF-master/ExpectedGoodQualitySignals.csv" target="_blank">ExpectedGoodQualitySignals.csv</a></li>
+        <li><a href="../assets/code_refs/MAX30102_by_RF-master/ExpectedGoodQualitySignals.png" target="_blank">ExpectedGoodQualitySignals.png</a></li>
+        <li><a href="../assets/code_refs/MAX30102_by_RF-master/MAX30102_by_RF.ino" target="_blank">MAX30102_by_RF.ino</a></li>
+        <li><a href="../assets/code_refs/MAX30102_by_RF-master/README.md" target="_blank">README.md</a></li>
+        <li><a href="../assets/code_refs/MAX30102_by_RF-master/algorithm.cpp" target="_blank">algorithm.cpp</a></li>
+        <li><a href="../assets/code_refs/MAX30102_by_RF-master/algorithm.h" target="_blank">algorithm.h</a></li>
+        <li><a href="../assets/code_refs/MAX30102_by_RF-master/algorithm_by_RF.cpp" target="_blank">algorithm_by_RF.cpp</a></li>
+        <li><a href="../assets/code_refs/MAX30102_by_RF-master/algorithm_by_RF.h" target="_blank">algorithm_by_RF.h</a></li>
+        <li><a href="../assets/code_refs/MAX30102_by_RF-master/max30102.cpp" target="_blank">max30102.cpp</a></li>
+        <li><a href="../assets/code_refs/MAX30102_by_RF-master/max30102.h" target="_blank">max30102.h</a></li>
+        <li><a href="../assets/code_refs/MAX30102_by_RF-master/max30102_settings.cpp" target="_blank">max30102_settings.cpp</a></li>
+        <li><a href="../assets/code_refs/MAX30102_by_RF-master/max30102_settings.h" target="_blank">max30102_settings.h</a></li>
+        <li><a href="../assets/code_refs/MAX30102_by_RF-master/max30102_settings_TESTER.cpp" target="_blank">max30102_settings_TESTER.cpp</a></li>
+
+        <h2 class = "justify"><a href="https://github.com/DFRobot/DFRobot_MAX30102/tree/master" target="_blank">DFRobot_MAX30102 Heart-rate & Oximeter Sensor Library</a></h2>
+        <p class = "justify">The DFRobot_MAX30102 library provides basic functions to configure and read data from the MAX30102 heart-rate and SpO₂ sensor, including adjustable LED brightness, sampling rate, averaging, and data acquisition for red and IR signals. It includes a built-in method to estimate heart rate and oxygen saturation but does not document the underlying algorithms or filtering methods in detail. The only clear filtering is sample averaging, with no mention of digital filters or motion artefact removal. The SpO₂ and heart-rate computations appear to use a simplified or proprietary approach without calibration or adaptive filtering.</p>
+
+    <hr>
+    <div class="section">
+    <h1>Some project that used these repo above and more</h1>
+        <p class = "justify"> <a href="https://www.hackster.io/kutluhan-aktar/iot-heart-rate-bpm-monitor-and-tracker-w-tuya-smart-3f8826" target="_blank">iot-heart-rate-bpm-monitor-and-tracker-w-tuya-smart-3f8826</a></p>
+        <p class = "justify"> <a href="https://arxiv.org/abs/2312.13404" target="_blank">A low-cost PPG sensor-based empirical study on healthy aging based on changes in PPG morphology</a></p>
+        <p class = "justify"> <a href="https://projecthub.arduino.cc/SurtrTech/measure-heart-rate-and-spo2-with-max30102-eb4f74" target="_blank">Measure Heart Rate and SpO2 with MAX30102</a></p>
+        <p class = "justify"> <a href="https://www.instructables.com/Guide-to-Using-MAX30102-Heart-Rate-and-Oxygen-Sens/" target="_blank">Guide to Using MAX30102 Heart Rate and Oxygen Sensor With Arduino</a></p>
+        <p class = "justify"> <a href="https://how2electronics.com/max30102-arduino-heart-rate-blood-oxygen-monitoring/" target="_blank">MAX30102 & Arduino: Heart Rate + Blood Oxygen Monitoring</a></p>
+    </div>
+
+    <div class="section">
+    <h1>Datasheet and Algorithms</h1>
+        <p class = "justify"> <a href="https://www.ti.com/lit/an/slaa655/slaa655.pdf?ts=1761328704006&ref_url=https%253A%252F%252Fwww.google.com%252F" target="_blank">How to Design Peripheral Oxygen Saturation (SpO2) and Optical Heart Rate Monitoring (OHRM) Systems Using the AFE4403</a></p>
+        <p class = "justify"> <a href="https://www.analog.com/media/en/technical-documentation/user-guides/measuring-spo2-and-heart-rate-using-max32664c.pdf" target="_blank">Measuring SpO2 and Heart Rate Using the MAX32664C – A Quick Start Guide</a></p>
+        <p class = "justify"> <a href="https://www.analog.com/media/en/technical-documentation/data-sheets/max30102.pdf" target="_blank">MAX30102 Datasheet</a></p>
+    </div>
+
+</body>
+</html>

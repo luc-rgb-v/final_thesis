@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>RTL</title>
+<style>
+html{scroll-behavior:smooth}
+body{background:#000;color:#fff;font-family:Arial,sans-serif;padding:2rem;margin:0;counter-reset:linkCounter}
+a{color:#ff0000;text-decoration:none;transition:0.2s ease}
+a:hover{text-decoration:underline}
+ul{list-style:none;padding-left:0}
+li{counter-increment:linkCounter;margin:0.5rem 0;display:block;transition:box-shadow .3s}
+li::before{content:counter(linkCounter);color:#ff0000;font-weight:bold;width:2.5rem;display:inline-block;text-align:center;margin-right:0.5rem}
+.desc{color:#fff;opacity:0.7;margin-left:0.3rem;font-size:0.9rem}
+.search-container{position:fixed;top:20px;left:40px;z-index:1000}
+.search-box{padding:6px 10px;border:1px solid #444;border-radius:5px;background:#111;color:#fff;width:150px}
+@keyframes borderGlow{0%{box-shadow:0 0 0 0 rgba(255,0,0,0)}30%{box-shadow:0 0 0 2px rgba(255,0,0,.3)}70%{box-shadow:0 0 0 2px rgba(255,0,0,.5)}100%{box-shadow:0 0 0 0 rgba(255,0,0,0)}}
+.highlight{animation:borderGlow .8s ease-in-out forwards}
+</style>
+</head>
+<body id="top">
+
+<div class="search-container">
+  <input type="text" id="search" class="search-box" placeholder="Go to link #...">
+</div>
+<h1>Repo RTL DV R&D FPGA links</h1>
+<p>Good links</p>
+<ul>
+  <li><a href="https://verilator.org/guide/latest/index.html">verilator / guide / latest </a><span class="desc">- Verilator tutorial </span></li>
+</ul>
+<p>RISC-V</p>
+<ul>
+  <li><a href="https://github.com/ZipCPU/zipcpu/tree/master">ZipCPU / zipcpu / tree / master</a><span class="desc">- Small, light-weight, RISC CPU, implement 29 instructions</span></li>
+  <li><a href="https://github.com/ultraembedded/riscv">ultraembedded / riscv</a><span class="desc">- A 32-bit RISC-V core, Verilog, supporting RV32IM, tested against a co-simulation model and exercised on FPGA</span></li>
+  <li><a href="https://github.com/YosysHQ/picorv32">YosysHQ / picorv32</a><span class="desc">- PicoRV32 is a CPU core that implements the RISC-V RV32IMC Instruction Set</span></li>
+  <li><a href= "https://venus.kvakil.me/">venus</a><span class="desc">- Online risc-v core</span></li>
+  <li><a href= "https://github.com/lowRISC/opentitan">lowRISC / opentitan</a><span class="desc">- opentitan core</span></li>
+  <li><a href= "https://docs.riscv.org/reference/isa/priv/priv-csrs.html">Control and Status Registers</a><span class="desc">- ISA Specifications Volume II: RISC-V Privileged ISA Specification Control and Status Registers (CSRs)</span></li>
+  <li><a href= "https://luplab.gitlab.io/rvcodecjs/">gitlab rvcodecjs</a><span class="desc">- Online RISC-V Instruction Encoder/Decoder</span></li>
+</ul>
+
+<p>Wishbone</p>
+<ul>
+  <li><a href="https://github.com/ZipCPU/wb2axip/tree/master">ZipCPU / wb2axip / tree / master</a><span class="desc">- WB2AXIP: Bus interconnects, bridges, and other components</span></li>
+  <li><a href="https://github.com/olofk/wb_intercon">olofk / wb_intercon</a><span class="desc">- Wishbone interconnect utilities</span></li>
+  <li><a href="https://github.com/ZipCPU/wbscope">ZipCPU / wbscope</a><span class="desc">- A Wishbone Controlled Scope for FPGA's</span></li>
+  <li><a href="https://github.com/semahawk/wishbone/tree/master">semahawk / wishbone / tree / master</a><span class="desc">- WB test with waveform</span></li>
+</ul>
+
+<p>UART</p>
+<ul>
+  <li><a href="https://github.com/ZipCPU/wbuart32/tree/master">ZipCPU / wbuart32 / tree / master</a><span class="desc">- A simple UART core (Wishbone)</span></li>
+  <li><a href="https://github.com/alexforencich/verilog-uart">alexforencich / verilog-uart</a><span class="desc">- UART Wrapper, transmitter, receiver</span></li>
+  <li><a href="https://github.com/ben-marshall/uart">ben-marshall / uart</a><span class="desc">- A very simple UART, Icarus, GTK wave</span></li>
+</ul>
+
+<!--
+<p>Other</p>
+<ul>
+<li><a href= "https://venus.kvakil.me/">venus</a><span class="desc">- Online risc-v core</span></li>
+<li><a href= "https://luplab.gitlab.io/rvcodecjs/">gitlab rvcodecjs</a><span class="desc">- Online RISC-V Instruction Encoder/Decoder</span></li>
+</ul>
+-->
+
+<p>Here are some inline links: <a href="#top">back to top</a></p>
+
+<script>
+// Auto-assign link-1, link-2, link-3... to every <li>
+document.querySelectorAll('li').forEach((li,i)=>li.id='link-'+(i+1));
+
+// Search + highlight
+document.getElementById('search').addEventListener('keypress',e=>{
+  if(e.key==='Enter'){
+    const n=parseInt(e.target.value.trim());
+    if(!n)return alert('Enter a number');
+    const t=document.getElementById('link-'+n);
+    if(t){
+      t.scrollIntoView({behavior:'smooth',block:'center'});
+      t.classList.remove('highlight');
+      void t.offsetWidth;
+      t.classList.add('highlight');
+      e.target.value='';
+    }else alert('Link #'+n+' not found');
+  }
+});
+
+// External links in new tab
+document.querySelectorAll('a[href^="http"]').forEach(a=>{
+  a.target='_blank'; a.rel='noopener noreferrer';
+});
+</script>
+</body>
+</html>

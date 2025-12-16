@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>RISC-V GNU Toolchain (RV32I) Setup in WSL</title>
+    <link rel="stylesheet" href="../css/style.css">
+</head>
+<body>
+    <h1>RISC-V GNU Toolchain (RV32I) Setup in WSL</h1>
+    <hr>
+
+    <div class="section">
+        <h2>[1] Prepare Environment</h2>
+        <p>Explanation: Install required packages for building the RISC-V GNU Toolchain.</p>
+        <pre class="code-block-bash"><code>sudo apt update</code></pre>
+        <pre class="code-block-bash"><code>sudo apt install -y build-essential git libgmp-dev libmpfr-dev libmpc-dev texinfo bison flex libtool patchutils bc zlib1g-dev libexpat-dev</code></pre>
+    </div>
+    <hr>
+
+    <div class="section">
+        <h2>[2] Clone the Repository</h2>
+        <p>Clone the repository in WSL home directory (case-sensitive filesystem) to avoid build errors.</p>
+        <pre class="code-block-bash"><code>cd ~</code></pre>
+        <pre class="code-block-bash"><code>git clone https://github.com/riscv/riscv-gnu-toolchain riscv-gnu-toolchain-rv32i</code></pre>
+        <pre class="code-block-bash"><code>cd riscv-gnu-toolchain-rv32i</code></pre>
+    </div>
+    <hr>
+
+    <div class="section">
+        <h2>[3] Keep Build Files Separate</h2>
+        <p>Create a separate directory for build files to keep them isolated from source files.</p>
+        <pre class="code-block-bash"><code>mkdir build && cd build</code></pre>
+    </div>
+    <hr>
+
+    <div class="section">
+        <h2>[4] Configure the Toolchain</h2>
+        <p>Configure the toolchain with <code>--prefix</code> for the install path, <code>--with-arch</code> to set RV32I, and <code>--with-abi</code> to set ILP32.</p>
+        <pre class="code-block-bash"><code>../configure --prefix=/opt/riscv32i --with-arch=rv32i --with-abi=ilp32</code></pre>
+    </div>
+    <hr>
+
+    <div class="section">
+        <h2>[5] Build the Toolchain</h2>
+        <p>Build the toolchain, using multiple CPU cores for faster compilation.</p>
+        <pre class="code-block-bash"><code>make -j$(nproc)</code></pre>
+    </div>
+    <hr>
+
+    <div class="section">
+        <h2>[6] Install the Toolchain</h2>
+        <p>Install the compiled toolchain to the specified directory.</p>
+        <pre class="code-block-bash"><code>sudo make install</code></pre>
+    </div>
+    <hr>
+
+    <div class="section">
+        <h2>[7] Verify Installation</h2>
+        <p>Check that the toolchain is configured with <code>--with-arch=rv32i</code> and <code>--with-abi=ilp32</code>.</p>
+        <pre class="code-block-bash"><code>riscv32-unknown-elf-gcc -v</code></pre>
+        <pre class="code-block-bash"><code>ls /opt/riscv32i/bin</code></pre>
+        <p>Expected output includes tools like:</p>
+        <pre class="code-block-bash"><code>riscv32-unknown-elf-gcc
+riscv32-unknown-elf-as
+riscv32-unknown-elf-ld
+riscv32-unknown-elf-objdump</code></pre>
+    </div>
+    <hr>
+
+    <div class="section">
+        <h2>[8] Add Toolchain to PATH</h2>
+        <p>Add the toolchain to your PATH permanently.</p>
+        <pre class="code-block-bash"><code>echo 'export PATH=/opt/riscv32i/bin:$PATH' >> ~/.bashrc</code></pre>
+        <pre class="code-block-bash"><code>source ~/.bashrc</code></pre>
+    </div>
+</body>
+</html>

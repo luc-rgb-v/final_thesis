@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Commercial</title>
+
+    <link rel="stylesheet" href="../css/style.css">
+</head>
+<body>
+    <h1>Teardown - Commercial products</h1>
+    <hr>
+    <div class="section">
+        <h2>Teardown: A simple pulse oximeter for home healthcare</h2>
+        <p class = "justify"> <a href="https://schematicsforfree.com/files/Misc/Medical%20Electronics/Teardown_%20A%20simple%20pulse%20oximeter%20for%20home%20healthcare.pdf" target="_blank">Teardown ( MAY 26, 2020 BY LEE TESCHLER)</a></p>
+        <p class = "justify"><strong>Summary:</strong> The paper disassembles a low-cost fingertip pulse oximeter, analyzes its circuit design and components, and explains how its LEDs, photodiode, and microcontroller work together to measure oxygen saturation and pulse rate efficiently in a compact, low-power device. The sample product come from Veridian</p>
+        
+        <div class="three-col-gallery">
+            <div class="column left-col">
+                <div class="item">
+                    <img src="../assets/images/251025/oximeter.jpg" alt="position of component">
+                    <p>Component location and innerview</p>
+                </div>                
+            </div>
+
+            <div class="column center-col">
+                <div class="item">
+                    <img src="../assets/images/251025/pulse_oximeter_outa_view.png" alt="pulse_oximeter">
+                    <p>Pulse_oximeter device</p>
+                </div>
+                <div class="item">
+                    <img src="../assets/images/251025/pulse_oximeter_inner_view.png" alt="front side of pcb">
+                    <p>Front side of circuit board which contains mornitor, button</p>
+                </div>
+            </div>
+
+            <div class="column right-col">
+                <div class="item">
+                    <img src="../assets/images/251025/pulse_oximeter_pcb_view.png" alt="back side of pcb">
+                    <p>Back side of pcb which contain MCU</p>
+                    <p class="justify">
+                    It runs via an MCU that does the calculations and generates the PWM signal to drive the LEDs. The heart of the device is a Silicon Labs C8051F007 mixed-signal SoC MCU with a 12-bit multi-channel ADC. Among its features are a programmable-gain pre-amp, two 12-bit DACs, two voltage comparators, a voltage reference, and an 8051-compatible MCU core with 32 kbytes of Flash memory. There are also four 16-bit timers and four byte-wide general-purpose digital port I/O, 2,304 bytes of RAM and executes at up to 25 MIPS.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+    <hr>
+    <div class="section">
+        <h2>Cheap Fingertip Pulse Oximeter Teardown</h2>
+        <p class = "justify"> <a href="https://www.kean.com.au/oshw/oximeter/" target="_blank">Kean Electronics</a></p>
+        <p class = "justify"><strong>Summary:</strong> “LK87” is the trade name for a popular fingertip SpO₂ meter, manufactured by many manufacturers. So the MCU inside is not fixed—it depends on the lot/manufacturer. In fact, teardowns show that different MCUs have been used in oximeters of this model. For this specific teardowns we can clearly see that the MCU is TI MSP430F415.</p>
+                        
+        <div class="two-col-gallery">
+        <div class="column">
+            <img src="../assets/images/251025/oximeter.jpg" alt="Left image">
+            <p>Appearance</p>
+            <p class = "justify">Teardowns show that different units use different chips—for example, some use the TI MSP430F415 (16-bit RISC with LCD driver), others the Silicon Labs C8051F007 (8051 core with 12-bit ADC/DAC), and many newer versions adopt Holtek MCUs like the BH66F2560 or HT32F59045, which integrate pulse-oximeter analog front-ends. Thus, there is no single “LK87 MCU”; the hardware platform differs across production runs.</p>
+        </div>
+
+        <div class="column">
+            <img src="../assets/images/251025/oximeter-pcb-back.jpg" alt="Right top image">
+            <p>The rear of the PCB - showing MSP430, photodiode, and speaker</p>
+
+            <img src="../assets/images/251025/oximeter-pcb-front.jpg" alt="Right bottom image">
+            <p>The front of the PCB with OLED unstuck and folded back to show traces underneath</p>
+        </div>
+        </div>
+    </div>
+    <hr>
+    <h1>MCU used in above commercial product</h1>
+    <div class="section">
+        <h2>MSP430F415</h2>
+        <p class = "justify"> <a href="https://kean.com.au/oshw/oximeter/msp430f415.pdf" target="_blank">MSP430x41x Datasheet</a></p>
+        <p class = "justify"><strong>Summary:</strong> MSP430F415 is a low-power 16-bit MCU with a fast hardware multiplier but no divide and no floating-point, making it great for sensing/control but unsuitable for heavy math workloads.</p>
+                    
+        <table class="spec-table">
+        <thead>
+            <tr>
+            <th>Category</th>
+            <th>Specification</th>
+            <th>Details / Notes</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr><td><strong>MCU Family</strong></td><td>MSP430x4xx</td><td>Ultra-low-power mixed-signal MCU series</td></tr>
+            <tr><td><strong>Core</strong></td><td>MSP430 16-bit RISC CPU</td><td>Orthogonal instruction set, simple single-cycle execution path</td></tr>
+            <tr><td><strong>Architecture</strong></td><td>16-bit, Von-Neumann</td><td>Shared memory for code & data, simpler bus</td></tr>
+            <tr><td><strong>Max Clock Frequency</strong></td><td>8–16 MHz (typ. ~8 MHz stable)</td><td>Depends on supply voltage and clock source</td></tr>
+            <tr><td><strong>Supply Voltage</strong></td><td>1.8 V – 3.6 V</td><td>Battery/low-power friendly</td></tr>
+            <tr><td><strong>Active Power Consumption</strong></td><td>~200 µA at 1 MHz, 2.2 V</td><td>Extremely efficient</td></tr>
+            <tr><td><strong>Standby Power</strong></td><td>~0.7 µA LPM3</td><td>Retains RAM and ACLK</td></tr>
+            <tr><td><strong>Power-Off (RAM retention)</strong></td><td>~0.1 µA LPM4</td><td>Deepest sleep</td></tr>
+            <tr><td><strong>Flash Memory</strong></td><td>16 KB</td><td>Program memory</td></tr>
+            <tr><td><strong>RAM</strong></td><td>512 B</td><td>Stack + variables</td></tr>
+            <tr><td><strong>I/O Pins</strong></td><td>~48 GPIO (depends on package)</td><td>Ports P1–P6</td></tr>
+            <tr><td><strong>Timers</strong></td><td>Timer_A (PWM), Timer_B</td><td>Capture/compare, RTC clocking</td></tr>
+            <tr><td><strong>ADC</strong></td><td>12-bit ADC12</td><td>Multi-channel, good for sensing</td></tr>
+            <tr><td><strong>DAC / Comparator</strong></td><td>Integrated Comparator</td><td>No standalone DAC</td></tr>
+            <tr><td><strong>Communication Interfaces</strong></td><td>USART (UART/SPI/I²C configurable)</td><td>Multiplexed serial block</td></tr>
+            <tr><td><strong>LCD Driver</strong></td><td>Yes</td><td>Segment LCD for watches/meters</td></tr>
+            <tr><td><strong>Interrupt Latency</strong></td><td>~6 cycles</td><td>Fast wake from sleep</td></tr>
+            <tr><td><strong>Low-Power Modes</strong></td><td>LPM0–LPM4</td><td>Clock gating optimized</td></tr>
+            <tr><td><strong>System Clocks</strong></td><td>ACLK, MCLK, SMCLK</td><td>DCO + FLL+ + crystal supported</td></tr>
+            <tr><td><strong>Hardware Multiplier</strong></td><td><strong>Yes (16×16)</strong></td><td>Supports unsigned, signed, MAC, MACS</td></tr>
+            <tr><td><strong>Hardware Divider</strong></td><td><strong>No</strong></td><td>Division performed in <strong>software</strong> (slow)</td></tr>
+            <tr><td><strong>Floating-Point Unit</strong></td><td><strong>No</strong></td><td>All floating point is <strong>emulated in software</strong></td></tr>
+            <tr><td><strong>DSP/Vector Extensions</strong></td><td>None</td><td>Not designed for compute-heavy DSP</td></tr>
+            <tr><td><strong>32-bit Arithmetic</strong></td><td>Supported in software</td><td>Multiple instruction sequences required</td></tr>
+            <tr><td><strong>Performance (Typical @ 8 MHz)</strong></td><td>ADD: ~1 cycle</td><td>Very fast integer ALU</td></tr>
+            <tr><td><strong>Best Use Cases</strong></td><td>Low-power sensing, metering, RTC, LCD, medical/portable</td><td>Excellent for <strong>signal acquisition + control</strong></td></tr>
+            <tr><td><strong>Not Recommended For</strong></td><td>DSP, FFT, filtering, ML inference, image/audio processing</td><td>Use Cortex-M4F or RV32IMF instead</td></tr>
+        </tbody>
+        </table>
+        <p class = "center"> MSP430F415 – Complete Capability Table</p>
+        <hr>
+        <h2>C8051F007 (from Silicon Labs)</h2>
+        <p class = "justify"> <a href="https://www.silabs.com/documents/public/data-sheets/C8051F0xx.pdf" target="_blank">C8051F0xx Datasheet</a></p>
+        <p class = "justify"><strong>Summary:</strong> The C8051F007 is an 8-bit 8051-compatible mixed-signal MCU with excellent analog front-end (12-bit ADC/DAC, temperature sensor) and ~25 MIPS throughput, but with limited arithmetic hardware (8-bit ALU, basic multiply/divide, no FPU or DSP extensions), so it’s optimum for sensor/analog tasks rather than heavy computational loads.</p>
+         
+        <table>
+            <tr><th>Category</th><th>Specification</th><th>Details / Notes</th></tr>
+            <tr><td><strong>MCU Family</strong></td><td>C8051F00x (Analog-Intensive Mixed-Signal 8-bit)</td><td>From Silicon Labs.</td></tr>
+            <tr><td><strong>Core</strong></td><td>8051-compatible 8-bit core</td><td>Classic MCS-51 instruction set, enhanced.</td></tr>
+            <tr><td><strong>Performance / Clock</strong></td><td>Up to ~25&nbsp;MHz / 25&nbsp;MIPS</td><td>“Up to 25 MIPS throughput with 25&nbsp;MHz clock” quoted.</td></tr>
+            <tr><td><strong>Program Memory (Flash)</strong></td><td>32&nbsp;KB ISP Flash</td><td>In-system programmable.</td></tr>
+            <tr><td><strong>Data RAM</strong></td><td>~2.25&nbsp;KB (2304 bytes)</td><td>For data and stack.</td></tr>
+            <tr><td><strong>Data Bus Width</strong></td><td>8-bit</td><td>It is an 8-bit microcontroller.</td></tr>
+            <tr><td><strong>Addressing / External RAM</strong></td><td>External data memory (XRAM) up to ~2&nbsp;KB</td><td>2048 bytes accessible via MOVX instruction.</td></tr>
+            <tr><td><strong>Supply Voltage / Operating Range</strong></td><td>2.7&nbsp;V to 3.6&nbsp;V typical</td><td>Standard operating range.</td></tr>
+            <tr><td><strong>Operating Temperature</strong></td><td>–40&nbsp;°C to +85&nbsp;°C (industrial)</td><td>Standard industrial range.</td></tr>
+            <tr><td><strong>I/O / Ports</strong></td><td>8 I/O pins (small package)</td><td>Basic digital I/O capability.</td></tr>
+            <tr><td><strong>Analog Peripherals</strong></td><td>12-bit ADC (4 ch, 100&nbsp;ksps); 12-bit DAC (2 ch); Temp sensor; Comparator</td><td>Good analog front-end integration.</td></tr>
+            <tr><td><strong>Communication Interfaces</strong></td><td>I²C/SMBus, SPI, UART (concurrently)</td><td>Supports multiple serial protocols.</td></tr>
+            <tr><td><strong>Timers / Counters</strong></td><td>Four 16-bit general-purpose timers; P/CA modules</td><td>Used for PWM, capture, compare, etc.</td></tr>
+            <tr><td><strong>Low-Power / Sleep Modes</strong></td><td>Multiple power modes (Sleep / Shutdown)</td><td>Useful for low-power operation.</td></tr>
+            <tr><td><strong>Instruction Capability – Integer ALU</strong></td><td>Yes</td><td>Supports 8-bit arithmetic, logic, and shift operations.</td></tr>
+            <tr><td><strong>Instruction Capability – Hardware Multiply</strong></td><td>Yes (8×8 → 16)</td><td>Moderate performance; not DSP-class multiplier.</td></tr>
+            <tr><td><strong>Instruction Capability – Hardware Divide</strong></td><td>Yes (DIV AB)</td><td>Simple hardware divide; longer operations done in software.</td></tr>
+            <tr><td><strong>Floating-Point Unit (FPU)</strong></td><td>No</td><td>Floating-point operations done in software.</td></tr>
+            <tr><td><strong>DSP / Vector / MAC Extensions</strong></td><td>None</td><td>No dedicated DSP accelerator.</td></tr>
+            <tr><td><strong>32-bit Arithmetic / Long Operations</strong></td><td>Software only</td><td>Slower due to 8-bit data path.</td></tr>
+            <tr><td><strong>Performance Expectations</strong></td><td>8-bit add/sub fast; MUL moderate; DIV moderate; FLOAT very slow</td><td>Heavy math operations limited by 8-bit core.</td></tr>
+            <tr><td><strong>Best Use Cases</strong></td><td>Mixed-signal sensing, analog + digital integration, portable measurement</td><td>Strong analog capabilities with moderate control performance.</td></tr>
+            <tr><td><strong>Not Recommended For</strong></td><td>DSP, floating-point, ML, signal/image processing</td><td>Lacks advanced math and vector hardware.</td></tr>
+        </table>
+        <p class = "center"> C8051F00x (Analog-Intensive Mixed-Signal 8-bit MCU) Complete Capability Table</p>
+
+    </div>
+    <hr>
+
+</body>
+</html>

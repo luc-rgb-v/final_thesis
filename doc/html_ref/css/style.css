@@ -1,0 +1,384 @@
+/* ==============================================================
+   1. ROOT & GLOBAL SETTINGS
+   ============================================================== */
+/* NOTE: Global page background, text colour, font stack, line‑height
+   and outer margin. These values set the baseline for the whole site. */
+html {
+    scroll-behavior: smooth;          /* Smooth scrolling for anchor links */
+}
+
+body {
+    background-color: #ffffff;        /* Pure white page background */
+    color: #333333;                   /* Dark‑gray body text */
+    font-family: Arial, sans-serif;   /* Clean, widely‑available sans‑serif */
+    line-height: 1.8;                 /* Generous line height for readability */
+    margin: 40px;                     /* Uniform outer spacing */
+}
+
+/* ==============================================================
+   2. PARAGRAPH STYLES
+   ============================================================== */
+/* NOTE: Base spacing for all <p> elements; additional alignment
+   classes can be applied when needed. */
+p {
+    margin-bottom: 12px;              /* Space between paragraphs */
+}
+
+p.center {
+    text-align: center;               /* Centered paragraph */
+}
+
+p.justify {
+    text-align: justify;              /* Justified text */
+    text-indent: 30px;                /* Hanging indent for justified blocks */
+}
+
+/* ==============================================================
+   3. HEADINGS
+   ============================================================== */
+/* NOTE: Consistent colour and vertical rhythm for all heading levels. */
+h1, h2, h3 {
+    color: #2c3e50;                   /* Deep blue‑gray (matches dividers) */
+    margin-top: 24px;                 /* Space above headings */
+    margin-bottom: 12px;              /* Space below headings */
+}
+
+/* ==============================================================
+   4. LINKS
+   ============================================================== */
+/* NOTE: Brand‑blue links without underline by default; underline
+   appears on hover for accessibility. */
+a {
+    color: #2980b9;                   /* Primary link colour */
+    text-decoration: none;
+}
+
+a:hover {
+    text-decoration: underline;       /* Visual cue on interaction */
+}
+
+/* ==============================================================
+   5. CODE BLOCKS & INLINE CODE
+   ============================================================== */
+/* NOTE: Preformatted code blocks get a light background, rounded
+   corners and horizontal scrolling for long lines. */
+
+/* Base <pre> block – used in standalone code snippets */
+pre {
+    background-color: #f4f4f4;        /* Light gray background */
+    border-radius: 6px;               /* Soft corners */
+    margin-bottom: 20px;              /* Space after block */
+    overflow-x: auto;                 /* Scroll long lines */
+    padding: 18px;                    /* Inner padding */
+    font-family: 'Courier New', Courier, monospace;
+}
+
+/* Inline <code> elements – dark green, monospaced, bold */
+code {
+    color: #001A09;                   /* Dark green for commands */
+    font-family: 'Courier New', Courier, monospace;
+    font-size: 15px;                  /* Slightly larger for legibility */
+    font-weight: bold;
+}
+
+/* Bash‑specific code blocks get a coloured left bar */
+.code-block-bash {
+    border-left: 4px solid #2980b9;   /* Accent bar */
+    padding-left: 12px;               /* Indent from bar */
+}
+
+/* --------------------------------------------------------------
+   5.1 CODE BOX WITH COPY BUTTON (NEW)
+   -------------------------------------------------------------- */
+/* NOTE: A self-contained, bordered code block with a fixed "Copy"
+   button in the top-right corner. Replaces standalone <pre> when
+   copy-to-clipboard functionality is needed. */
+.code-box {
+    position: relative;               /* Context for absolute button */
+    display: inline-block;            /* Shrink-wrap to content */
+    margin: 20px 0;                   /* Vertical spacing */
+    width: 100%;                      /* Full width of parent */
+    max-width: 600px;                 /* Prevent overly wide blocks */
+    border: 2px solid #ddd;           /* Clean outline */
+    border-radius: 2px;               /* Sharp, modern corners */
+    overflow: hidden;                 /* Clip rounded corners */
+    background: #f4f4f4;              /* Matches <pre> background */
+}
+
+/* Copy button – fixed in top-right */
+.code-box button {
+    position: absolute;
+    top: 4px;
+    right: 4px;
+    background-color: #2980b9;        /* Brand blue */
+    color: white;
+    border: none;
+    border-radius: 2px;
+    padding: 2px 4px;
+    cursor: pointer;
+    font-size: 12px;
+    font-family: inherit;
+    z-index: 10;                      /* Above code text */
+    transition: background-color 0.2s ease;
+}
+
+.code-box button:hover {
+    background-color: #1f5e8c;        /* Darker on hover */
+}
+
+/* Code content inside .code-box */
+.code-box pre {
+    background: transparent;         /* Inherit from .code-box */
+    margin: 0;
+    padding: 12px;                    /* Uniform padding */
+    overflow-x: auto;
+    font-family: 'Courier New', Courier, monospace;
+    white-space: pre;                 /* Preserve formatting */
+    border-radius: 0;                 /* Let container handle corners */
+}
+
+/* Optional: subtle inner shadow for depth */
+.code-box::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0; bottom: 0;
+    box-shadow: inset 0 0 8px rgba(0,0,0,0.05);
+    pointer-events: none;
+    border-radius: 2px;
+    z-index: 1;
+}
+
+/* ==============================================================
+   6. LISTS
+   ============================================================== */
+/* NOTE: Simple disc bullets with consistent left indent; list‑item
+   text is further indented for readability. */
+ul {
+    list-style-type: disc;            /* Classic bullet points */
+    margin-left: 25px;                /* Indent whole list */
+}
+
+li {
+    text-indent: 30px;                /* Indent text inside each item */
+}
+
+/* ==============================================================
+   7. LAYOUT & SPACING HELPERS
+   ============================================================== */
+/* NOTE: .section adds breathing room between major page blocks. */
+.section {
+    margin-bottom: 40px;              /* Large gap between sections */
+}
+
+/* Horizontal rule – thin, coloured to match headings */
+hr {
+    border: 0;
+    border-top: 2px solid #2c3e50;    /* Same colour as headings */
+    margin: 28px 0;                   /* Vertical spacing */
+}
+
+/* ==============================================================
+   8. THREE‑COLUMN GALLERY
+   ============================================================== */
+/* NOTE: Flexbox layout for a responsive three‑column image gallery.
+   The centre column grows to fill available space. */
+.three-col-gallery {
+    display: flex;
+    align-items: flex-start;          /* Align tops of columns */
+    gap: 50px;                        /* Space between columns */
+    justify-content: space-between;   /* Distribute evenly */
+    margin: 0 auto;                   /* Center container */
+    max-width: 850px;
+}
+
+.three-col-gallery .column {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;                        /* Space inside each column */
+}
+
+.three-col-gallery .center-col {
+    flex: 1;                          /* Grow to fill middle */
+}
+
+.three-col-gallery img {
+    display: block;                   /* Remove bottom inline gap */
+    width: 250px;                     /* Fixed width */
+    border-radius: 0;                 /* Sharp corners */
+}
+
+.three-col-gallery p {
+    color: #333;
+    font-size: 14px;
+    font-style: italic;               /* Caption style */
+    margin-top: 8px;
+    text-align: center;
+    width: 250px;                     /* Match image width */
+}
+
+.three-col-gallery p.justify {
+    font-style: normal;               /* Override italic for justified text */
+    text-align: justify;
+    text-indent: 30px;
+}
+
+/* ==============================================================
+   9. TWO‑COLUMN GALLERY
+   ============================================================== */
+/* NOTE: Similar flex layout but only two columns; images are wider
+   and captions are centred by default. */
+.two-col-gallery {
+    display: flex;
+    align-items: flex-start;
+    gap: 20px;
+    justify-content: space-between;
+    margin: 0 auto;
+    max-width: 850px;
+}
+
+.two-col-gallery .column {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    align-items: center;              /* Center images & captions */
+}
+
+.two-col-gallery img {
+    display: block;
+    width: 350px;
+    border-radius: 0;
+}
+
+.two-col-gallery p {
+    color: #333;
+    font-size: 14px;
+    font-style: italic;
+    text-align: center;
+    width: 350px;
+}
+
+.two-col-gallery p.justify {
+    font-style: normal;
+    text-align: justify;
+    text-indent: 30px;
+}
+
+/* ==============================================================
+   10. TABLES
+   ============================================================== */
+/* NOTE: Simple, responsive table with black borders and left‑aligned
+   content. Row striping is currently disabled (all white). */
+table {
+    border-collapse: collapse;
+    font-size: 14px;
+    margin: 20px auto;
+    width: 80%;
+}
+
+th, td {
+    border: 1px solid #000000;
+    padding: 10px 12px;
+    text-align: left;
+}
+
+th {
+    background-color: #ffffff;
+    font-weight: bold;
+}
+
+tr:nth-child(even) {
+    background-color: #ffffff;        /* Uniform rows – change for zebra */
+}
+
+/* ==============================================================
+   11. SIDE‑BY‑SIDE SECTIONS WITH VERTICAL DIVIDER
+   ============================================================== */
+/* NOTE: Flex container for two equal‑width panels; a border on the
+   second panel creates a clean vertical divider. Responsive stacking
+   on small screens. */
+.two-side-sections {
+    display: flex;
+    gap: 0;
+    margin: 0 auto;
+    max-width: 1000px;
+    padding: 0 20px;
+}
+
+.side-section {
+    flex: 1;
+    min-width: 0;                     /* Prevent text overflow in flex */
+    padding: 20px;
+}
+
+.side-section + .side-section {
+    border-left: 2px solid #2c3e50;   /* Vertical divider */
+    padding-left: 40px;               /* Space after divider */
+}
+
+.side-section:first-child {
+    padding-left: 0;                  /* Remove extra left padding on first */
+}
+
+/* Responsive stacking */
+@media (max-width: 768px) {
+    .two-side-sections {
+        flex-direction: column;
+    }
+    .side-section + .side-section {
+        border-left: none;
+        border-top: 2px solid #2c3e50;
+        padding-left: 20px;
+        padding-top: 40px;
+    }
+    .side-section:first-child {
+        padding-left: 20px;
+    }
+}
+
+/* ==============================================================
+   12. FLEXIBLE GRID (WRAP‑ABLE COLUMNS)
+   ============================================================== */
+/* NOTE: A generic wrapping grid for any number of columns.
+   Useful for dashboards, card layouts, etc. */
+.grid {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 5px;
+    margin: 0 auto;
+    max-width: 1280px;
+}
+
+.col {
+    background: #ffffff;
+    border-radius: 0;
+    box-sizing: border-box;
+    padding: 0;
+    /* box-shadow: 0 0 8px rgba(0,0,0,0.1);  <-- uncomment for cards */
+}
+
+/* ==============================================================
+   13. IMAGE‑TEXT CARD (CONTAINER)
+   ============================================================== */
+/* NOTE: A reusable card that places an image on the left and
+   flexible text content on the right. */
+.container {
+    align-items: flex-start;
+    background: #ffffff;
+    border-radius: 12px;
+    box-shadow: 0 0 10px rgba(0,0,0,0.1);
+    display: flex;
+    gap: 20px;
+    margin: 40px auto;
+    max-width: 900px;
+    padding: 20px;
+}
+
+.container img {
+    border-radius: 10px;
+    height: auto;
+    width: 250px;
+}
+
+.text-content {
+    flex: 1; /* Take remaining horizontal space */
+}

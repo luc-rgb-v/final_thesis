@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Style Test Page</title>
+
+    <!-- Link to your CSS -->
+    <link rel="stylesheet" href="../css/style.css">
+</head>
+
+<body>
+<h1>RV32I stand out as good fit for the working with MAX30102 PPG/SpO₂</h1>
+    <div class="section">
+        <p class = "justify"> Use fixed-point (e.g., Q15/Q14) throughout PPG signal chain (filtering, peak detection, AC/DC ratio computation) to avoid FPU. Implement multiply as optimized shift-and-add, and divide as shift/subtract or reciprocal + multiply using fixed-point lookup for speed. Keep hot paths in inline assembly where necessary. Choose a minimal RV32I core variant (single-issue, short pipeline) to minimize gates and dynamic power; add small SRAM and minimal peripherals (I²C, DMA, GPIO, timer). Budget CPU cycles: at, say, 100–400 SPS a fully software-based multiply/divide fixed-point flow is feasible on low-MHz RV32I cores.</p>
+        <table>
+            <thead>
+                <tr>
+                <th>Design Feature</th>
+                <th>Technical Relevance to MAX30102 Processing</th>
+                <th>RV32I (5-Stage Pipeline with Full Hazard Control) Characteristic</th>
+                <th>Implementation Considerations</th>
+                <th>Expected Technical Impact</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                <td>Open and Standard ISA</td>
+                <td>Ensures portability, transparency, and verifiability of biomedical algorithms</td>
+                <td>RISC-V RV32I is an open, standardized ISA with mature open-source toolchains and IP cores</td>
+                <td>Adopt open RTL (e.g., PicoRV32, VexRiscv) and maintain toolchain reproducibility using GCC/LLVM</td>
+                <td>Eliminates licensing constraints; supports reproducible research and cost-effective production</td>
+                </tr>
+                <tr>
+                <td>Five-Stage Pipeline Microarchitecture</td>
+                <td>Increases throughput for continuous sensor data processing while preserving predictable latency</td>
+                <td>Implements classic IF-ID-EX-MEM-WB pipeline with one instruction per cycle under ideal conditions</td>
+                <td>Optimize scheduling for filtering and feature extraction loops; balance frequency and power budget</td>
+                <td>Higher processing efficiency at moderate clock rates with controlled timing behavior</td>
+                </tr>
+                <tr>
+                <td>Full Data and Control Hazard Management</td>
+                <td>Guarantees deterministic and error-free computation in real-time biomedical workloads</td>
+                <td>Integrated forwarding and stall logic minimize bubbles and prevent pipeline corruption</td>
+                <td>Implement EX/MEM/WB forwarding paths and branch hazard resolution units</td>
+                <td>Stable instruction flow under high data dependency; predictable response to sensor interrupts</td>
+                </tr>
+                <tr>
+                <td>Base Integer RV32I ISA</td>
+                <td>Provides all required arithmetic and logical operations for biomedical signal processing</td>
+                <td>Excludes M/F extensions to reduce area and verification complexity</td>
+                <td>Utilize integer addition, subtraction, shifts, and logical operations for all core computations</td>
+                <td>Reduced hardware complexity, lower leakage power, simplified verification</td>
+                </tr>
+                <tr>
+                <td>Fixed-Point Arithmetic Approach</td>
+                <td>Achieves efficient implementation of PPG filtering and ratio calculations without floating-point hardware</td>
+                <td>Integer ALU supports Q-format arithmetic (e.g., Q15/Q12) for consistent precision</td>
+                <td>Apply arithmetic shifts for scaling; implement saturation control and rounding in software</td>
+                <td>Low energy per operation, high determinism, sufficient numerical precision for biomedical tasks</td>
+                </tr>
+                <tr>
+                <td>Software-Based Multiplication and Division</td>
+                <td>Eliminates costly hardware multipliers/dividers while retaining algorithmic flexibility</td>
+                <td>Implements multiply and divide via shift-add and shift-subtract methods</td>
+                <td>Use optimized inline C/assembly or small lookup tables for coefficient operations</td>
+                <td>Minor latency overhead but significant reduction in gate count and power consumption</td>
+                </tr>
+                <tr>
+                <td>Low-Area, Low-Power Core</td>
+                <td>Critical for wearable and continuous-monitoring biomedical systems</td>
+                <td>Compact 5-stage design synthesized with minimal functional units and efficient pipeline gating</td>
+                <td>Incorporate dynamic clock gating and power-down modes between sampling events</td>
+                <td>Small silicon footprint, extended battery life, and reduced thermal output</td>
+                </tr>
+                <tr>
+                <td>Deterministic Execution Timing</td>
+                <td>Essential for real-time sampling, filtering, and beat-to-beat interval calculations</td>
+                <td>Hazard control ensures consistent cycle timing regardless of data dependency</td>
+                <td>Calibrate loop timing with cycle counters; design ISR routines with fixed latency budgets</td>
+                <td>Predictable processing latency and robust synchronization with sensor data stream</td>
+                </tr>
+                <tr>
+                <td>Optimized Bit-Level and Shift Operations</td>
+                <td>Enables efficient implementation of digital filters and signal normalization</td>
+                <td>RV32I provides single-cycle logical and shift instructions</td>
+                <td>Implement FIR/IIR filters using shift-add structures and scaled integer coefficients</td>
+                <td>Compact, high-speed execution of core digital signal processing tasks</td>
+                </tr>
+                <tr>
+                <td>Interrupt and Event Responsiveness</td>
+                <td>Sensor FIFO and data-ready events require low-latency service</td>
+                <td>Pipeline hazard management preserves minimal interrupt latency and context integrity</td>
+                <td>Use lightweight trap handlers with selective context preservation</td>
+                <td>Reliable and deterministic acquisition timing for continuous biomedical monitoring</td>
+                </tr>
+                <tr>
+                <td>Formal Verifiability and Auditability</td>
+                <td>Mandatory for medical-grade or research-grade validation and safety compliance</td>
+                <td>Simplified datapath and hazard logic facilitate formal verification and RTL simulation</td>
+                <td>Employ Verilator or cocotb for co-simulation and formal property checking</td>
+                <td>Improved design reliability and reproducibility under academic or industrial review</td>
+                </tr>
+                <tr>
+                <td>Modular and Extensible Architecture</td>
+                <td>Allows incremental addition of DSP or AI accelerators in future revisions</td>
+                <td>RISC-V modularity enables custom extension slots without ISA fragmentation</td>
+                <td>Reserve opcode space or co-processor interface for optional hardware acceleration</td>
+                <td>Protects design scalability and long-term research value</td>
+                </tr>
+                <tr>
+                <td>Compact Memory Footprint</td>
+                <td>Optimizes code size and data storage for embedded biomedical systems</td>
+                <td>Integer-only firmware yields smaller binaries and deterministic stack usage</td>
+                <td>Use lookup tables for non-linear transformations (e.g., SpO₂ ratio curves)</td>
+                <td>Reduced memory cost and improved cache utilization in FPGA or ASIC integration</td>
+                </tr>
+                <tr>
+                <td>Open Hardware Ecosystem Support</td>
+                <td>Accelerates development through access to shared IP and verification resources</td>
+                <td>Supported by a mature RISC-V community and open-source EDA tools</td>
+                <td>Integrate with existing verification environments and open toolchains</td>
+                <td>Lower development cost and accelerated prototyping through community collaboration</td>
+                </tr>
+            </tbody>
+        </table>
+                <p class = "center">Table summary USB (unique selling point) </p>
+    </div>
+
+</body>
+</html>
