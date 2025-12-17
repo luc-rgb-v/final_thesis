@@ -1,4 +1,5 @@
 `timescale 1ps / 1ps
+
 module testbench;
   // === DUT & COMPONENTS ===
   /*__TB_COMPONENTS__*/
@@ -19,21 +20,27 @@ module testbench;
   // Set initial value 
   // ============================
   initial begin 
-	  rst_i = 0;
+	  rst_i = 1;
     clk_i = 0;
     `ifdef _RISCV_CORE_DUT_
       imem_instr_i = 32'b0;
       dmem_data_i = 32'b0;
     `endif
+    `ifdef _INSPECT_
+      initial_log();
+    `endif
+    #50; rst_i = 0;
   end
 
-  //=============================
-  // Set initial value 
-  // ============================
-  initial begin
-    #50; rst_i = 1;
-    #100; rst_i = 0;
+  `ifdef _INSPECT_
+  always @ (posedge clk_i) begin
+    log_if();
+    log_id();
+    log_ex();
+    log_mem();
+    log_wb();
   end
+  `endif
 
   initial begin
 	#300;
@@ -42,14 +49,14 @@ module testbench;
 	$display("=== Done run_test! ====");
   $display("=======================");
   $display("=======================");
-  $display("No of test: %0d",test);
-  $display("No of testpass: %0d",test_pass);
+  $display("No of test: %0d", test);
+  $display("No of testpass: %0d", test_pass);
   if (test != 0) begin
   coverage = (test_pass * 100.0) / test;
   $display("Test coverage: %0d%%", coverage);
   end else
   $display("Test coverage: N/A");
-  $display("===============================");
+  $display("=======================");
 	#200;
 	$finish;
   end

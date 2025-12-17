@@ -12,14 +12,12 @@
   wire [31:0] dmem_data_o;
   wire [2:0] dmem_width_se_o;
   
-  riscv_core riscv_core_dut (
+  riscv_core dut (
     .clk_i(clk_i),
     .rst_i(rst_i),
-  
     .imem_addr_o(imem_addr_o),
     .imem_en_o(imem_en_o),
     .imem_instr_i(imem_instr_i),
-  
     .dmem_we_o(dmem_we_o),
     .dmem_en_o(dmem_en_o),
     .dmem_addr_o(dmem_addr_o),

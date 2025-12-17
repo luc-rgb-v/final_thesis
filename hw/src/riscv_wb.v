@@ -34,7 +34,7 @@ module riscv_wb(
 
   reg [1:0] state;
 
-  always @(posedge clk_i or posedge rst_i) begin
+  always @(posedge clk_i) begin
     if (rst_i) begin
       state        <= ST_IDLE;
       stb_o        <= 1'b0;

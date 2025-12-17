@@ -16,7 +16,7 @@
   reg         err_i;
 
   // Instantiate DUT
-  riscv_top_wb_m dut (
+  riscv_top_wb_m riscv_top_wb_m_dut (
     .clk_i(clk_i),
     .rst_i(rst_i),
     .stb_o(stb_o),

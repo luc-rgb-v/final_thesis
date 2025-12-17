@@ -12,10 +12,12 @@ module riscv_top_wb_m (
   output wire [2:0]  width_se_o,
   input  wire [31:0] dat_i,
   input  wire        ack_i,
-  input  wire        err_i
+  input  wire        err_i,
+  output wire [21:0] dontuse
 );
 
   wire [31:0] instr_addr;
+  assign dontuse = {instr_addr[31:12],instr_addr[1:0]};
   wire [31:0] instruction;
   wire en;
 
@@ -29,7 +31,7 @@ module riscv_top_wb_m (
   imem imem_uut(
     .clk_i(clk_i),
     .en_i(en),
-    .instr_addr_i(instr_addr),
+    .instr_addr_i(instr_addr[11:2]),
     .instruction_o(instruction)
   );
 

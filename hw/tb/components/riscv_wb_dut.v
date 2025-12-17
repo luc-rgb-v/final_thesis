@@ -22,7 +22,7 @@
   reg         err_i;
 
   // Instantiate the DUT
-  riscv_wb dut (
+  riscv_wb riscv_wb_dut (
     .clk_i(clk_i),
     .rst_i(rst_i),
     .dmem_we_i(dmem_we_i),

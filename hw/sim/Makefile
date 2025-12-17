@@ -5,6 +5,7 @@ ROOT_DIR      := ..
 TESTCASE_DIR  := $(ROOT_DIR)/testcases/instructions
 TB_DIR        := $(ROOT_DIR)/tb
 TB_COMP_DIR   := $(TB_DIR)/components
+LOG_DIR := log/$(TESTNAME)
 
 # ==================================================
 # Input file lists
@@ -37,12 +38,11 @@ TB_SRCS   := $(shell sed 's/\r$$//' $(TB_F)   | sed '/^#/d;/^$$/d')
 # ==================================================
 # Simulation configuration
 # ==================================================
-TESTNAME ?= add
+TESTNAME ?= test
 TB_NAME  ?= testbench
 RADIX    ?= decimal
 
 WORK_DIR := work
-LOG_DIR  := log
 UCDB_DIR := ucdb
 
 # ==================================================
@@ -67,6 +67,7 @@ endef
   build build_cov \
   run run_cov \
   gen_cov gen_html view_cov \
+  collect_logs \
   wave drc clean
 
 # ==================================================
@@ -165,13 +166,14 @@ build:
 
 run:
 	@echo "== RUN =="
-	@mkdir -p $(LOG_DIR)
 	vsim -debugDB \
-	  -l $(LOG_DIR)/$(TESTNAME).log \
 	  -voptargs=+acc \
 	  -assertdebug \
 	  -c $(TB_NAME) \
-	  -do "log -r /*; run -all;"
+	  -l $(TESTNAME).log \
+	  -do "log -r /*; run -all; quit -f"
+	@$(MAKE) collect_logs
+
 
 # ==================================================
 # Coverage
@@ -187,11 +189,12 @@ run_cov:
 	@echo "== RUN (COVERAGE) =="
 	@mkdir -p $(LOG_DIR) $(UCDB_DIR)
 	vsim -coverage \
-	  -l $(LOG_DIR)/$(TESTNAME).log \
-	  -c $(TB_NAME) \
 	  -voptargs="+cover=bcesft" \
 	  -assertdebug \
-	  -do "coverage save -onexit $(UCDB_DIR)/$(TESTNAME).ucdb; log -r /*; run -all"
+	  -c $(TB_NAME) \
+	  -l $(TESTNAME).log \
+	  -do "coverage save -onexit $(UCDB_DIR)/$(TESTNAME).ucdb; log -r /*; run -all; quit -f"
+	@$(MAKE) collect_logs
 
 gen_cov: run_cov
 	@echo "== GENERATING COVERAGE REPORTS =="
@@ -225,6 +228,21 @@ wave:
 
 drc:
 	verilator --lint-only -Wall -f rtl.f
+
+collect_logs:
+	@echo "== COLLECT LOGS =="
+	@mkdir -p $(LOG_DIR)
+	@find . -maxdepth 1 -type f \( \
+	    -name "*.log" -o \
+	    -name "report.txt" -o \
+	    -name "transcript" -o \
+	    -name "vsim.dbg" \
+	  \) -exec sh -c ' \
+	    for f do \
+	      echo "  moving $$f -> $(LOG_DIR)"; \
+	      mv -f "$$f" "$(LOG_DIR)"; \
+	    done \
+	  ' sh {} +
 
 # ==================================================
 # Clean
