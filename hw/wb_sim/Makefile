@@ -2,9 +2,9 @@
 # Project paths
 # ==================================================
 ROOT_DIR      := ..
-TESTCASE_DIR  := $(ROOT_DIR)/testcases/instructions
+#TESTCASE_DIR  := $(ROOT_DIR)/testcases/instructions
 #TESTCASE_DIR  := $(ROOT_DIR)/testcases/dmem
-#TESTCASE_DIR  := $(ROOT_DIR)/testcases/wishbone
+TESTCASE_DIR  := $(ROOT_DIR)/testcases/wishbone
 TB_DIR        := $(ROOT_DIR)/tb
 TB_COMP_DIR   := $(TB_DIR)/components
 LOG_DIR 			:= log/$(TESTNAME)
@@ -14,7 +14,7 @@ LOG_DIR 			:= log/$(TESTNAME)
 # ==================================================
 TEST_F        := $(TESTCASE_DIR)/tests.f
 TB_F          := tb.f
-INFO_V        := $(TB_COMP_DIR)/info
+INFO_V        := $(TB_COMP_DIR)/wb_test_info
 
 # ==================================================
 # Generated outputs
@@ -40,7 +40,7 @@ TB_SRCS   := $(shell sed 's/\r$$//' $(TB_F)   | sed '/^#/d;/^$$/d')
 # ==================================================
 # Simulation configuration
 # ==================================================
-TESTNAME ?= test
+TESTNAME ?= wb_test
 TB_NAME  ?= testbench
 RADIX    ?= decimal
 
@@ -103,7 +103,7 @@ $(OUT_TESTBENCH): $(OUT_TEST) $(TB_F)
 	@rm -f $@ $(TMP_ALL)
 
 	# 1) Copy testbench template
-	@$(call STRIP_CRLF,$(TB_DIR)/test.v) > $@
+	@$(call STRIP_CRLF,$(TB_DIR)/wb_test.v) > $@
 
 	# 2) Insert info.v after `timescale
 	@if [ -f $(INFO_V) ]; then \

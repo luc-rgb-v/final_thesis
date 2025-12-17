@@ -2,8 +2,8 @@
 # Project paths
 # ==================================================
 ROOT_DIR      := ..
-TESTCASE_DIR  := $(ROOT_DIR)/testcases/instructions
-#TESTCASE_DIR  := $(ROOT_DIR)/testcases/dmem
+#TESTCASE_DIR  := $(ROOT_DIR)/testcases/instructions
+TESTCASE_DIR  := $(ROOT_DIR)/testcases/dmem
 #TESTCASE_DIR  := $(ROOT_DIR)/testcases/wishbone
 TB_DIR        := $(ROOT_DIR)/tb
 TB_COMP_DIR   := $(TB_DIR)/components
@@ -40,7 +40,7 @@ TB_SRCS   := $(shell sed 's/\r$$//' $(TB_F)   | sed '/^#/d;/^$$/d')
 # ==================================================
 # Simulation configuration
 # ==================================================
-TESTNAME ?= test
+TESTNAME ?= test_dmem
 TB_NAME  ?= testbench
 RADIX    ?= decimal
 
@@ -103,7 +103,7 @@ $(OUT_TESTBENCH): $(OUT_TEST) $(TB_F)
 	@rm -f $@ $(TMP_ALL)
 
 	# 1) Copy testbench template
-	@$(call STRIP_CRLF,$(TB_DIR)/test.v) > $@
+	@$(call STRIP_CRLF,$(TB_DIR)/dmem_test.v) > $@
 
 	# 2) Insert info.v after `timescale
 	@if [ -f $(INFO_V) ]; then \

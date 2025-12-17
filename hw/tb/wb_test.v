@@ -10,9 +10,6 @@ module testbench;
   real coverage = 0;
   always #(CLK_PERIOD/2) clk_i = ~clk_i;
 
-  `ifdef _INSPECT_
-    integer if_log, id_log, ex_log, mem_log, wb_log, branch_jump, forwarding_unit, flush_stall;
-  `endif
   // === TEST TASKS ===
   /*__TEST_INCLUDE__*/
 
@@ -22,25 +19,8 @@ module testbench;
   initial begin 
 	  rst_i = 1;
     clk_i = 0;
-    `ifdef _RISCV_CORE_DUT_
-      imem_instr_i = 32'b0;
-      dmem_data_i = 32'b0;
-    `endif
-    `ifdef _INSPECT_
-      initial_log();
-    `endif
     #50; rst_i = 0;
   end
-
-  `ifdef _INSPECT_
-  always @ (posedge clk_i) begin
-    log_if();
-    log_id();
-    log_ex();
-    log_mem();
-    log_wb();
-  end
-  `endif
 
   initial begin
 	#300;

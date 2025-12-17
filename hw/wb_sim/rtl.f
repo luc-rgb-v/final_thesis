@@ -1,9 +1,8 @@
 # ====== test risc-v =====
-#
-../src/riscv_core.v
+#../src/riscv_core.v
 
 # ====== test wb m =======
-#../src/riscv_wb.v
+../src/riscv_wb.v
 
 # ====== test topwb ======
 #../src/riscv_top_wb_m.v

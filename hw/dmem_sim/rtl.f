@@ -1,6 +1,6 @@
 # ====== test risc-v =====
 #
-../src/riscv_core.v
+#../src/riscv_core.v
 
 # ====== test wb m =======
 #../src/riscv_wb.v
@@ -12,7 +12,7 @@
 #../src/imem.v
 
 # ====== test dmem.v =====
-#../src/dmem.v
+../src/dmem.v
 
 # ==== test dmem_wb.v ====
 #../src/dmem_wb.v
