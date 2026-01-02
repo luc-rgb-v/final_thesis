@@ -1,6 +1,6 @@
 `timescale 1ns / 1ps
 /*
-ENTITY dmem IS
+ENTITY dmem_ip IS
   PORT (
     clka : IN STD_LOGIC;
     ena : IN STD_LOGIC;

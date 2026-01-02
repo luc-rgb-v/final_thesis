@@ -85,7 +85,7 @@ void maxim_heart_rate_and_oxygen_saturation(uint32_t *pun_ir_buffer, int32_t n_i
 * \param[out]    *pch_hr_valid           - 1 if the calculated heart rate value is valid
 *
 * \retval       None
-*/
+**/
 {
   uint32_t un_ir_mean;
   int32_t k, n_i_ratio_count;
@@ -134,7 +134,7 @@ void maxim_heart_rate_and_oxygen_saturation(uint32_t *pun_ir_buffer, int32_t n_i
     *pn_heart_rate =(int32_t)( (FreqS*60)/ n_peak_interval_sum );
     *pch_hr_valid  = 1;
   }
-  else  { 
+  else  {     
     *pn_heart_rate = -999; // unable to calculate because # of peaks are too small
     *pch_hr_valid  = 0;
   }
@@ -198,7 +198,7 @@ void maxim_heart_rate_and_oxygen_saturation(uint32_t *pun_ir_buffer, int32_t n_i
   if( n_ratio_average>2 && n_ratio_average <184){
     n_spo2_calc= uch_spo2_table[n_ratio_average] ;
     *pn_spo2 = n_spo2_calc ;
-    *pch_spo2_valid  = 1;//  float_SPO2 =  -45.060*n_ratio_average* n_ratio_average/10000 + 30.354 *n_ratio_average/100 + 94.845 ;  // for comparison with table
+    *pch_spo2_valid  = 1; //  float_SPO2 =  -45.060*n_ratio_average* n_ratio_average/10000 + 30.354 *n_ratio_average/100 + 94.845 ;  // for comparison with table
   }
   else{
     *pn_spo2 =  -999 ; // do not use SPO2 since signal an_ratio is out of range
