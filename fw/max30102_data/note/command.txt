@@ -1,0 +1,15 @@
+install: https://github.com/dorssel/usbipd-win/releases/latest
+
+notepad platformio.ini
+pio run -t clean
+pio run
+pio run -t upload
+
+check usb connect:
+ls /dev/ttyUSB*
+dmesg | tail
+
+source venv/bin/activate
+
+Serial monitor:
+pio device monitor --port /dev/ttyUSB0

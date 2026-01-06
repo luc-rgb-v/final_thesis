@@ -1,0 +1,1000 @@
+  998  clear
+  999  ls
+ 1000  make all
+ 1001  make clean 
+ 1002  make all
+ 1003  make clean 
+ 1004  make all
+ 1005  clear
+ 1006  ls
+ 1007  make clean 
+ 1008  make all
+ 1009  make clean 
+ 1010  make all
+ 1011  make all_cov 
+ 1012  make view_cov 
+ 1013  ls
+ 1014  cd log/
+ 1015  ls
+ 1016  cd ..
+ 1017  make clean 
+ 1018  make all
+ 1019  ls
+ 1020  cd log/
+ 1021  ls
+ 1022  nvim add.log
+ 1023  clear
+ 1024  cd ..
+ 1025  ls
+ 1026  nvim Makefile 
+ 1027  make clean 
+ 1028  make all
+ 1029  ls
+ 1030  cd log/
+ 1031  ls
+ 1032  cd ..
+ 1033  make clean 
+ 1034  clear
+ 1035  make all
+ 1036  ls
+ 1037  make clean 
+ 1038  make all
+ 1039  ls
+ 1040  cd log/
+ 1041  ls
+ 1042  cd ..
+ 1043  tree
+ 1044  make clean 
+ 1045  make all
+ 1046  ls
+ 1047  make wave 
+ 1048  make clean 
+ 1049  ls
+ 1050  make clean 
+ 1051  make all
+ 1052  ls
+ 1053  tree log/
+ 1054  cat Makefile 
+ 1055  make clean 
+ 1056  make run
+ 1057  make all
+ 1058  ls
+ 1059  cd log/
+ 1060  ls
+ 1061  nvim report.txt 
+ 1062  cd ../
+ 1063  make clean 
+ 1064  ls
+ 1065  make all
+ 1066  ls
+ 1067  cd log/
+ 1068  ls
+ 1069  cat id_stage.log 
+ 1070  clear
+ 1071  ls
+ 1072  cd ../
+ 1073  make clean 
+ 1074  ls
+ 1075  nvim Makefile 
+ 1076  make all
+ 1077  ls
+ 1078  cd log/
+ 1079  ls
+ 1080  nvim write_back.log 
+ 1081  clear
+ 1082  ls
+ 1083  cd ..
+ 1084  ls
+ 1085  make clean 
+ 1086  ls
+ 1087  make all
+ 1088  ls
+ 1089  make clean 
+ 1090  ls
+ 1091  clear
+ 1092  ls
+ 1093  make all
+ 1094  ls
+ 1095  cd log
+ 1096  ls
+ 1097  nvim add.log 
+ 1098  cd ../
+ 1099  make clean 
+ 1100  make all
+ 1101  ls
+ 1102  cd log/
+ 1103  ls
+ 1104  nvim test.log 
+ 1105  cd ..
+ 1106  make clean 
+ 1107  ls
+ 1108  clear
+ 1109  ls
+ 1110  make drc 
+ 1111  clear
+ 1112  ls
+ 1113  make all
+ 1114  make clean 
+ 1115  ls
+ 1116  make all
+ 1117  make clean 
+ 1118  make all
+ 1119  ls
+ 1120  cd log/
+ 1121  ls
+ 1122  clear
+ 1123  ls
+ 1124  cd ../
+ 1125  ls
+ 1126  make clean 
+ 1127  la
+ 1128  cd ..
+ 1129  ls
+ 1130  cd src/
+ 1131  ls
+ 1132  clear
+ 1133  ls
+ 1134  cd ../..
+ 1135  ls
+ 1136  git status
+ 1137  git add .
+ 1138  git commit -m "17/12 work"
+ 1139  git push origin master
+ 1140  git log
+ 1141  cd ..
+ 1142  ls
+ 1143  cd practice/
+ 1144  ls
+ 1145  git status
+ 1146  git add .
+ 1147  git commit -m "html practice"
+ 1148  git push origin master
+ 1149  git config --global --get user.email
+ 1150  git log -1 --pretty=full
+ 1151  git config --global user.name "luc-rgb-v"
+ 1152  git config --global user.email "luchdt.ic@gmail.com"
+ 1153  git config --global --get user.email
+ 1154  echo "test" >> contribution_test.txt
+ 1155  git add contribution_test.txt
+ 1156  git commit -m "test contribution email"
+ 1157  git push
+ 1158  git push --set-upstream origin master
+ 1159  cd ..
+ 1160  ls
+ 1161  cd final_thesis/
+ 1162  echo "test" >> contribution_test.txt
+ 1163  git add contribution_test.txt
+ 1164  git commit -m "test contribution email"
+ 1165  git rebase -i --root
+ 1166  git commit --amend --author="luc-rgb-v <luchdt.ic@gmail.com>"
+ 1167  git rebase --continue
+ 1168  git push --force
+ 1169  git commit --amend --author="luc-rgb-v <luchdt.ic@gmail.com>"
+ 1170  git rebase --continue
+ 1171  git status
+ 1172  git push --force origin master
+ 1173  git log -1 --pretty=full
+ 1174  clear
+ 1175  ls
+ 1176  rm contribution_test.txt 
+ 1177  ls
+ 1178  cd ../practice/
+ 1179  nvim contribution_test.txt 
+ 1180  rm contribution_test.txt 
+ 1181  cd ../final_thesis/
+ 1182  clear
+ 1183  ls
+ 1184  tree
+ 1185  clear
+ 1186  ls
+ 1187  cp /mnt/d/Github/practice/markdown/readme.md /mnt/d/Github/final_thesis/Readme.md 
+ 1188  cd hw/
+ 1189  ls
+ 1190  make clean 
+ 1191  make all 
+ 1192  cd sim/
+ 1193  ls
+ 1194  make all
+ 1195  make clean 
+ 1196  clear
+ 1197  ls
+ 1198  cd ../src/
+ 1199  ls
+ 1200  nvim riscv_wb.v 
+ 1201  ls
+ 1202  cd /mnt/d/Github/
+ 1203  ls
+ 1204  cd final_thesis/
+ 1205  ls
+ 1206  cd hw/
+ 1207  ls
+ 1208  cp sim sim_wb
+ 1209  ls
+ 1210  cd /mnt/d/Github/final_thesis/
+ 1211  ls
+ 1212  clear
+ 1213  ls
+ 1214  cd hw/
+ 1215  ls
+ 1216  cp -r sim sim_wb
+ 1217  ls
+ 1218  nvim sim_wb/
+ 1219  cd sim_wb/
+ 1220  cd ../
+ 1221  mv sim_wb/ wb_sim
+ 1222  ls
+ 1223  cd ls
+ 1224  cd wb_sim/
+ 1225  ls
+ 1226  make all
+ 1227  cd ../license/
+ 1228  make 
+ 1229  cd ../wb_sim/
+ 1230  ls
+ 1231  clear
+ 1232  ls
+ 1233  make clean 
+ 1234  make all
+ 1235  make clean 
+ 1236  ls
+ 1237  clear
+ 1238  ls
+ 1239  cd ../
+ 1240  ls
+ 1241  cp -r wb_sim dmem_sim
+ 1242  cd dmem_sim/
+ 1243  ls
+ 1244  clear
+ 1245  ls
+ 1246  make all
+ 1247  ls
+ 1248  nvim testbench.v 
+ 1249  ls
+ 1250  make clean 
+ 1251  clear
+ 1252  ls
+ 1253  nvim tb.f 
+ 1254  cd ../testcases/
+ 1255  ls
+ 1256  cd dmem/
+ 1257  ls
+ 1258  cd ../..
+ 1259  ls
+ 1260  cd tb
+ 1261  ls
+ 1262  cd task/
+ 1263  ls
+ 1264  cp -r compare.v 8bit_compare.v
+ 1265  ls
+ 1266  nvim 8bit_compare.v 
+ 1267  cd ..
+ 1268  ls
+ 1269  cd ..
+ 1270  ls
+ 1271  cd dmem_sim/
+ 1272  ls
+ 1273  nvim rtl.f 
+ 1274  nvim tb.f 
+ 1275  ls
+ 1276  cd ../testcases/dmem/
+ 1277  ls
+ 1278  nvim tests.f 
+ 1279  nvim ../../dmem_sim/tb.f 
+ 1280  cd ../../
+ 1281  ls
+ 1282  cd dmem_sim/
+ 1283  make all
+ 1284  tree
+ 1285  cd ..
+ 1286  ls
+ 1287  cd tb/
+ 1288  ls
+ 1289  tree
+ 1290  cp -r test.v dmem_test.v
+ 1291  ls
+ 1292  nvim dmem_test.v 
+ 1293  cd ../
+ 1294  ls
+ 1295  nvim dmem_sim/
+ 1296  de dmem_sim/
+ 1297  cd dmem_sim/
+ 1298  ls
+ 1299  clear
+ 1300  ls
+ 1301  nvim Makefile 
+ 1302  ls
+ 1303  make clean 
+ 1304  ls
+ 1305  nvim tb.f 
+ 1306  nvim rtl.f 
+ 1307  ls
+ 1308  nvim compile.f 
+ 1309  nvim Makefile 
+ 1310  ls ../tb/
+ 1311  nvim Makefile 
+ 1312  make all
+ 1313  nvim testbench.v 
+ 1314  clear
+ 1315  ls
+ 1316  nvim ../tb/dmem_test.v 
+ 1317  ls
+ 1318  make clean 
+ 1319  make all
+ 1320  nvim ../tb/components/dmem_dut.v 
+ 1321  clear
+ 1322  ls
+ 1323  make clean
+ 1324  make all
+ 1325  nvim ../tb/components/dmem_dut.v 
+ 1326  nvim ../tb/dmem_test.v 
+ 1327  make clean 
+ 1328  make all
+ 1329  make clean 
+ 1330  ls
+ 1331  clear
+ 1332  ls
+ 1333  cd ..
+ 1334  ls
+ 1335  cd wb_sim/
+ 1336  ls
+ 1337  nvim Makefile 
+ 1338  clear
+ 1339  ls
+ 1340  nvim rtl.f 
+ 1341  nvim tb.f 
+ 1342  ls
+ 1343  nvm rtl.f 
+ 1344  nvim rtl.f 
+ 1345  cat *
+ 1346  clear
+ 1347  ls
+ 1348  cd ../
+ 1349  ls
+ 1350  nvim tb/
+ 1351  cd tb/
+ 1352  ls
+ 1353  cp -r dmem_test.v wb_test.v
+ 1354  nvim wb_test.v 
+ 1355  cd ../
+ 1356  ls
+ 1357  cd tb/
+ 1358  ls
+ 1359  cd components/
+ 1360  ls
+ 1361  nvim riscv_wb_dut.v 
+ 1362  nvim info 
+ 1363  cp -r info wb_test_info
+ 1364  nvim wb_test_info 
+ 1365  cd ..
+ 1366  ls
+ 1367  nvim wb_test.v 
+ 1368  nvim task/
+ 1369  cd task/
+ 1370  ls
+ 1371  ls -l
+ 1372  cd ..
+ 1373  ls -l
+ 1374  cd 
+ 1375  ls
+ 1376  cd -
+ 1377  ls
+ 1378  cd ..
+ 1379  ls
+ 1380  cd wb_sim/
+ 1381  make all
+ 1382  make clean 
+ 1383  ls
+ 1384  nvim tb.f 
+ 1385  ls ../tb/
+ 1386  ls ../tb/components/
+ 1387  nvim tb.f 
+ 1388  make clean 
+ 1389  make all
+ 1390  nvim testbench.v 
+ 1391  ls
+ 1392  make clean 
+ 1393  ls
+ 1394  clear
+ 1395  ls
+ 1396  nvim Makefile 
+ 1397  ls ../tb/components/
+ 1398  nvim tb.f 
+ 1399  make clean
+ 1400  make all
+ 1401  nvim testbench.v 
+ 1402  cd ..
+ 1403  ls
+ 1404  cd testcases/
+ 1405  ls
+ 1406  clear
+ 1407  l
+ 1408  cd wishbone/
+ 1409  ls
+ 1410  nvim wb_m.v 
+ 1411  cd ../../
+ 1412  ls
+ 1413  cd wb_sim/
+ 1414  ls
+ 1415  make clean 
+ 1416  make all
+ 1417  ls
+ 1418  nvim testbench.v 
+ 1419  nvim test.v 
+ 1420  nvim ../testcases/wishbone/wb_m.v 
+ 1421  make clean 
+ 1422  make all
+ 1423  nvim ../testcases/wishbone/wb_m.v 
+ 1424  nvim testbench.v 
+ 1425  nvim ../tb/wb_test.v 
+ 1426  make clean 
+ 1427  make all
+ 1428  ls
+ 1429  nvim rtl.f 
+ 1430  nvm compile.f 
+ 1431  nvim compile.f 
+ 1432  make clean 
+ 1433  make all
+ 1434  nvim Makefile 
+ 1435  nvim testbench.v 
+ 1436  nvim test.v
+ 1437  nvim ../tb/components/wb_test_info 
+ 1438  nvim test.v
+ 1439  nvim ../tb/components/wb_test_info 
+ 1440  make clean 
+ 1441  make all
+ 1442  nvim testbench.v 
+ 1443  nvim Makefile 
+ 1444  ls ../tb/components/
+ 1445  nvim Makefile 
+ 1446  make clean 
+ 1447  make all
+ 1448  nvim testbench.v 
+ 1449  make all
+ 1450  make clear
+ 1451  make clean 
+ 1452  ls
+ 1453  make all
+ 1454  ld
+ 1455  ls
+ 1456  nvim test.v 
+ 1457  nvim testbench.v 
+ 1458  nvim ../tb/components/wb_test_info 
+ 1459  make clean 
+ 1460  make all
+ 1461  nvim ../testcases/wishbone/wb_m.v 
+ 1462  make clean 
+ 1463  cd ..
+ 1464  ls
+ 1465  make clean 
+ 1466  ls
+ 1467  tree
+ 1468  git add .
+ 1469  git commit -m "add test dmem & wb"
+ 1470  git push origin master
+ 1471  cd /mnt/d/Github/final_thesis/
+ 1472  ls
+ 1473  cd hw/
+ 1474  l
+ 1475  cd sim/
+ 1476  clear
+ 1477  ls
+ 1478  make view_cov 
+ 1479  cd ../license/
+ 1480  make
+ 1481  cd ../sim/
+ 1482  make all_cov 
+ 1483  make view_cov 
+ 1484  cd Desktop/pio_esp32/
+ 1485  ls
+ 1486  clear
+ 1487  ls
+ 1488  cd max30102_SF/
+ 1489  ls
+ 1490  cd python/
+ 1491  ls
+ 1492  cd /mnt/d/Github/final_thesis/fw/
+ 1493  ls
+ 1494  cd test/
+ 1495  ls
+ 1496  cd ../include/
+ 1497  ls
+ 1498  cp /mnt/c/Users/luchu/Desktop/pio_esp32/max30102_SF/python/max30102_data.h ./
+ 1499  nvim max30102_data.h 
+ 1500  cd ../test/
+ 1501  ls
+ 1502  cd ..
+ 1503  ls
+ 1504  make all 
+ 1505  nvim Makefile 
+ 1506  make all FILE=test/test_max30102.c 
+ 1507  nvim Makefile 
+ 1508  ls
+ 1509  nvim Readme.md 
+ 1510  nvim note.txt 
+ 1511  g++   -Iinclude   test/test_max30102.c   src/spo2_algorithm.cpp   src/heartRate.cpp   -o test_max30102   -std=gnu++11   -Wall -Wextra -O2
+ 1512  ls
+ 1513  nvim test_max30102 
+ 1514  ./test_max30102 
+ 1515  clear
+ 1516  ls
+ 1517  rm test_max30102 
+ 1518  ls
+ 1519  cd test/
+ 1520  ls
+ 1521  nvim test_max30102.c 
+ 1522  cd ..
+ 1523  ls
+ 1524  cd Desktop/
+ 1525  ls
+ 1526  cd riscv_rv32_vivado/
+ 1527  ls
+ 1528  tree
+ 1529  ls
+ 1530  cd src/
+ 1531  verilator --lint-only -Wall -f dmem_cvt.v 
+ 1532  cat dmem_cvt.v 
+ 1533  verilator --lint-only -Wall dmem_cvt.v
+ 1534  clear
+ 1535  ls
+ 1536  ls > list.f
+ 1537  ls
+ 1538  nvim list.f 
+ 1539  verilator --lint-only -Wall -f list.f 
+ 1540  nvim list.f 
+ 1541  verilator --lint-only -Wall -f list.f 
+ 1542  nvim list.f 
+ 1543  verilator --lint-only -Wall -f list.f 
+ 1544  nvim list.f 
+ 1545  verilator --lint-only -Wall -f list.f 
+ 1546  nvim list.f 
+ 1547  verilator --lint-only -Wall -f list.f 
+ 1548  clear
+ 1549  ls
+ 1550  cd ..
+ 1551  ls
+ 1552  rm src/list.f 
+ 1553  ls
+ 1554  ls src/ > list.f
+ 1555  ls tb/ > list.f
+ 1556  ls
+ 1557  nvim list.f 
+ 1558  ls src/ > list.f
+ 1559  nvim list.f 
+ 1560  verilator --lint-only -Wall -f list.f 
+ 1561  clear
+ 1562  ls
+ 1563  touch Makefile
+ 1564  ls
+ 1565  rm list.f 
+ 1566  ls
+ 1567  scd Desktop/
+ 1568  cd Desktop/
+ 1569  ls
+ 1570  cd new_riscv/
+ 1571  ls
+ 1572  cd s
+ 1573  cd src/
+ 1574  ls
+ 1575  clear
+ 1576  ls
+ 1577  verilator verilator --lint-only -Wall ex_stage.v 
+ 1578  verilator --lint-only -Wall ex_stage.v 
+ 1579  clear
+ 1580  ls
+ 1581  verilator --lint-only -Wall ex_stage.v ../tb/tb_ex_stage.v 
+ 1582  verilator --lint-only -Wall ex_stage.v defines.vh  ../tb/tb_ex_stage.v
+ 1583  ls
+ 1584  verilator --lint-only -Wall mem_stage.v 
+ 1585  verilator --lint-only -Wall dmem.v dmem_wrab.v
+ 1586  ls
+ 1587  verilator --lint-only -Wall dmem.v dmem_wrab.v dmem_cvt.v 
+ 1588  verilator --lint-only -Wall defines.vh dmem_cvt.v 
+ 1589  clear
+ 1590  verilator --lint-only -Wall defines.vh dmem_cvt.v 
+ 1591  cd Desktop/
+ 1592  ls
+ 1593  cd new_riscv/
+ 1594  ls
+ 1595  clear
+ 1596  ls
+ 1597  tree
+ 1598  lls
+ 1599  ls
+ 1600  clear
+ 1601  ls
+ 1602  cd i
+ 1603  cd i2c/
+ 1604  ls
+ 1605  cd ..
+ 1606  ls
+ 1607  rm -rf i2c/
+ 1608  ls
+ 1609  tree 
+ 1610  rm sim/
+ 1611  rm -rf sim/
+ 1612  ls
+ 1613  clear
+ 1614  mkdir rv_sim
+ 1615  ls
+ 1616  tree
+ 1617  ls
+ 1618  cd src/
+ 1619  ls
+ 1620  clear
+ 1621  ls
+ 1622  verilator --lint-only -Wall forwarding.v 
+ 1623  clear
+ 1624  l
+ 1625  ls
+ 1626  cd Desktop/
+ 1627  ls
+ 1628  cd pio_esp32/
+ 1629  ls
+ 1630  clear
+ 1631  ls
+ 1632  cd ..
+ 1633  ls
+ 1634  cd new_riscv/
+ 1635  ls
+ 1636  cd src/
+ 1637  tree
+ 1638  cd ll
+ 1639  cd ..
+ 1640  ls
+ 1641  clear
+ 1642  ls
+ 1643  tree
+ 1644  ls
+ 1645  rm -rf forwarding/
+ 1646  ls
+ 1647  tree
+ 1648  clear
+ 1649  ls
+ 1650  clear
+ 1651  ls
+ 1652  cd rv_sim/
+ 1653  ls
+ 1654  cfgtr567890-]\][poiujhygtfrtyuiop['
+ 1655  clear
+ 1656  ls
+ 1657  cd /usr/bin/
+ 1658  ls
+ 1659  ls env
+ 1660  df env
+ 1661  cd _
+ 1662  cd -
+ 1663  ls
+ 1664  clear
+ 1665  ls
+ 1666  gtkwave IF_stage_dump.vcd 
+ 1667  tree
+ 1668  cd /mnt/d/Github/final_thesis/
+ 1669  cd hw/
+ 1670  cd license/
+ 1671  make
+ 1672  vsim &
+ 1673  cd ..
+ 1674  ls
+ 1675  cd sim/
+ 1676  ls
+ 1677  clear
+ 1678  ls
+ 1679  make all
+ 1680  make wave 
+ 1681  make gen_html 
+ 1682  ls
+ 1683  cd ../..fw
+ 1684  cd ../../fw
+ 1685  ls
+ 1686  cd build/
+ 1687  ls
+ 1688  cd ..
+ 1689  tree
+ 1690  make all 
+ 1691  make all FILE=main/main.c 
+ 1692  ls
+ 1693  tree
+ 1694  cd /mnt/d/Github/final_thesis/
+ 1695  ls
+ 1696  cd hw/
+ 1697  tree
+ 1698  make clean 
+ 1699  cd sim/
+ 1700  ls
+ 1701  make clean 
+ 1702  cd ..
+ 1703  tree
+ 1704  tree -L 1
+ 1705  tree -L 2
+ 1706  clear
+ 1707  ls
+ 1708  cd sim/
+ 1709  ls
+ 1710  nvim Makefile 
+ 1711  make all
+ 1712  clear
+ 1713  ls
+ 1714  make clean 
+ 1715  cd ../license/
+ 1716  make 
+ 1717  cd -
+ 1718  ls
+ 1719  clear
+ 1720  make all
+ 1721  clear
+ 1722  ls
+ 1723  nvim test.v 
+ 1724  tree
+ 1725  clear
+ 1726  ls
+ 1727  ls -l
+ 1728  cd ..
+ 1729  ls
+ 1730  cd testcases/
+ 1731  ls
+ 1732  ls -a instructions/
+ 1733  ls instructions/
+ 1734  cd -
+ 1735  s
+ 1736  clear
+ 1737  ls
+ 1738  cd tb/
+ 1739  ls
+ 1740  ls -l
+ 1741  cd ../sim/
+ 1742  ls
+ 1743  nvim Makefile 
+ 1744  riscv32-unknown-elf-gcc --version
+ 1745  cd ../../fw/
+ 1746  ls
+ 1747  make all 
+ 1748  clear
+ 1749  ls
+ 1750  tree
+ 1751  nvim Makefile 
+ 1752  spike --help
+ 1753  spike -d build/main.elf
+ 1754  spike --isa=rv32i -d build/main.elf
+ 1755  ls
+ 1756  nvim mem.0x80000000.bin 
+ 1757  df
+ 1758  df ./
+ 1759  nvim note.txt 
+ 1760  rm mem.0x80000000.bin 
+ 1761  ls
+ 1762  clear
+ 1763  ls
+ 1764  tree
+ 1765  spike --isa=rv32i -d build/main.elf
+ 1766  spike --isa=rv32i -d -m128 build/main.elf
+ 1767  ls
+ 1768  nvim mem.0x80000000.bin 
+ 1769  xxd -l 200 mem_0.bin
+ 1770  xxd -l 200 mem.0x80000000.bin 
+ 1771  tree
+ 1772  g++   -Iinclude   test/test_max30102.c   src/spo2_algorithm.cpp   src/heartRate.cpp   -o test_max30102   -std=gnu++11   -Wall -Wextra -O2
+ 1773  ls
+ 1774  ./test_max30102 
+ 1775  cd ../hw/
+ 1776  cd sim/
+ 1777  ls
+ 1778  make all
+ 1779  make gen_html 
+ 1780  ls
+ 1781  cd log/
+ 1782  ls
+ 1783  cd ..
+ 1784  ls
+ 1785  make gen_cov 
+ 1786  ls
+ 1787  cd cov
+ 1788  cd coverage/
+ 1789  ls
+ 1790  nvim summary_report.txt 
+ 1791  nvim detail_report.txt 
+ 1792  clear
+ 1793  ls
+ 1794  cd ../
+ 1795  ls
+ 1796  cd coverage/
+ 1797  ls
+ 1798  nvim detail_report.txt 
+ 1799  gcc --version
+ 1800  cd /mnt/d/Github/final_thesis/hw/
+ 1801  ls
+ 1802  cd sim/
+ 1803  ls
+ 1804  nivm rtl.f 
+ 1805  nvim rtl.f 
+ 1806  cd Desktop/
+ 1807  ls
+ 1808  cd new_riscv/
+ 1809  ls
+ 1810  cd rv_sim/
+ 1811  ls
+ 1812  nvim Makefile 
+ 1813  ls
+ 1814  nvim rtf.f
+ 1815  ls
+ 1816  nvim Makefile 
+ 1817  make drc 
+ 1818  cat rtf.f 
+ 1819  mv rtf.f rtl.f
+ 1820  make drc 
+ 1821  verilator --lint-only -Wall -I../src -f rtl.f
+ 1822  nvim rtl.f 
+ 1823  verilator --lint-only -Wall -I../src -f rtl.f
+ 1824  nvim rtl.f 
+ 1825  verilator --help
+ 1826  tree
+ 1827  cd /mnt/d/Github/final_thesis/fw/
+ 1828  ls
+ 1829  make FILE=main/main.c 
+ 1830  ls
+ 1831  ./test_max30102 
+ 1832  clear
+ 1833  ls
+ 1834  clear
+ 1835  ls
+ 1836  make clean 
+ 1837  ls
+ 1838  cd ..
+ 1839  ls
+ 1840  cd ..
+ 1841  ls
+ 1842  cd fw/
+ 1843  ls
+ 1844  make clean 
+ 1845  ls
+ 1846  rm mem.0x80000000.bin 
+ 1847  ls
+ 1848  cd ../pio_esp32/
+ 1849  ls
+ 1850  cd max30102_SF/
+ 1851  ls
+ 1852  pio run
+ 1853  ls
+ 1854  cd python/
+ 1855  ls
+ 1856  clear
+ 1857  ls
+ 1858  cd ../../../fw/
+ 1859  ls
+ 1860  clear
+ 1861  ls
+ 1862  tree
+ 1863  make all 
+ 1864  ls
+ 1865  ./test.o
+ 1866  clear
+ 1867  ls
+ 1868  cat Makefile 
+ 1869  cat test.c 
+ 1870  clear
+ 1871  trê
+ 1872  tree
+ 1873  make all 
+ 1874  ls
+ 1875  ./test.o
+ 1876  g++ test.o heartRate.o spo2_algorithm.o -o test
+ 1877  ls
+ 1878  ./test
+ 1879  make run 
+ 1880  clear
+ 1881  ls
+ 1882  make clean 
+ 1883  ls
+ 1884  make clean 
+ 1885  ls
+ 1886  clear
+ 1887  ls
+ 1888  make all 
+ 1889  make run 
+ 1890  make clean 
+ 1891  ls
+ 1892  make riscv 
+ 1893  clear
+ 1894  ls
+ 1895  clear
+ 1896  ls
+ 1897  cd Desktop/fw/
+ 1898  ls
+ 1899  make all 
+ 1900  make run 
+ 1901  ls
+ 1902  ./test
+ 1903  make clean 
+ 1904  ls
+ 1905  make all 
+ 1906  make run 
+ 1907  make clean 
+ 1908  ls
+ 1909  clear
+ 1910  ls
+ 1911  make clean 
+ 1912  make all 
+ 1913  make run 
+ 1914  make clean 
+ 1915  clear
+ 1916  ls
+ 1917  make all 
+ 1918  make run 
+ 1919  make clean 
+ 1920  clear
+ 1921  ls
+ 1922  make all 
+ 1923  make run 
+ 1924  ./test
+ 1925  make clean 
+ 1926  make all 
+ 1927  make run 
+ 1928  make all 
+ 1929  make run 
+ 1930  make clean 
+ 1931  make all 
+ 1932  make run 
+ 1933  make all 
+ 1934  make run 
+ 1935  make clean 
+ 1936  make all 
+ 1937  make run 
+ 1938  uname -m
+ 1939  file test
+ 1940  make clean
+ 1941  clear
+ 1942  ls
+ 1943  make all 
+ 1944  ls
+ 1945  ./test > signal.csv
+ 1946  ls
+ 1947  cat signal.csv 
+ 1948  ./test
+ 1949  python3 plot_csv.py 
+ 1950  python3 -m pip install --user pandas matplotlib
+ 1951  python3 plot_csv.py 
+ 1952  ls
+ 1953  cat gen_c_header.py 
+ 1954  clear
+ 1955  ls
+ 1956  python3 plot_data.py max30102_log.txt 
+ 1957  pip3 install --user pandas matplotlib
+ 1958  sudo apt update
+ 1959  sudo apt install python3-pip
+ 1960  pip3 install --user pandas matplotlib
+ 1961  sudo apt install python3-full python3-venv
+ 1962  cd /mnt/c/Users/luchu/Desktop/pio_esp32/max30102_SF/python
+ 1963  python3 -m venv venv
+ 1964  source venv/bin/activate
+ 1965  pip install pandas matplotlib
+ 1966  python plot_data.py max30102_log.txt
+ 1967  python plot_data.py max30102_log.txt 1588 5587
+ 1968  python plot_data.py max30102_log.txt 1030 4988
+ 1969  python plot_data.py max30102_log.txt 1310 5269
+ 1970  ls
+ 1971  cd ../../
+ 1972  ls
+ 1973  cd ..
+ 1974  ls
+ 1975  cd fw/
+ 1976  ls
+ 1977  make clean 
+ 1978  ls
+ 1979  exit
+ 1980  clear
+ 1981  ls
+ 1982  cd ../../../fw/
+ 1983  ls
+ 1984  make all 
+ 1985  ls
+ 1986  make run 
+ 1987  make clean 
+ 1988  python3 test.cpp signal.csv
+ 1989  make all 
+ 1990  ./test signal.csv 
+ 1991  clear
+ 1992  ls
+ 1993  ./test > signal.csv
+ 1994  python3 plot_csv.py 
+ 1995  history 
+ 1996  clear
+ 1997  history > history.txt
