@@ -1,10 +1,7 @@
-../src/defines.vh
 ../src/dmem.v
 ../src/dmem_wrab.v
 ../src/ex_stage.v
 ../src/forwarding.v
-../src/i2c_master.v
-../src/i2c_slave.v
 ../src/id_stage.v
 ../src/if_stage.v
 ../src/imem.v
@@ -12,7 +9,8 @@
 ../src/mem_stage.v
 ../src/registers_file.v
 ../src/store_cvt.v
-../src/top_rv32.v
-#../src/top_system.v
-../src/uart_rx.v
+../src/top_system.v
 ../src/uart_tx.v
+../src/uart_rx.v
+../src/i2c_slave.v
+../src/i2c_master.v

@@ -79,17 +79,18 @@
 // UART 32'h40000000
 // -------------------------------------------------
 `define UART_DATA     32'hC0000000
-`define UART_PRESCALE 32'hC0000001
-`define UART_VALID    32'hC0000002
+`define UART_PRESCALE 32'hC0000004
+`define UART_VALID    32'hC0000008
+//STOP_FLAG   = 0x0C (R, 1-bit)
 
 `define UART_DATA_WIDTH 8
 // -------------------------------------------------
 // I2C 32'hC0000000
 // -------------------------------------------------
 `define I2C_WDATA   32'h40000000
-`define I2C_ADDR    32'h40000001
-`define I2C_RW      32'h40000002
-`define I2C_ENABLE  32'h40000003
-
+`define I2C_ADDR    32'h40000004
+`define I2C_RW      32'h40000008
+`define I2C_ENABLE  32'h4000000C
+//I2C_RDATA 32'h40000004
 
 `endif

@@ -15,15 +15,16 @@ module registers_file (
 );
 
   reg [31:0] registers [0:31];
-
+/*
   integer i;
   initial begin
     for (i = 0; i < 32; i = i + 1) begin
       registers[i] = 32'b0;
     end
   end
+  */
   // Synchronous write
-  always @(posedge clk or posedge rst) begin
+  always @(posedge clk) begin
     if (reg_write && rd_addr != 5'd0)
       registers[rd_addr] <= rd_data;
   end

@@ -39,13 +39,13 @@ scl    ST \_/ \_/ \_/ \_/ \_/ \_/ \_/ \_/ \_/ \_/ \_/ \_/ \_/ \_/ \_/ \_/ \_/ \_
 
 module i2c_slave (
     inout  wire       sda,               // I2C data line
-    inout  wire       scl,               // I2C clock line
+    input  wire       scl,               // I2C clock line
     input  wire [7:0] data_write_slave,  // Data to be transmitted to MASTER
-    output reg  [7:0] data_read_slave    // Data received from MASTER
+    output wire  [7:0] data_read_slave    // Data received from MASTER
 );
 
     // SLAVE address (7-bit)
-    localparam ADDRESS_SLAVE = 7'b1010101;
+    localparam ADDRESS_SLAVE = 7'b00000001; // 0x57 max30102 address
 
     // FSM states
     localparam STATE_READ_ADDR  = 0;  // Read slave address + R/W bit
@@ -61,7 +61,8 @@ module i2c_slave (
     reg       sda_in  = 0;   // SDA input (unused but kept for completeness)
     reg       start   = 0;   // Start condition detected
     reg       write_enable = 0; // SDA output enable
-
+    reg  [7:0] data_read_slave_r = 0;
+    assign data_read_slave = data_read_slave_r;
     // Tri-state control of SDA line
     assign sda = (write_enable == 1) ? sda_out : 1'bz;
 
@@ -109,7 +110,7 @@ module i2c_slave (
 
                 // Read data sent by MASTER
                 STATE_READ_DATA: begin
-                    data_read_slave[counter] <= sda;
+                    data_read_slave_r[counter] <= sda;
                     if (counter == 0)
                         state <= STATE_SEND_ACK2;
                     else

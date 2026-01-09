@@ -9,13 +9,6 @@ module dmem (
 );
 
   reg [7:0] mem [0:255];
-  integer  i;
-  initial begin
-  douta = 0;
-  for(i = 0; i < 256 ; i=i+1)
-    mem[i] = 8'b0;
-    $display("Index 0: %h", mem[0]);
-  end 
   always @(posedge clka) begin
     if (ena) begin
       if (wea)

@@ -1,125 +1,131 @@
 `timescale 1ns / 1ps
 
-module tb_i2c_master;
+module tb_i2c_pure_verilog;
 
-// Signals
-reg clk;
-reg rst;
-reg [6:0] s_axis_cmd_address;
-reg s_axis_cmd_start;
-reg s_axis_cmd_write;
-reg s_axis_cmd_read;
-reg s_axis_cmd_stop;
-reg s_axis_cmd_valid;
-wire s_axis_cmd_ready;
+    // =====================================================
+    // Clock / Reset
+    // =====================================================
+    reg clk;
+    reg rst;
 
-reg [7:0] s_axis_data_tdata;
-reg s_axis_data_tvalid;
-wire s_axis_data_tready;
-reg s_axis_data_tlast;
-
-wire [7:0] m_axis_data_tdata;
-wire m_axis_data_tvalid;
-reg m_axis_data_tready = 1;
-wire m_axis_data_tlast;
-
-reg scl_i = 1;
-wire scl_o;
-wire scl_t;
-reg sda_i = 1;
-wire sda_o;
-wire sda_t;
-
-wire busy;
-wire bus_control;
-wire bus_active;
-wire missed_ack;
-
-// Instantiate I2C Master
-i2c_master uut (
-    .clk(clk),
-    .rst(rst),
-    .s_axis_cmd_address(s_axis_cmd_address),
-    .s_axis_cmd_start(s_axis_cmd_start),
-    .s_axis_cmd_read(s_axis_cmd_read),
-    .s_axis_cmd_write(s_axis_cmd_write),
-    .s_axis_cmd_stop(s_axis_cmd_stop),
-    .s_axis_cmd_valid(s_axis_cmd_valid),
-    .s_axis_cmd_ready(s_axis_cmd_ready),
-    .s_axis_data_tdata(s_axis_data_tdata),
-    .s_axis_data_tvalid(s_axis_data_tvalid),
-    .s_axis_data_tready(s_axis_data_tready),
-    .s_axis_data_tlast(s_axis_data_tlast),
-    .m_axis_data_tdata(m_axis_data_tdata),
-    .m_axis_data_tvalid(m_axis_data_tvalid),
-    .m_axis_data_tready(m_axis_data_tready),
-    .m_axis_data_tlast(m_axis_data_tlast),
-    .scl_i(scl_i),
-    .scl_o(scl_o),
-    .scl_t(scl_t),
-    .sda_i(sda_i),
-    .sda_o(sda_o),
-    .sda_t(sda_t),
-    .busy(busy),
-    .bus_control(bus_control),
-    .bus_active(bus_active),
-    .missed_ack(missed_ack)
-);
-
-// Clock Generation
-always begin
-    clk = 0;
-    #5 clk = 1;
-    #5;
-end
-
-// Stimulus Process
-initial begin
-    // Reset and initial conditions
-    rst = 1;
-    s_axis_cmd_valid = 0;
-    s_axis_data_tvalid = 0;
-    s_axis_data_tlast = 0;
-    s_axis_cmd_start = 0;
-    s_axis_cmd_write = 0;
-    s_axis_cmd_stop = 0;
-    s_axis_cmd_address = 7'b0000111;  // Slave address (example)
-    s_axis_data_tdata = 8'b00110010;   // Data to send
-    s_axis_cmd_read = 0;
-
-    // Apply reset
-    #20;
-    rst = 0;
-
-    // Test Write Operation to Slave (Address 0x42)
-    s_axis_cmd_start = 1;
-    s_axis_cmd_write = 1;
-    s_axis_cmd_valid = 1;
-    s_axis_data_tvalid = 1;
-    s_axis_data_tlast = 1;
-    #100; // Wait for transmission
-
-    // Check for ACK
-    if (m_axis_data_tvalid && m_axis_data_tdata == 8'hA5) begin
-        $display("Write Test Passed");
-    end else begin
-        $display("Write Test Failed");
+    initial begin
+        clk = 1'b0;
+        forever #5 clk = ~clk;
     end
 
-    // Test Read Operation from Slave (Address 0x42)
-    s_axis_cmd_read = 1;
-    s_axis_cmd_start = 1;
-    s_axis_cmd_valid = 1;
-    #100; // Wait for transmission
+    // =====================================================
+    // I2C open-drain bus (with pull-ups)
+    // =====================================================
+    tri1 i2c_sda;
+    tri1 i2c_scl;
 
-    // Check for received data
-    if (m_axis_data_tvalid) begin
-        $display("Read Test Passed: Received Data = %h", m_axis_data_tdata);
-    end else begin
-        $display("Read Test Failed");
+    // =====================================================
+    // Master interface
+    // =====================================================
+    reg  [6:0] addr;
+    reg  [7:0] data_write_master;
+    wire [7:0] data_read_master;
+    reg        enable;
+    reg        rw;
+    wire       ready;
+
+    // =====================================================
+    // Slave interface
+    // =====================================================
+    reg  [7:0] data_write_slave;
+    wire [7:0] data_read_slave;
+
+    // =====================================================
+    // DUT instantiation
+    // =====================================================
+    i2c_master u_master (
+        .clk(clk),
+        .rst(rst),
+        .addr(addr),
+        .data_write_master(data_write_master),
+        .enable(enable),
+        .rw(rw),
+        .data_read_master(data_read_master),
+        .ready(ready),
+        .i2c_sda(i2c_sda),
+        .i2c_scl(i2c_scl)
+    );
+
+    i2c_slave u_slave (
+        .sda(i2c_sda),
+        .scl(i2c_scl),
+        .data_write_slave(data_write_slave),
+        .data_read_slave(data_read_slave)
+    );
+
+    // =====================================================
+    // Helpers (pure Verilog tasks)
+    // =====================================================
+    task wait_ready;
+        begin
+            @(posedge ready);
+            @(negedge clk);
+        end
+    endtask
+
+    task do_write;
+        input [7:0] data;
+        begin
+            data_write_master = data;
+            rw     = 1'b0;
+            enable = 1'b1;
+            wait_ready;
+            enable = 1'b0;
+
+            if (data_read_slave !== data)
+                $fatal;
+        end
+    endtask
+
+    task do_read;
+        input [7:0] data;
+        begin
+            data_write_slave = data;
+            rw     = 1'b1;
+            enable = 1'b1;
+            wait_ready;
+            enable = 1'b0;
+
+            if (data_read_master !== data)
+                $fatal;
+        end
+    endtask
+
+    // =====================================================
+    // Test sequence
+    // =====================================================
+    initial begin
+        // Defaults
+        rst = 1'b1;
+        enable = 1'b0;
+        rw = 1'b0;
+        addr = 7'b00000001;
+        data_write_master = 8'h00;
+        data_write_slave  = 8'h00;
+
+        // -------------------------
+        // Reset test
+        // -------------------------
+        #50;
+        rst = 1'b0;
+        #50;
+        
+        do_write(8'h1);
+        //do_write(8'hA5);
+        #100;
+
+        do_read(8'h5A);
+
+        // -------------------------
+        // End
+        // -------------------------
+        #100;
+        $finish;
     end
-    #1000;
-    $stop; // End simulation
-end
 
 endmodule

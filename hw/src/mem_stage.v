@@ -46,7 +46,7 @@ module mem_stage (
   reg [31:0] sub_pc_plus_r;
 */
 
-  wire [31:0] address_w = mem_en_i ? mem_alu_result_i : 31'b0;
+  wire [31:0] address_w = mem_en_i ? mem_alu_result_i : 32'b0;
   wire [31:0] load_data_w;
   wire read_error_w;
   wire write_error_w;

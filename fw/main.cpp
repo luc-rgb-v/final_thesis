@@ -158,6 +158,7 @@ void maxim_heart_rate_and_oxygen_saturation(
         return;
     }
 
+    // plot_ir_raw.py
     //for (int k = 0; k < SAMPLE_COUNT; ++k) {std::printf("IR_RAW,%d,%u\n", k, static_cast<unsigned>(pun_ir_buffer[k]));}
     /* Step 1: Remove DC component from IR signal */
     un_ir_mean = 0;
@@ -170,7 +171,8 @@ void maxim_heart_rate_and_oxygen_saturation(
     for (k = 0; k < n_ir_buffer_length; k++) {
         an_x[k] = -1 * (static_cast<int32_t>(pun_ir_buffer[k]) - static_cast<int32_t>(un_ir_mean));
         // Debug: per-sample DC-removed IR for plotting
-        // printf("IR_DC,%d,%d\n", k, an_x[k]);
+        // plot_ir_ac.py
+        //printf("IR_AC,%d,%d\n", k, an_x[k]);
     }
 
     /* Step 2: 4-point moving average
@@ -182,6 +184,7 @@ void maxim_heart_rate_and_oxygen_saturation(
         // To enable MA4 smoothing, uncomment the following line:
         an_x[k] = (b0 + b1 + b2 + b3) / 4;
         // Debug: show MA inputs and (potential) output
+        //plot_ma4.py
         //printf("MA4,%d,%d,%d,%d,%d\n", k, b0, b1, b2, b3);
     }
 
@@ -200,9 +203,9 @@ void maxim_heart_rate_and_oxygen_saturation(
 
     // Debug: list peaks
     //for (k = 0; k < n_npks; ++k) printf("PEAK,idx,%d,val,%d\n", an_ir_valley_locs[k], (an_ir_valley_locs[k] >= 0 && an_ir_valley_locs[k] < n_ir_buffer_length) ? an_x[an_ir_valley_locs[k]] : 0);
-    
     //printf("n_npks: %d, n_ir_buffer_length: %d\n", n_npks, n_ir_buffer_length);
     
+    // plot_peaks.py
     //for (int i = 0; i < n_ir_buffer_length; i++) {printf("IR,%d,%d\n", i, an_x[i]);}
     //for (int k = 0; k < n_npks; k++) {int idx = an_ir_valley_locs[k];if (idx >= 0 && idx < n_ir_buffer_length) {printf("PEAK,%d\n", idx);}}
     

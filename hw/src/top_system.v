@@ -151,7 +151,7 @@ module top_system (
   // mem stage external interface
   wire mem_en_w;
   wire [3:0] mem_we_w;
-  wire [3:0] mem_addr_w;
+  wire [31:0] mem_addr_w;
   wire [31:0] mem_w_data_w;
   wire [31:0] mem_r_data_w;
 
@@ -366,7 +366,8 @@ module top_system (
 
   // valid read data
   assign mem_r_data_w = (exmem_alu_result_w[31:30] == 2'b10) ? dmem_r_data_i : 
-                               (exmem_alu_result_w[31:30] == 2'b01) ? {24'b0, i2c_rdata_w} : 32'b0;
+                               (exmem_alu_result_w == 32'hC000000C) ? {31'b0, uart_data_ready_w} :
+                               (exmem_alu_result_w == 32'h40000010) ? {24'b0, i2c_rdata_w} : 32'b0;
 
   // valid dmem interface 32'h80000000 30 bit
   assign dmem_en_o = (exmem_alu_result_w[31:30] == 2'b10) ? mem_en_w : 1'b0;
@@ -389,9 +390,9 @@ module top_system (
     if (rst_i) begin
       tx_valid_r <= 1'b0;
       uart_prescale_r <= 16'd0;
-      tx_data_r <= 1'b0;
+      tx_data_r <= 8'b0;
     end else begin
-      if (uart_en_w && (uart_we_w == 4'b11)) begin
+      if (uart_en_w && (uart_we_w == 2'b11)) begin
         case(exmem_alu_result_w)
           `UART_DATA: tx_data_r <= mem_w_data_w[7:0];
           `UART_PRESCALE: uart_prescale_r <= mem_w_data_w[15:0];
@@ -427,10 +428,10 @@ module top_system (
     end else begin
       if(i2c_en_w && (i2c_we_w == 1'b1)) begin
         case (exmem_alu_result_w)
-        `I2C_WDATA: i2c_addr_r <= mem_w_data_w[6:0];
-        `I2C_ADDR: i2c_wdata_r <= mem_w_data_w[7:0];
-        `I2C_RW: i2c_enable_r <= mem_w_data_w[1];
-        `I2C_ENABLE: i2c_rw_r <= mem_w_data_w[1];
+        `I2C_WDATA: i2c_wdata_r <= mem_w_data_w[7:0];
+        `I2C_ADDR: i2c_addr_r <= mem_w_data_w[6:0];
+        `I2C_RW: i2c_rw_r <= mem_w_data_w[0];
+        `I2C_ENABLE: i2c_enable_r <= mem_w_data_w[0];
         endcase
       end
     end

@@ -34,6 +34,8 @@ set_property board_part xilinx.com:zc702:part0:1.4 [current_project]
 # Add RTL + IP + MEM
 # -------------------------------------------------
 import_ip $ROOT_DIR/ip/imem_ip/imem_ip.xci
+import_ip $ROOT_DIR/ip/dmem_ip/dmem_ip.xci
+
 add_files -norecurse [list \
     $ROOT_DIR/src/defines.vh \
     $ROOT_DIR/src/dmem.v \
@@ -55,12 +57,7 @@ add_files -norecurse [list \
 ]
 
 add_files -norecurse [list \
-    $ROOT_DIR/ip/imem_ip/imem_ip.xci \
-    $ROOT_DIR/ip/dmem_ip/dmem_ip.xci \
-]
-
-add_files -norecurse [list \
-    $ROOT_DIR/support/instruction.mem
+    $ROOT_DIR/support/instructions.mem
 ]
 
 update_compile_order -fileset sources_1

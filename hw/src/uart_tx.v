@@ -1,6 +1,6 @@
 `timescale 1ns / 1ps
 `include "defines.vh"
-// UART_DATA_WIDTH = 8
+//UART_DATA_WIDTH = 8
 module uart_tx(
     input  wire clk,
     input  wire rst,
@@ -26,10 +26,16 @@ reg busy_reg = 0;
 reg [`UART_DATA_WIDTH:0] data_reg = 0;
 reg [18:0] prescale_reg = 0;
 reg [3:0] bit_cnt = 0;
+//reg sub_ready;
 
 assign data_ready = tready_reg;
 assign txd = txd_reg;
 assign busy = busy_reg;
+
+//always @(posedge clk) begin
+//    if (rst) sub_ready <= 0;
+//    else sub_ready <= tready_reg;
+//end
 
 always @(posedge clk) begin
     if (rst) begin

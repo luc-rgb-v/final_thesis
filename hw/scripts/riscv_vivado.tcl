@@ -54,10 +54,10 @@ add_files -norecurse [list \
     $ROOT_DIR/src/uart_tx.v \
 ]
 
-add_files -norecurse [list \
-    $ROOT_DIR/ip/imem_ip/imem_ip.xci \
-    $ROOT_DIR/ip/dmem_ip/dmem_ip.xci \
-]
+#add_files -norecurse [list \
+#    $ROOT_DIR/ip/imem_ip/imem_ip.xci \
+#   $ROOT_DIR/ip/dmem_ip/dmem_ip.xci \
+#]
 
 add_files -norecurse [list \
     $ROOT_DIR/support/instruction.mem

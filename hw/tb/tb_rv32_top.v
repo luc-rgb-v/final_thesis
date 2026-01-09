@@ -1,5 +1,5 @@
 `timescale 1ns / 1ps
-`define _DMEM_IP_
+//`define _DMEM_IP_
 //`define _DEBUG_WIRE_
 module tb_rv32_top;
   reg clk;
