@@ -43,6 +43,7 @@ task run_test;
     $display(" These values are the GOLDEN reference.");
     $display(" Next step: compare DUT vs Spike.");
     $display("=================================================");
+    
     #1000;
     $display("");
     compare_regs();

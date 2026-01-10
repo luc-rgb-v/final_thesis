@@ -1,19 +1,23 @@
 # ============================================================
 # RISC-V RV32I Spike Flow
 # ============================================================
-SIM_DIR 		:= sim
-SUPPORT_DIR 	:= support
-TB_DIR 			:= tb
-VIVADO 			:= vivado
-SCRIPTS_DIR		:= scripts
-WIN_BAT = D:\Github\final_thesis\hw\scripts\run_vivado.bat
+SIM_DIR     := sim
+SUPPORT_DIR := support
+TB_DIR      := tb
+VIVADO      := vivado
+SCRIPTS_DIR := scripts
+LIC_DIR		:= license
+WIN_BAT     := D:\Github\final_thesis\hw\scripts\run_vivado.bat
 
-# ------------------------------------------------------------
+# ============================================================
 # Config variable
 # ------------------------------------------------------------
-#export TESTNAME = branch_jump
-export TESTNAME = arithmetic_instr
-#export TESTNAME = dmem_access
+#export TESTNAME ?= branch_jump
+#export TESTNAME ?= arithmetic_instr
+#export TESTNAME ?= dmem_access
+export TESTNAME ?= uart_s_sim
+# ============================================================
+
 export TESTCASE = $(TESTNAME)
 
 TESTCASEVERILOG = $(TESTCASE).v
@@ -25,7 +29,7 @@ FILES_TB 		:= testbench.v
 # ------------------------------------------------------------
 # 
 # ------------------------------------------------------------
-.PHONY: clean call a b d e f g vivado help
+.PHONY: clean call a b d e f g vivado drc help license
 
 a: build_run_console
 b: build_run_cov_all_testcase
@@ -67,6 +71,15 @@ sim_clean:
 sim_clean_all:
 	$(MAKE) -C $(SIM_DIR) clean_all
 
+group:
+	make b TESTNAME:=branch_jump
+	make b TESTNAME:=arithmetic_instr
+	make b TESTNAME:=dmem_access
+	make b TESTNAME:=i2c_assembly
+	make b TESTNAME:=uart_s_sim
+	$(MAKE) -C $(SIM_DIR) gen_cov
+	$(MAKE) -C $(SIM_DIR) view_cov
+
 build_sim_copy: fw_spike_build
 	@echo "Copying files to $(SIM_DIR)..."
 	@mkdir -p $(SIM_DIR)
@@ -84,11 +97,20 @@ build_sim_copy: fw_spike_build
 
 	@echo "Done."
 
+drc:
+	$(MAKE) -C $(SIM_DIR) drc
+
 vivado:
+	$(MAKE) -C $(SUPPORT_DIR) instructions
 	cmd.exe /c "$(WIN_BAT)"
+
+license:
+	$(MAKE) -C $(LIC_DIR) all
 
 help:
 	@echo "=================================================================================="
+	@echo "vivado  -vivado gui"
+	@echo "drc     -design rule check"
 	@echo "a       -build_run_console | build run"
 	@echo "f       -build_run_gui_wave | build run wave"
 	@echo "b       -build_run_cov_all_testcase | build_cov run_cov gen_cov"
@@ -107,6 +129,9 @@ clean: fw_clean sim_clean
 			$(SCRIPTS_DIR)/*.log \
 			$(SCRIPTS_DIR)/*.jou \
 			$(SCRIPTS_DIR)/*.str
+	@rm -rf ./*.log \
+					./*.jou \
+					./*.str
 	@rm -f $(SIM_DIR)/instructions.mem \
 	       $(SIM_DIR)/data.mem \
 	       $(SIM_DIR)/registers.mem \
@@ -117,6 +142,10 @@ clean: fw_clean sim_clean
 call: fw_clean sim_clean_all
 	@echo "Removing copied files from $(SIM_DIR)..."
 	@rm -rf .Xil
+	@rm -r $(SUPPORT_DIR)/*.elf
+	@rm -rf ./*.log \
+					./*.jou \
+					./*.str
 	@rm -rf top_sys_vivado \
 			$(SCRIPTS_DIR)/*.log \
 			$(SCRIPTS_DIR)/*.jou \

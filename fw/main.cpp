@@ -166,7 +166,7 @@ void maxim_heart_rate_and_oxygen_saturation(
     un_ir_mean = un_ir_mean / static_cast<uint32_t>(n_ir_buffer_length);
 
     // Debug: print mean (uncomment if needed)
-    // printf("IR_MEAN,%u\n", (unsigned)un_ir_mean);
+    //printf("IR_MEAN,%u\n", (unsigned)un_ir_mean);
 
     for (k = 0; k < n_ir_buffer_length; k++) {
         an_x[k] = -1 * (static_cast<int32_t>(pun_ir_buffer[k]) - static_cast<int32_t>(un_ir_mean));
@@ -270,7 +270,7 @@ void maxim_heart_rate_and_oxygen_saturation(
     }
 
     // Debug: number of valley pairs
-    // printf("VALLEY_PAIRS,%d\n", (n_exact_ir_valley_locs_count ? n_exact_ir_valley_locs_count - 1 : 0));
+    //printf("VALLEY_PAIRS,%d\n", (n_exact_ir_valley_locs_count ? n_exact_ir_valley_locs_count - 1 : 0));
 
     for (k = 0; k < n_exact_ir_valley_locs_count - 1; k++) {
         n_y_dc_max = INT32_MIN;
@@ -352,7 +352,7 @@ void maxim_heart_rate_and_oxygen_saturation(
     }
 
     // Debug: final ratio used
-    // printf("RATIO_FINAL,%d\n", n_ratio_average);
+    //printf("RATIO_FINAL,%d\n", n_ratio_average);
 
     if (n_ratio_average > 2 && n_ratio_average < 184) {
         n_spo2_calc = uch_spo2_table[n_ratio_average];
