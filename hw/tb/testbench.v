@@ -35,9 +35,14 @@ module testbench;
   wire i2c_ready;
   wire i2c_sda;
   wire i2c_scl;
-  wire [7:0] data_read_slave;
+  
+  pullup(i2c_scl);
+  pullup(i2c_sda);
 
-  reg  [7:0] data_write_slave;
+  wire [7:0] data_read_slave;
+  reg  [7:0] data_write_slave = 8'h55;
+  wire rx_valid;
+  wire addressed;
 
   // UART
   reg [15:0] uart_prescale = 0;
@@ -88,8 +93,11 @@ module testbench;
   i2c_slave i2c_slave_dut (
     .sda              (i2c_sda),
     .scl              (i2c_scl),
+    .rst              (rst),
     .data_write_slave (data_write_slave),
-    .data_read_slave  (data_read_slave)
+    .data_read_slave  (data_read_slave),
+    .rx_valid         (rx_valid),
+    .addressed        (addressed)
   );
 
   uart_rx u_uart_rx (

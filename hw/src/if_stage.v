@@ -55,8 +55,8 @@ module if_stage (
     end
   end
 
-  wire [31:0] mux_pc = (zero_2 | if_bj_taken_i) ? 32'h0 : pc_sub_w;
-  wire [31:0] mux_instr = (zero_2 | if_bj_taken_i) ? 32'h00000013 : imem_instr_i;
+  wire [31:0] mux_pc = (zero_2 | if_bj_taken_i) ? `RESET_PC : pc_sub_w;
+  wire [31:0] mux_instr = (zero_2 | if_bj_taken_i) ? `NOP_INSTR : imem_instr_i;
 
   // PC register
   always @(posedge clk_i) begin
@@ -88,7 +88,7 @@ module if_stage (
       ifid_pc_r <= `RESET_PC;
       ifid_instruction_r <= `NOP_INSTR;
     end else if (~stall_i) begin
-      ifid_instruction_r <= (^mux_instr === 1'bX) ? 32'h00000013 : mux_instr;
+      ifid_instruction_r <= (^mux_instr === 1'bX) ? `NOP_INSTR : mux_instr;
       ifid_pc_r <= mux_pc;
     end
   end

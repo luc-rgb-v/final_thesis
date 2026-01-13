@@ -112,7 +112,7 @@ module ex_stage (
       exmem_wb_se_o      <= 2'b0;
       exmem_regwrite_o   <= 1'b0;
       exmem_rd_addr_o    <= 5'b0;
-      exmem_pc_plus_o    <= 32'b0;
+      exmem_pc_plus_o    <= `RESET_PC + 32'h4;
     end
     else if (!stall_i) begin
       exmem_alu_result_o <= alu_result;

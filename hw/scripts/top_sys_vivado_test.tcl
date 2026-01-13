@@ -30,12 +30,7 @@ create_project $PROJ_NAME $PROJ_DIR -part xc7z020clg484-1
 
 set_property board_part xilinx.com:zc702:part0:1.4 [current_project]
 
-# -------------------------------------------------
-# Add RTL + IP + MEM
-# -------------------------------------------------
-set IP_SCRIPT "$SCRIPT_DIR/gen_imem_ip.tcl"
-source $IP_SCRIPT
-set IP_SCRIPT "$SCRIPT_DIR/gen_dmem_ip.tcl"
+set IP_SCRIPT "$SCRIPT_DIR/gen_dmem_ip_sim.tcl"
 source $IP_SCRIPT
 puts "IP setup done"
 

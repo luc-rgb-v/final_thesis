@@ -3,11 +3,11 @@ task run_test;
 
     $display("=================================================");
     $display("");
-    $display(" ---     i2c_assemply     ---");
+    $display(" ---     test_instructions     ---");
     $display("");
     $display("=================================================");
 
-    #2000;
+    #3000;
     $display("");
     compare_regs();
     $display("");

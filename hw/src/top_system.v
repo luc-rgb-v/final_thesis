@@ -122,7 +122,8 @@ module top_system (
 
   //wire mem_read_async;
   //assign mem_read_async = exmem_mem_en_w & ~exmem_mem_we_w;
-  assign if_stall_w = stall_i;
+  wire stall_by_mem;
+  assign if_stall_w = stall_i; // stall_i
   assign id_stall_w = stall_i;
   assign ex_stall_w = stall_i;
 
@@ -184,7 +185,7 @@ module top_system (
   // I2C reg
   reg [6:0] i2c_addr_r;
   reg [7:0] i2c_wdata_r;
-  reg i2c_enable_r;
+  reg i2c_start_r;
   reg i2c_rw_r;
 
   // I2C wire
@@ -335,7 +336,8 @@ module top_system (
     .memwb_mem_data_o    (memwb_mem_data_w),
 
     // Error/status
-    .mem_stage_err_r     (mem_stage_err_w)
+    .mem_stage_err_r     (mem_stage_err_w),
+    .stall_by_mem (stall_by_mem)
   );
 
   // ------------------------------------------------------------
@@ -423,7 +425,7 @@ module top_system (
     if (rst_i) begin 
       i2c_addr_r <= 7'b0;
       i2c_wdata_r <= 8'b0;
-      i2c_enable_r <= 1'b0;
+      i2c_start_r <= 1'b0;
       i2c_rw_r <= 1'b0;
     end else begin
       if(i2c_en_w && (i2c_we_w == 1'b1)) begin
@@ -431,7 +433,7 @@ module top_system (
         `I2C_WDATA: i2c_wdata_r <= mem_w_data_w[7:0];
         `I2C_ADDR: i2c_addr_r <= mem_w_data_w[6:0];
         `I2C_RW: i2c_rw_r <= mem_w_data_w[0];
-        `I2C_ENABLE: i2c_enable_r <= mem_w_data_w[0];
+        `I2C_ENABLE: i2c_start_r <= mem_w_data_w[0];
         endcase
       end
     end
@@ -443,10 +445,10 @@ module top_system (
     .rst               (rst_i),
     .addr              (i2c_addr_r),
     .data_write_master (i2c_wdata_r),
-    .enable            (i2c_enable_r),
+    .start             (i2c_start_r),
     .rw                (i2c_rw_r),
 
-    .data_read_master  (i2c_rdata_w), // this is reg
+    .data_read_master  (i2c_rdata_w),
     .ready             (i2c_ready_w),
 
     .i2c_sda            (i2c_sda_io),

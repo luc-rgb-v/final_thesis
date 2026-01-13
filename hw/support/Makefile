@@ -15,7 +15,7 @@ ASM_DIR  := assembly
 
 # -------- files --------
 SRC      := $(ASM_DIR)/$(TESTCASE).S
-ELF      := $(TESTCASE).elf
+ELF      ?= $(TESTCASE).elf
 LOG      := spike.log
 
 REGMEM   := registers.mem

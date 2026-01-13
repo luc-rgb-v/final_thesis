@@ -15,7 +15,9 @@ WIN_BAT     := D:\Github\final_thesis\hw\scripts\run_vivado.bat
 #export TESTNAME ?= branch_jump
 #export TESTNAME ?= arithmetic_instr
 #export TESTNAME ?= dmem_access
-export TESTNAME ?= uart_s_sim
+#export TESTNAME ?= uart_s_sim
+#export TESTNAME ?= i2c_assembly
+export TESTNAME ?= test_instructions
 # ============================================================
 
 export TESTCASE = $(TESTNAME)
@@ -29,7 +31,7 @@ FILES_TB 		:= testbench.v
 # ------------------------------------------------------------
 # 
 # ------------------------------------------------------------
-.PHONY: clean call a b d e f g vivado drc help license
+.PHONY: clean ca cv a b d e f g h vivado drc help license
 
 a: build_run_console
 b: build_run_cov_all_testcase
@@ -37,7 +39,7 @@ d: build_run_cov_all_testcase_gui
 e: build_run_cov_all_testcase_html
 f: build_run_gui_wave
 g: fw_spike_build
-
+h: gen_IP_cov_html_cov
 # ------------------------------------------------------------
 # Build instructions.mem data.mem registers.mem
 # ------------------------------------------------------------
@@ -64,6 +66,9 @@ build_run_cov_all_testcase_gui: build_sim_copy
 
 build_run_cov_all_testcase_html: build_sim_copy
 	$(MAKE) -C $(SIM_DIR) gen_html
+
+gen_IP_cov_html_cov:
+	$(MAKE) -C $(SIM_DIR) gen_ucdb_cov
 
 sim_clean:
 	$(MAKE) -C $(SIM_DIR) clean
@@ -117,13 +122,14 @@ help:
 	@echo "d       -build_run_cov_all_testcase_gui | build_cov run_cov gen_cov view_cov"
 	@echo "e       -build_run_cov_all_testcase_html | build_cov run_cov gen_html"
 	@echo "g       -fw_spike_build | instructions.mem data.mem registers.mem"
-	@echo "call    -clean anything fw_clean | sim_clean_all"
+	@echo "h       -gen_IP_cov_html_cov | generate coverage report & html report from IP.ucdb"
+	@echo "ca      -clean anything fw_clean | sim_clean_all"
+	@echo "cv      -clean make vivado"
 	@echo "clean   -clean anything accept '/sim/ucdb' fw_clean | sim_clean"
 	@echo "=================================================================================="
 
 # ---------------------------------------------------------
-clean: fw_clean sim_clean
-	@echo "Removing copied files from $(SIM_DIR)..."
+cv: fw_clean sim_clean
 	@rm -rf .Xil
 	@rm -rf top_sys_vivado \
 			$(SCRIPTS_DIR)/*.log \
@@ -132,6 +138,9 @@ clean: fw_clean sim_clean
 	@rm -rf ./*.log \
 					./*.jou \
 					./*.str
+
+clean: fw_clean sim_clean
+	@echo "Removing copied files from $(SIM_DIR)..."
 	@rm -f $(SIM_DIR)/instructions.mem \
 	       $(SIM_DIR)/data.mem \
 	       $(SIM_DIR)/registers.mem \
@@ -139,10 +148,10 @@ clean: fw_clean sim_clean
 	       $(SIM_DIR)/testcase.v
 	@echo "Clean done."
 
-call: fw_clean sim_clean_all
+ca: fw_clean sim_clean_all
 	@echo "Removing copied files from $(SIM_DIR)..."
 	@rm -rf .Xil
-	@rm -r $(SUPPORT_DIR)/*.elf
+	@rm -f $(SUPPORT_DIR)/*.elf
 	@rm -rf ./*.log \
 					./*.jou \
 					./*.str
