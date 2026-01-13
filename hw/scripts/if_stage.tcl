@@ -33,10 +33,10 @@ set_property board_part xilinx.com:zc702:part0:1.4 [current_project]
 # -------------------------------------------------
 # Add RTL + IP + MEM
 # -------------------------------------------------
-import_ip $ROOT_DIR/ip/imem_ip/imem_ip.xci
+set IP_SCRIPT "$SCRIPT_DIR/gen_imem_ip.tcl"
+source $IP_SCRIPT
 add_files -norecurse [list \
     $ROOT_DIR/src/defines.vh \
-    $ROOT_DIR/src/support/instruction_test_if_stage.mem \
     $ROOT_DIR/src/if_stage.v \
     $ROOT_DIR/src/imem.v \
 ]

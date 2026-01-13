@@ -30,7 +30,24 @@ module registers_file (
   end
 
   // Asynchronous read
-  assign rs1_data = (rs1_addr == 5'd0) ? 32'b0 : registers[rs1_addr];
-  assign rs2_data = (rs2_addr == 5'd0) ? 32'b0 : registers[rs2_addr];
+  //assign rs1_data = (rs1_addr == 5'd0) ? 32'b0 : registers[rs1_addr];
+  //assign rs2_data = (rs2_addr == 5'd0) ? 32'b0 : registers[rs2_addr];
+
+
+  // Asynchronous read with write-through bypass
+  wire rs1_zero = (rs1_addr == 5'd0);
+  wire rs2_zero = (rs2_addr == 5'd0);
+
+  assign rs1_data =
+    rs1_zero ? 32'b0 :
+    (reg_write && (rd_addr != 5'd0) && (rd_addr == rs1_addr)) ? rd_data :
+    registers[rs1_addr];
+
+  assign rs2_data =
+    rs2_zero ? 32'b0 :
+    (reg_write && (rd_addr != 5'd0) && (rd_addr == rs2_addr)) ? rd_data :
+    registers[rs2_addr];
+
+
 
 endmodule

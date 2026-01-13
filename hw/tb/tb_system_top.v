@@ -1,5 +1,6 @@
-`timescale 1ns / 1ps
-`define _DMEM_IP_
+`timescale 10ns / 1ps
+//`define _IMEM_IP_
+//`define _DMEM_IP_
 module tb_system_top;
   reg clk = 0;
   reg rst = 0;
@@ -35,10 +36,10 @@ module tb_system_top;
   //wire [1:0] memwb_wb_se_w = u_top_dut.memwb_wb_se_w;
   wire [4:0] rd_addr;
   wire [31:0] rd_data;
-  //wire [31:0] memwb_pc_plus_w = u_top_dut.memwb_pc_plus_w;
-  //wire [31:0] memwb_alu_result_w = u_top_dut.memwb_alu_result_w;
-  //wire [31:0] memwb_mem_data_w = u_top_dut.memwb_mem_data_w;
-  //wire [31:0] mem_r_data_w = u_top_dut.mem_r_data_w;
+  wire [31:0] memwb_pc_plus_w = u_top_dut.memwb_pc_plus_w;
+  wire [31:0] memwb_alu_result_w = u_top_dut.memwb_alu_result_w;
+  wire [31:0] memwb_mem_data_w = u_top_dut.memwb_mem_data_w;
+  wire [31:0] mem_r_data_w = u_top_dut.mem_r_data_w;
   
   //wire uart_en_w = u_top_dut.uart_en_w;
   //wire [1:0] uart_we_w = u_top_dut.uart_we_w;
@@ -57,6 +58,7 @@ module tb_system_top;
   //wire [31:0] mem_r_data_w = u_top_dut.mem_r_data_w;
 
   // EX stage sources
+  /*
   wire [4:0]  ex_rs1_addr_w      = u_top_dut.idex_rs1_addr_w;
   wire [4:0]  ex_rs2_addr_w      = u_top_dut.idex_rs2_addr_w;
   wire [31:0] ex_rs1_data_w      = u_top_dut.idex_rs1_data_w;
@@ -79,14 +81,28 @@ module tb_system_top;
 
   wire [31:0] forward_src_1_w = u_top_dut.forward_src_1_w;
   wire [31:0] forward_src_2_w = u_top_dut.forward_src_2_w;
-
+*/
   // I2C
   wire i2c_ready;
+  /*
+  wire op_i = u_top_dut.u_mem_stage.load_cvt_u.op_i;
+  wire [2:0] width_se_i = u_top_dut.u_mem_stage.load_cvt_u.width_se_i;
+  wire we_i = u_top_dut.u_mem_stage.load_cvt_u.we_i;
+  wire en_i = u_top_dut.u_mem_stage.load_cvt_u.en_i;
+  wire read_error_o = u_top_dut.u_mem_stage.load_cvt_u.read_error_o;
+  wire dmem_dout_i = u_top_dut.u_mem_stage.load_cvt_u.dmem_dout_i;
+  wire data_o = u_top_dut.u_mem_stage.load_cvt_u.data_o;
+  */
   wire i2c_sda;
   wire i2c_scl;
+  
+  pullup (i2c_scl);
+  pullup (i2c_sda);
+  
   wire [7:0] data_read_slave;
-
   reg  [7:0] data_write_slave = 8'h55;
+  wire rx_valid;
+  wire addressed;
 
   // UART
   reg [15:0] uart_prescale = 0;
@@ -147,8 +163,11 @@ module tb_system_top;
   i2c_slave i2c_slave_dut (
     .sda              (i2c_sda),
     .scl              (i2c_scl),
+    .rst              (rst),
     .data_write_slave (data_write_slave),
-    .data_read_slave  (data_read_slave)
+    .data_read_slave  (data_read_slave),
+    .rx_valid         (rx_valid),
+    .addressed        (addressed)
   );
 
   uart_rx u_uart_rx (
@@ -184,7 +203,7 @@ module tb_system_top;
   // --------------------------------------------------
   // Instruction Memory
   // --------------------------------------------------
-`ifdef _IP_
+`ifdef _IMEM_IP_
   imem_ip dut_imem (
     .clka  (clk),
     .ena   (imem_en),
@@ -195,7 +214,7 @@ module tb_system_top;
   );
 `else
   imem dut_imem (
-    .clk_i         (clk),
+    //.clk_i         (clk),
     .en_i          (imem_en),
     .instr_addr_i  (imem_addr[11:2]),
     .instruction_o (imem_instr)
@@ -218,10 +237,12 @@ module tb_system_top;
 
   integer i;
 
+`ifndef _IMEM_IP_
   initial begin
     for (i = 0; i < 1024; i = i + 1)
       dut_imem.instructions_r[i] = 32'b0;
   end
+`endif
 
 `ifndef _DMEM_IP_
   initial begin
@@ -242,23 +263,29 @@ module tb_system_top;
   always #5 clk = ~clk;
 
   initial begin
+    $monitor("T=%0t | reg_write=%b | rd_addr=%0d | rd_data=0x%08h", $time, reg_write, rd_addr, rd_data);
+  end
+
+  initial begin
     clk = 0;
     rst = 1;
-
+`ifndef _IMEM_IP_
     //_load_instruction
     $readmemh("instructions.mem", dut_imem.instructions_r);
-
+`endif
     repeat (2) @(negedge clk);
     rst = 0;
     #50;
   //==================================================================
   //_calltest
   //==================================================================
-    #1000;
+    #5000;
+`ifndef _IMEM_IP_
     $display("");
     $display("Instruction = %h ", dut_imem.instructions_r[0]);
     $display("Instruction = %h ", dut_imem.instructions_r[1]);
     $display("Instruction = %h ", dut_imem.instructions_r[2]);
+`endif
     $display("");
     $display("REG[1] = %h", dut_reg_file.registers[1]);
     $display("REG[2] = %h", dut_reg_file.registers[2]);

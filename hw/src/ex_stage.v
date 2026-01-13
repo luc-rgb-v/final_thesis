@@ -26,8 +26,8 @@ module ex_stage (
   input  wire [4:0]  ex_rd_addr_i,
 
   // EX => IF outputs
-  output reg  [31:0] exif_pc_bj_o,
-  output reg         exif_bj_taken_o,
+  output wire  [31:0] exif_pc_bj_o,
+  output wire         exif_bj_taken_o,
 
   // EX/MEM outputs
   output reg         exmem_mem_we_o,
@@ -92,15 +92,20 @@ module ex_stage (
   // ------------------------------------------------------------
   // Pipeline registers (EX/IF + EX/MEM)
   // ------------------------------------------------------------
+  assign exif_pc_bj_o = pc_bj;
+  assign exif_bj_taken_o = bj_taken;
+
+/*
   always @(posedge clk_i) begin
     if (rst_i) begin
-      exif_pc_bj_o       <= 32'b0;
+      exif_pc_bj_o       <= `RESET_PC;
       exif_bj_taken_o    <= 1'b0;
     end else if (!stall_i) begin
       exif_pc_bj_o       <= pc_bj;
       exif_bj_taken_o    <= bj_taken;
     end
   end
+*/
   
   always @(posedge clk_i) begin
     if (rst_i || flush_i) begin
@@ -112,7 +117,7 @@ module ex_stage (
       exmem_wb_se_o      <= 2'b0;
       exmem_regwrite_o   <= 1'b0;
       exmem_rd_addr_o    <= 5'b0;
-      exmem_pc_plus_o    <= 32'b0;
+      exmem_pc_plus_o    <= `RESET_PC + 32'h4;
     end
     else if (!stall_i) begin
       exmem_alu_result_o <= alu_result;

@@ -2,23 +2,15 @@ task run_test;
   begin
     $display("");
     $display("=================================================");
-    $display(" GOLDEN MODEL : RISC-V ASM EXPECTED BEHAVIOR");
+    $display("========== arithmetic instruction test ==========");
     $display("=================================================");
 
     $display("");
-    $display("[PROGRAM PURPOSE]");
     $display(" This program verifies:");
     $display("  - U-type   : lui, auipc");
     $display("  - I-type   : addi, slti, sltiu, xori, ori, andi");
     $display("  - Shifts   : slli, srli, srai");
     $display("  - R-type   : add, sub, sll, slt, sltu, xor, srl, sra, or, and");
-
-    $display("");
-    $display("[EXPECTED OPERATION FLOW]");
-    $display("  - Immediate arithmetic and logic");
-    $display("  - Shift operations (logical + arithmetic)");
-    $display("  - Register-register ALU operations");
-    $display("  - No branches, no jumps, straight-line execution");
 
     $display("");
     $display("[EXPECTED FINAL REGISTER VALUES]");
@@ -46,9 +38,6 @@ task run_test;
     $display("  x21 = %0d", 8);
 
     $display("");
-    $display("=================================================");
-    $display(" These values are the GOLDEN reference.");
-    $display(" Next step: compare DUT vs Spike.");
     $display("=================================================");
 
     #1000;

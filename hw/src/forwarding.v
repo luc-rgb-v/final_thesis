@@ -13,6 +13,7 @@ module forwarding
     input  wire [1:0]   exmem_wb_se,
     input  wire [31:0]  exmem_alu_result,
     input  wire [31:0]  exmem_pc_plus,
+    input  wire [31:0]  mem_data,
 
     // MEM/WB pipeline information
     input  wire         memwb_regwrite,
@@ -52,6 +53,7 @@ module forwarding
     wire [3:0] forward_mux_1 =
         (exmem_match_1 && (exmem_wb_se == 2'b00)) ? 4'b0001 :
         (exmem_match_1 && (exmem_wb_se == 2'b10)) ? 4'b0010 :
+        (exmem_match_1 && (exmem_wb_se == 2'b01)) ? 4'b1001 :
         (memwb_match_1 && (memwb_wb_se == 2'b00)) ? 4'b0110 :
         (memwb_match_1 && (memwb_wb_se == 2'b01)) ? 4'b0111 :
         (memwb_match_1 && (memwb_wb_se == 2'b10)) ? 4'b1000 : 4'b0000;
@@ -59,6 +61,7 @@ module forwarding
     wire [3:0] forward_mux_2 =
         (exmem_match_2 && (exmem_wb_se == 2'b00)) ? 4'b0001 :
         (exmem_match_2 && (exmem_wb_se == 2'b10)) ? 4'b0010 :
+        (exmem_match_2 && (exmem_wb_se == 2'b01)) ? 4'b1001 :
         (memwb_match_2 && (memwb_wb_se == 2'b00)) ? 4'b0110 :
         (memwb_match_2 && (memwb_wb_se == 2'b01)) ? 4'b0111 :
         (memwb_match_2 && (memwb_wb_se == 2'b10)) ? 4'b1000 : 4'b0000;
@@ -70,6 +73,7 @@ module forwarding
         (forward_mux_1 == 4'b1000) ? memwb_pc_plus    :
         (forward_mux_1 == 4'b0111) ? memwb_mem_data   :
         (forward_mux_1 == 4'b0110) ? memwb_alu_result :
+        (forward_mux_1 == 4'b1001) ? mem_data         :
         (forward_mux_1 == 4'b0010) ? exmem_pc_plus    :
         (forward_mux_1 == 4'b0001) ? exmem_alu_result : ex_rs1_data;
 
@@ -77,6 +81,7 @@ module forwarding
         (forward_mux_2 == 4'b1000) ? memwb_pc_plus    :
         (forward_mux_2 == 4'b0111) ? memwb_mem_data   :
         (forward_mux_2 == 4'b0110) ? memwb_alu_result :
+        (forward_mux_2 == 4'b1001) ? mem_data         :
         (forward_mux_2 == 4'b0010) ? exmem_pc_plus    :
         (forward_mux_2 == 4'b0001) ? exmem_alu_result : ex_rs2_data;
 

@@ -1,12 +1,11 @@
 task run_test;
   begin
-    
-    $display("");
+
     $display("=================================================");
-    $display("============ uart communication test ============");
+    $display("=================== add C test ==================");
     $display("=================================================");
 
-    #1000;
+    #2000;
     $display("");
     compare_regs();
     $display("");

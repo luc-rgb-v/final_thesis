@@ -15,6 +15,7 @@ WORK_DIR  := work
 
 # -------- files --------
 RTL_FILE  := rtl.f
+SRC_FILE  := src.f
 TB_FILE   := testbench.v
 
 UCDB_MERGED := IP.ucdb
@@ -45,13 +46,13 @@ build:
 	@echo "== Build (no coverage) =="
 	$(VLIB) $(WORK_DIR)
 	$(VMAP) $(WORK_DIR) $(WORK_DIR)
-	$(VLOG) -f $(RTL_FILE) $(TB_FILE)
+	$(VLOG) -f $(SRC_FILE) $(TB_FILE)
 
 build_cov:
 	@echo "== Build (with coverage) =="
 	$(VLIB) $(WORK_DIR)
 	$(VMAP) $(WORK_DIR) $(WORK_DIR)
-	$(VLOG) $(VLOG_COV_FLAGS) -f $(RTL_FILE) $(TB_FILE)
+	$(VLOG) $(VLOG_COV_FLAGS) -f $(SRC_FILE) $(TB_FILE)
 
 # ============================================================
 # Run simulation
@@ -90,6 +91,20 @@ gen_cov: run_cov
 	$(VCOVER) report -zeros -detail -code bcesft \
 	  -annotate -codeAll $(UCDB_MERGED) \
 	  -output $(COV_DIR)/detail_report.txt
+
+gen_ucdb_cov: $(UCDB_DIR)
+	@echo "== Generating coverage reports (text) =="
+	mkdir -p $(COV_DIR)
+	$(VCOVER) merge $(UCDB_MERGED) $(UCDB_DIR)/*.ucdb
+	$(VCOVER) report $(UCDB_MERGED) \
+	  -output $(COV_DIR)/summary_report.txt
+	$(VCOVER) report -zeros -detail -code bcesft \
+	  -annotate -codeAll $(UCDB_MERGED) \
+	  -output $(COV_DIR)/detail_report.txt
+	$(VCOVER) report -zeros -details \
+	  -code bcesft \
+	  -annotate -testhitdataAll \
+	  -html $(UCDB_MERGED)
 
 gen_html: run_cov
 	@echo "== Generating coverage HTML report =="
@@ -141,5 +156,5 @@ clean_all:
 .PHONY: \
 	drc build build_cov \
 	run run_cov \
-	gen_cov gen_html view_cov \
+	gen_cov gen_html view_cov gen_ucdb_cov\
 	wave clean

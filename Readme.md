@@ -1,211 +1,150 @@
 
-# 📘 Markdown Full Power Showcase
+# Final thesis
+### HARDWARE DESIGN AND VERIFICATION OF AN RV32I RISC-V SOC FOR BIOMEDICAL SIGNAL PROCESSING
 
-This document demonstrates **almost every practical Markdown trick** supported by modern renderers  
-(GitHub, VS Code, MkDocs, Docusaurus).
-
----
-
-## 1. Headings
-
-# H1
-## H2
-### H3
-#### H4
-##### H5
-###### H6
+*This project designs both the hardware and firmware for a lightweight **RV32I RISC V** SoC for biomedical signal processing. SPIKE is used as the golden model to verify the system. The RISC V GNU toolchain Vivado Questa and Makefile are used to support development and testing.*
 
 ---
-
-## 2. Text Formatting
-
-- *Italic*
-- **Bold**
-- ***Bold + Italic***
-- ~~Strikethrough~~
-- `Inline code`
-
-Escaping:
-\*not italic\*  
-\# not heading
-
----
-
-## 3. Lists
-
-### Unordered
-- Item
-  - Sub item
-    - Sub-sub item
-
-### Ordered
-1. First
-2. Second
-   1. Nested
-
-### Task List (GFM)
-- [x] Done
-- [ ] Todo
-
----
-
-## 4. Links & Images
-
-[OpenAI](https://openai.com)
-
-Reference link [here][ref].
-
-[ref]: https://example.com
-
-Image:
-![Alt text](https://via.placeholder.com/150)
-
----
-
-## 5. Code Blocks
-
-Inline: `git status`
-
-```c
-#include <stdio.h>
-int main() {
-  printf("Hello Markdown!\n");
-  return 0;
-}
+# Project structure
+```mermaid
+.
+├── Readme.md
+├── doc
+│   ├── Readme.txt 
+│   ├── html
+│   │   └── ref.html
+│   └── html_ref
+│       ├── css
+│       └── old
+│           └── thesis_task.html
+├── fw
+│   ├── Makefile
+│   ├── Readme.md
+│   ├── linker.ld
+│   ├── main.cpp
+│   ├── max30102_data
+│   │   ├── gen_c_header.py
+│   │   ├── note
+│   │   ├── platformio.ini
+│   │   └── src
+│   │       └── main.cpp
+│   ├── plot_ir_ac.py
+│   ├── requirements.txt
+│   ├── start.S
+│   └── test.cpp
+├── hw
+│   ├── Makefile (work with Vivado Questa Verilator Spike)
+│   ├── license
+│   ├── scripts
+│   │   ├── gen_dmem_ip.tcl
+│   │   └── top_sys_vivado_test.tcl
+│   ├── sim
+│   │   ├── Makefile
+│   │   └── rtl.f
+│   ├── src
+│   │   ├── if_stage.v
+│   │   └── uart_tx.v
+│   ├── support
+│   │   ├── Makefile (firmware Makefile)
+│   │   ├── assembly
+│   │   │   ├── arithmetic_instr.S
+│   │   │   └── (assembly tests)
+│   │   └── linker.ld
+│   ├── tb
+│   │   ├── testbench.v
+│   │   └── (testbench file)
+│   ├── testcases
+│   │   ├── arithmetic_instr.v
+│   │   └── (testcase for simulation)
+│   └── xdc
+└── pre
+    ├── esp32_max_data.rar
+    └── (some pre-research)
 ```
-
-```bash
-git clone repo
-cd repo
-make all
-```
-
 ---
+# Firmware
 
-## 6. Tables
-
-| Name | Score | Pass |
-|:-----|:-----:|-----:|
-| Luc  |  95   | ✅ |
-| Bob  |  60   | ❌ |
-
----
-
-## 7. Blockquotes
-
-> This is a quote
->> Nested quote
->>> Very deep
-
-> **Tip:** Quotes can contain *formatting*.
-
----
-
-## 8. Horizontal Rules
-
----
-***
-___
-
----
-
-## 9. Emojis (GFM)
-
-:rocket: :warning: :white_check_mark: :fire:
-
----
-
-## 10. HTML Inside Markdown
-
-<details>
-<summary>Click to expand</summary>
-
-This content is hidden by default.
-
-- Works on GitHub
-- Works in VS Code preview
-
-</details>
-
----
-
-## 11. Footnotes (Renderer-dependent)
-
-Markdown is powerful[^note].
-
-[^note]: This is a footnote.
-
----
-
-## 12. Diagrams (Mermaid)
+An ESP32 is used to collect data from the MAX30102 sensor, and Python converts the raw samples into a static buffer for use in main.cpp. The firmware is cross compiled with the RISC V toolchain using a Makefile. Below are some useful Makefile commands in ./fw/Makefile.
 
 ```mermaid
-graph TD
-  A[Start] --> B{Decision}
-  B -->|Yes| C[Success]
-  B -->|No| D[Retry]
+# SPIKE build
+spike: $(SPIKE_ELF)
+        @echo "============================="
+        @echo "(spike) until pc 0 0x80000000       - <_start>: auipc sp,0x10"
+        @echo "(spike) pc 0                        - program counter at core 0"
+        @echo "(spike) run 1                       - run 1 instruction"
+        @echo "(spike) reg 0                       - check register file"
+        @echo "(spike) until insn 0 0x00ac2023     - or until pc 0 800004a8 : sw a0,0(s8)"
+        @echo "(spike) mem 0 0x80010730            - heartrate data address"
+        @echo "(spike) until pc 0 0x800007d0       - or until insn 0 0x00eda023 : sw a4,0(s11)"
+        @echo "(spike) mem 0 0x800107e8            - SpO2 data address"
+        @echo "============================="
+        riscv32-unknown-elf-nm $(SPIKE_ELF) | grep main
+        spike --isa=rv32i -d --pc=0x80000000 $(SPIKE_ELF)
+
+# =====================================================
+# Help
+# =====================================================
+help:
+        @echo "make all                         - build for wsl"
+        @echo "make riscv                       - build for rv32i"
+        @echo "./main > log.csv                 - gen log file"
+        @echo "python3 -m venv venv             - create Python virtual environment"
+        @echo "source venv/bin/activate         - activare virtual environment"
+        @echo "pip install -r requirements.txt  - venv requirement"
+        @echo "deactivate                       - exit virtual environment"
 ```
+output file in ./fw/build/
+
+```mermaid
+dmem.bin  dmem.coe  dmem.hex  imem.bin  imem.coe  imem.hex  main.S  main.bin  main.elf  main.hex  main.map  main.o  main.txt  start.o
+```
+- .coe file is used for initial dmem IP in vivado
+- .mem file is used for initial simulation regs
+- .elf file is used for spike simulation
+- main.map is firmware structure report
 
 ---
+# Hardware
 
-## 13. Math (LaTeX-style)
+The hardware is designed to generate a bitstream for FPGA deployment, so all modules need to be fully synthesizable and use block RAM for on chip memory. Vivado is used for BRAM IP generation, Questa for simulation and testing, and Makefile for design automation.
 
-Inline math: $E = mc^2$
-
-Block math:
-
-$$
-\int_0^\infty e^{-x} dx = 1
-$$
-
+```mermaid
+help:
+        @echo "=================================================================================="
+        @echo "vivado  -vivado gui"
+        @echo "drc     -design rule check"
+        @echo "a       -build_run_console | build run"
+        @echo "f       -build_run_gui_wave | build run wave"
+        @echo "b       -build_run_cov_all_testcase | build_cov run_cov gen_cov"
+        @echo "d       -build_run_cov_all_testcase_gui | build_cov run_cov gen_cov view_cov"
+        @echo "e       -build_run_cov_all_testcase_html | build_cov run_cov gen_html"
+        @echo "g       -fw_spike_build | instructions.mem data.mem registers.mem"
+        @echo "h       -gen_IP_cov_html_cov | generate coverage report & html report from IP.ucdb"
+        @echo "ca      -clean anything fw_clean | sim_clean_all"
+        @echo "cv      -clean make vivado"
+        @echo "clean   -clean anything accept '/sim/ucdb' fw_clean | sim_clean"
+        @echo "=================================================================================="
+```
 ---
+# Status report
 
-## 14. Comments (Hidden)
-
-<!-- This will not appear in rendered output -->
-
----
-
-## 15. Anchors & TOC
-
-- [Headings](#1-headings)
-- [Code Blocks](#5-code-blocks)
-- [Tables](#6-tables)
-
----
-
-## 16. What Markdown Cannot Do ❌
-
-| Feature | Supported |
+| Feature | Status |
 |------|------|
-| Buttons | ❌ |
-| JavaScript | ❌ |
-| Forms | ❌ |
-| Dynamic Logic | ❌ |
+| arithmetic instructions | ✅ |
+| logical instructions | ✅ |
+| branch jump instructions | ✅ |
+| memory access instructions | ✅ |
+| lui auipc instruction | ✅ |
+| system instruction | ❌ |
+| forwarding alu result | ✅ |
+| forwarding data load | ❌ |
+| forwarding PC + 4 | ❌ |
 
 ---
+<!-- [To the top](#final-thesis) -->
 
-## 17. Best Practices
+<p align="center">
+  <a href="#final-thesis">To the top</a>
+</p>
 
-- Keep lines under 80–100 chars
-- Use reference links for large docs
-- Prefer fenced code blocks
-- Let renderers add UI (copy buttons)
-
----
-
-## 18. Philosophy
-
-> Markdown is **structured plain text**, not a UI language.
-
----
-
-## ✅ End of Showcase
-
-You can now:
-- Open this file in VS Code
-- Upload to GitHub
-- Convert to PDF / HTML
-- Use as a Markdown reference
-
-Happy writing 🚀

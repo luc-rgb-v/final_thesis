@@ -25,8 +25,10 @@ module id_stage (
   output reg  [31:0] idex_rs1_data_o,
   output reg  [31:0] idex_rs2_data_o,
   output reg  [31:0] idex_imm_o,
+
   output reg  [4:0]  idex_rs1_addr_o,
   output reg  [4:0]  idex_rs2_addr_o,
+
   output reg         idex_mem_we_o,
   output reg         idex_mem_en_o,
   output reg  [2:0]  idex_width_se_o,
@@ -83,6 +85,9 @@ module id_stage (
 
   assign rf_rs1_addr_o = rs1_addr;
   assign rf_rs2_addr_o = rs2_addr;
+
+  //assign idex_rs1_addr_o = rs1_addr;
+  //assign idex_rs1_addr_o = rs2_addr;
   // ------------------------------------------------------------
   // Control decode
   // ------------------------------------------------------------
