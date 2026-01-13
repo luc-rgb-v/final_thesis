@@ -2,11 +2,10 @@ task run_test;
   begin
     $display("");
     $display("=================================================");
-    $display(" GOLDEN MODEL : RISC-V ASM EXPECTED BEHAVIOR");
+    $display("========= branch jump instruction test ==========");
     $display("=================================================");
 
     $display("");
-    $display("[PROGRAM PURPOSE]");
     $display(" This program verifies:");
     $display("  - ALU ops   : add, sub, xor, or, and, sll, srl");
     $display("  - Branches  : beq, bne, blt, bge, bltu, bgeu");

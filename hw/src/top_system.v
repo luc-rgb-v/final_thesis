@@ -103,7 +103,7 @@ module top_system (
   wire        exif_bj_taken_w;
 
   assign id_flush_w = exif_bj_taken_w;
-  assign ex_flush_w = exif_bj_taken_w;
+  //assign ex_flush_w = exif_bj_taken_w;
 
   wire [4:0] idex_rs1_addr_w;
   wire [4:0] idex_rs2_addr_w;
@@ -120,11 +120,11 @@ module top_system (
   wire       exmem_mem_en_w;
   wire [1:0] mem_stage_err_w;
 
-  //wire mem_read_async;
-  //assign mem_read_async = exmem_mem_en_w & ~exmem_mem_we_w;
-  wire stall_by_mem;
-  assign if_stall_w = stall_i; // stall_i
-  assign id_stall_w = stall_i;
+  wire load_use_hazard;
+  wire is_load_instrucion;
+
+  assign if_stall_w = load_use_hazard; // stall_i
+  assign id_stall_w = load_use_hazard; // load_use_hazard
   assign ex_stall_w = stall_i;
 
   assign mem_err_o = mem_stage_err_w;
@@ -255,6 +255,11 @@ module top_system (
     .idex_pc_o               (idex_pc_w)
   );
 
+  assign is_load_instrucion = ((exmem_mem_we_w == 0) && (exmem_mem_en_w == 1)) ? 1'b1 : 1'b0;
+  assign load_use_hazard = is_load_instrucion &&
+      ((exmem_rd_addr_w == rs1_addr_w) || (exmem_rd_addr_w == rs2_addr_w)) &&
+      (exmem_rd_addr_w != 0);
+
   // ------------------------------------------------------------
   // EX stage
   // ------------------------------------------------------------
@@ -302,6 +307,7 @@ module top_system (
   // ------------------------------------------------------------
   // MEM stage
   // ------------------------------------------------------------
+  wire [31:0] mem_data_w;
 
   mem_stage u_mem_stage (
     .clk_i               (clk_i),
@@ -321,11 +327,11 @@ module top_system (
     .mem_pc_plus_i       (exmem_pc_plus_w),
 
     // Data memory interface
-    .dmem_en_o           (mem_en_w),
-    .dmem_we_o           (mem_we_w),
-    .dmem_addr_o         (mem_addr_w),
-    .dmem_din_o          (mem_w_data_w),
-    .dmem_dout_i         (mem_r_data_w),
+    .en_o                (mem_en_w),
+    .we_o                (mem_we_w),
+    .addr_o              (mem_addr_w),
+    .data_w_o            (mem_w_data_w),
+    .data_r_i            (mem_r_data_w),
 
     // MEM/WB outputs
     .memwb_regwrite_o    (memwb_regwrite_w),
@@ -334,12 +340,11 @@ module top_system (
     .memwb_pc_plus_o     (memwb_pc_plus_w),
     .memwb_alu_result_o  (memwb_alu_result_w),
     .memwb_mem_data_o    (memwb_mem_data_w),
-
+    .mem_data_w          (mem_data_w),
+    
     // Error/status
-    .mem_stage_err_r     (mem_stage_err_w),
-    .stall_by_mem (stall_by_mem)
+    .mem_stage_err_o     (mem_stage_err_w)
   );
-
   // ------------------------------------------------------------
   // Forwarding unit
   // ------------------------------------------------------------
@@ -354,6 +359,7 @@ module top_system (
     .exmem_wb_se      (exmem_wb_se_w),
     .exmem_alu_result (exmem_alu_result_w),
     .exmem_pc_plus    (exmem_pc_plus_w),
+    .mem_data         (mem_data_w),
 
     .memwb_regwrite   (memwb_regwrite_w),
     .memwb_rd_addr    (memwb_rd_addr_w),
@@ -366,7 +372,8 @@ module top_system (
     .forward_src_2    (forward_src_2_w)
   );
 
-  // valid read data
+  // valid read data // 16'h32769 = 16'b1000000000000001
+  //assign mem_r_data_w = (exmem_alu_result_w[31:16] == 16'h32769) ? dmem_r_data_i : 
   assign mem_r_data_w = (exmem_alu_result_w[31:30] == 2'b10) ? dmem_r_data_i : 
                                (exmem_alu_result_w == 32'hC000000C) ? {31'b0, uart_data_ready_w} :
                                (exmem_alu_result_w == 32'h40000010) ? {24'b0, i2c_rdata_w} : 32'b0;
@@ -451,8 +458,9 @@ module top_system (
     .data_read_master  (i2c_rdata_w),
     .ready             (i2c_ready_w),
 
-    .i2c_sda            (i2c_sda_io),
-    .i2c_scl            (i2c_scl_io)
+    .i2c_sda           (i2c_sda_io),
+    .i2c_scl           (i2c_scl_io),
+    .ack_ok            ()
   );
 
 endmodule

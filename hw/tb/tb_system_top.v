@@ -1,6 +1,6 @@
 `timescale 10ns / 1ps
 //`define _IMEM_IP_
-`define _DMEM_IP_
+//`define _DMEM_IP_
 module tb_system_top;
   reg clk = 0;
   reg rst = 0;
@@ -84,7 +84,7 @@ module tb_system_top;
 */
   // I2C
   wire i2c_ready;
-  /**/
+  /*
   wire op_i = u_top_dut.u_mem_stage.load_cvt_u.op_i;
   wire [2:0] width_se_i = u_top_dut.u_mem_stage.load_cvt_u.width_se_i;
   wire we_i = u_top_dut.u_mem_stage.load_cvt_u.we_i;
@@ -92,7 +92,7 @@ module tb_system_top;
   wire read_error_o = u_top_dut.u_mem_stage.load_cvt_u.read_error_o;
   wire dmem_dout_i = u_top_dut.u_mem_stage.load_cvt_u.dmem_dout_i;
   wire data_o = u_top_dut.u_mem_stage.load_cvt_u.data_o;
-  /**/
+  */
   wire i2c_sda;
   wire i2c_scl;
   
@@ -214,7 +214,7 @@ module tb_system_top;
   );
 `else
   imem dut_imem (
-    .clk_i         (clk),
+    //.clk_i         (clk),
     .en_i          (imem_en),
     .instr_addr_i  (imem_addr[11:2]),
     .instruction_o (imem_instr)
@@ -263,6 +263,10 @@ module tb_system_top;
   always #5 clk = ~clk;
 
   initial begin
+    $monitor("T=%0t | reg_write=%b | rd_addr=%0d | rd_data=0x%08h", $time, reg_write, rd_addr, rd_data);
+  end
+
+  initial begin
     clk = 0;
     rst = 1;
 `ifndef _IMEM_IP_
@@ -275,7 +279,7 @@ module tb_system_top;
   //==================================================================
   //_calltest
   //==================================================================
-    #1000;
+    #5000;
 `ifndef _IMEM_IP_
     $display("");
     $display("Instruction = %h ", dut_imem.instructions_r[0]);

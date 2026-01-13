@@ -34,6 +34,8 @@ RV_DUMP := $(BUILD_DIR)/$(NAME).S
 RV_TXT  := $(BUILD_DIR)/$(NAME).txt
 RV_HEX  := $(BUILD_DIR)/$(NAME).hex
 
+RV_ASM  :=$(BUILD_DIR)/$(NAME)_assembly.S
+
 IMEM_BIN := $(BUILD_DIR)/imem.bin
 DMEM_BIN := $(BUILD_DIR)/dmem.bin
 
@@ -64,7 +66,7 @@ run:
 # RISC-V build
 # =====================================================
 
-riscv: $(RV_ELF) $(RV_DUMP) $(RV_TXT) $(RV_HEX) $(RV_COE) $(IMEM_BIN) $(DMEM_BIN) $(IMEM_HEX) $(DMEM_HEX) $(IMEM_COE) $(DMEM_COE)
+riscv: $(RV_ELF) $(RV_DUMP) $(RV_ASM) $(RV_TXT) $(RV_HEX) $(RV_COE) $(IMEM_BIN) $(DMEM_BIN) $(IMEM_HEX) $(DMEM_HEX) $(IMEM_COE) $(DMEM_COE)
 	@echo "===== Build complete ======"
 
 # SPIKE build
@@ -93,6 +95,9 @@ help:
 	@echo "source venv/bin/activate         - activare virtual environment"
 	@echo "pip install -r requirements.txt  - venv requirement"
 	@echo "deactivate                       - exit virtual environment"
+
+$(RV_ASM): $(SRCS) | $(BUILD_DIR)
+	$(CXX) $(CXXFLAGS_RV) -S $< -o $@
 
 $(BUILD_DIR):
 	@mkdir -p $@

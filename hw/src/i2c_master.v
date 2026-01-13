@@ -20,7 +20,9 @@ module i2c_master #(
   output wire       ready,
 
   inout  wire       i2c_sda,
-  output wire       i2c_scl
+  output wire       i2c_scl,
+  output wire [3:0] state_o,
+  output wire ack_ok
 );
 
   // ----------------------------
@@ -93,11 +95,13 @@ module i2c_master #(
     ST_DONE           = 4'd13;
 
   reg [3:0] state;
+  assign state_o = state;
 
   reg [7:0] tx_shift;
   reg [7:0] rx_shift;
-  reg [2:0] bit_pos;
-  reg       ack_ok;
+  reg [2:0] bit_pos;        // 7..0
+  reg       ack_ok_r;
+  assign ack_ok = ack_ok_r;
 
   // Start arming: accept start once, require start to return 0 to arm again
   reg start_armed;
@@ -113,7 +117,7 @@ module i2c_master #(
       rx_shift       <= 8'h00;
       data_read_master <= 8'h00;
       bit_pos        <= 3'd7;
-      ack_ok         <= 1'b0;
+      ack_ok_r         <= 1'b0;
       prev_low_pulse <= 1'b0;
       prev_high_pulse<= 1'b0;
       start_armed    <= 1'b1;
@@ -186,7 +190,7 @@ module i2c_master #(
         // Sample ACK on ACK bit high phase
         ST_ADDR_ACK_SAMP: begin
           if (high_tick) begin
-            ack_ok <= (sda_in == 1'b0);
+            ack_ok_r <= (sda_in == 1'b0);
 
             if (sda_in == 1'b0) begin
               if (rw == 1'b0) begin
@@ -233,7 +237,7 @@ module i2c_master #(
         // Sample data ACK on high phase, then STOP regardless
         ST_DATA_ACK_SAMP: begin
           if (high_tick) begin
-            ack_ok <= (sda_in == 1'b0);
+            ack_ok_r <= (sda_in == 1'b0);
             state  <= ST_STOP_PREP;
           end
         end

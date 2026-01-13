@@ -2,11 +2,10 @@ task run_test;
   begin
     $display("");
     $display("=================================================");
-    $display(" GOLDEN MODEL : RISC-V ASM EXPECTED BEHAVIOR");
+    $display("======= memory access instruction test ==========");
     $display("=================================================");
 
     $display("");
-    $display("[PROGRAM PURPOSE]");
     $display(" This program verifies:");
     $display("  - U-type   : lui");
     $display("  - I-type   : addi");

@@ -30,10 +30,6 @@ create_project $PROJ_NAME $PROJ_DIR -part xc7z020clg484-1
 
 set_property board_part xilinx.com:zc702:part0:1.4 [current_project]
 
-set IP_SCRIPT "$SCRIPT_DIR/gen_dmem_ip_sim.tcl"
-source $IP_SCRIPT
-puts "IP setup done"
-
 add_files -norecurse [list \
     $ROOT_DIR/src/defines.vh \
     $ROOT_DIR/src/dmem.v \
@@ -45,10 +41,8 @@ add_files -norecurse [list \
     $ROOT_DIR/src/id_stage.v \
     $ROOT_DIR/src/if_stage.v \
     $ROOT_DIR/src/imem.v \
-    $ROOT_DIR/src/load_cvt.v \
     $ROOT_DIR/src/mem_stage.v \
     $ROOT_DIR/src/registers_file.v \
-    $ROOT_DIR/src/store_cvt.v \
     $ROOT_DIR/src/top_system.v \
     $ROOT_DIR/src/uart_rx.v \
     $ROOT_DIR/src/uart_tx.v \
@@ -82,4 +76,4 @@ set_property top tb_system_top [get_filesets sim_1]
 # -------------------------------------------------
 # Run simulation
 # -------------------------------------------------
-launch_simulation
+#launch_simulation

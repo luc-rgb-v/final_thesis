@@ -58,7 +58,6 @@ module tb_if_stage;
   );
 `else
   imem dut_imem (
-    .clk_i         (clk),
     .en_i          (imem_en_o),
     .instr_addr_i  (imem_addr_o[11:2]),
     .instruction_o (imem_instr_i)
@@ -66,6 +65,7 @@ module tb_if_stage;
 `endif
 
   initial begin
+    $readmemh("instructions.mem", dut_imem.instructions_r);
     $dumpfile("IF_stage_dump.vcd");
     $dumpvars(0,tb_if_stage);
   end

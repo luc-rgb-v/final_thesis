@@ -15,6 +15,7 @@ WORK_DIR  := work
 
 # -------- files --------
 RTL_FILE  := rtl.f
+SRC_FILE  := src.f
 TB_FILE   := testbench.v
 
 UCDB_MERGED := IP.ucdb
@@ -45,13 +46,13 @@ build:
 	@echo "== Build (no coverage) =="
 	$(VLIB) $(WORK_DIR)
 	$(VMAP) $(WORK_DIR) $(WORK_DIR)
-	$(VLOG) -f $(RTL_FILE) $(TB_FILE)
+	$(VLOG) -f $(SRC_FILE) $(TB_FILE)
 
 build_cov:
 	@echo "== Build (with coverage) =="
 	$(VLIB) $(WORK_DIR)
 	$(VMAP) $(WORK_DIR) $(WORK_DIR)
-	$(VLOG) $(VLOG_COV_FLAGS) -f $(RTL_FILE) $(TB_FILE)
+	$(VLOG) $(VLOG_COV_FLAGS) -f $(SRC_FILE) $(TB_FILE)
 
 # ============================================================
 # Run simulation

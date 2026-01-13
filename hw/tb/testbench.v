@@ -121,7 +121,7 @@ module testbench;
 
   // Instruction Memory
   imem dut_imem (
-    .clk_i         (clk),
+    //.clk_i         (clk),
     .en_i          (imem_en),
     .instr_addr_i  (imem_addr[11:2]),
     .instruction_o (imem_instr)
@@ -147,6 +147,7 @@ module testbench;
   // memmory block for compare
   reg [63:0] ref_mem [0:255];
   reg [63:0] dut_mem [0:255];
+  reg [31:0] d_memory [0:1023];
 
   integer dut_idx;
   wire store_valid = dmem_en && (dmem_we != 4'b0000);
@@ -180,6 +181,7 @@ module testbench;
   always @(posedge clk) begin
     if (store_valid) begin
       dut_mem[dut_idx] <= {store_addr, store_data};
+      d_memory[store_addr[11:2]] <= store_data;
       dut_idx <= dut_idx + 1;
     end
   end
@@ -291,6 +293,10 @@ module testbench;
     $display("REG[1] = %h", dut_reg_file.registers[1]);
     $display("REG[2] = %h", dut_reg_file.registers[2]);
     $display("REG[3] = %h", dut_reg_file.registers[3]);
+    $display("");
+    $display("addr[0] = 0x%08h", d_memory[0]);
+    $display("addr[1] = 0x%08h", d_memory[1]);
+    $display("addr[2] = 0x%08h", d_memory[2]);
     $display("");
     $finish;
   end

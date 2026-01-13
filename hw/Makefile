@@ -10,19 +10,31 @@ LIC_DIR		:= license
 WIN_BAT     := D:\Github\final_thesis\hw\scripts\run_vivado.bat
 
 # ============================================================
-# Config variable
+# Config variable build assembly
 # ------------------------------------------------------------
 #export TESTNAME ?= branch_jump
 #export TESTNAME ?= arithmetic_instr
 #export TESTNAME ?= dmem_access
 #export TESTNAME ?= uart_s_sim
 #export TESTNAME ?= i2c_assembly
+#export TESTNAME ?= main_assembly
 export TESTNAME ?= test_instructions
+#export TESTNAME ?= sum_1_to_10
+#export TESTNAME ?= fibonacci
+#export TESTNAME ?= bubble_sort
+#export TESTNAME ?= factorial
+
+# ============================================================
+# Config variable build c file
+# ------------------------------------------------------------
+#export C_TESTCASE ?= add
 # ============================================================
 
 export TESTCASE = $(TESTNAME)
 
 TESTCASEVERILOG = $(TESTCASE).v
+#TESTCASEVERILOG = $(C_TESTCASE).v
+
 TESTCASE_DIR 	= testcases
 
 FILES_SUPPORT 	:= instructions.mem data.mem registers.mem
@@ -44,7 +56,8 @@ h: gen_IP_cov_html_cov
 # Build instructions.mem data.mem registers.mem
 # ------------------------------------------------------------
 fw_spike_build:
-	$(MAKE) -C $(SUPPORT_DIR) all
+	$(MAKE) -C $(SUPPORT_DIR) all_asm
+#	$(MAKE) -C $(SUPPORT_DIR) all_c
 
 fw_clean:
 	$(MAKE) -C $(SUPPORT_DIR) clean
@@ -82,6 +95,11 @@ group:
 	make b TESTNAME:=dmem_access
 	make b TESTNAME:=i2c_assembly
 	make b TESTNAME:=uart_s_sim
+	make b TESTNAME:=i2c_assembly
+	make b TESTNAME:=sum_1_to_10
+	make b TESTNAME:=fibonacci
+	make b TESTNAME:=bubble_sort
+	make b TESTNAME:=factorial
 	$(MAKE) -C $(SIM_DIR) gen_cov
 	$(MAKE) -C $(SIM_DIR) view_cov
 
