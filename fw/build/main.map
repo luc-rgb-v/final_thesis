@@ -1,0 +1,116 @@
+Archive member included to satisfy reference by file (symbol)
+
+/opt/riscv32i/lib/gcc/riscv32-unknown-elf/15.1.0/libgcc.a(muldi3.o)
+                              build/main.o (__mulsi3)
+/opt/riscv32i/lib/gcc/riscv32-unknown-elf/15.1.0/libgcc.a(div.o)
+                              build/main.o (__divsi3)
+
+Discarded input sections
+
+ .comment       0x00000000       0x10 build/main.o
+ .debug_line    0x00000000       0x7a /opt/riscv32i/lib/gcc/riscv32-unknown-elf/15.1.0/libgcc.a(muldi3.o)
+ .debug_line_str
+                0x00000000       0x8c /opt/riscv32i/lib/gcc/riscv32-unknown-elf/15.1.0/libgcc.a(muldi3.o)
+ .debug_info    0x00000000       0x31 /opt/riscv32i/lib/gcc/riscv32-unknown-elf/15.1.0/libgcc.a(muldi3.o)
+ .debug_abbrev  0x00000000       0x28 /opt/riscv32i/lib/gcc/riscv32-unknown-elf/15.1.0/libgcc.a(muldi3.o)
+ .debug_aranges
+                0x00000000       0x20 /opt/riscv32i/lib/gcc/riscv32-unknown-elf/15.1.0/libgcc.a(muldi3.o)
+ .debug_str     0x00000000       0xa1 /opt/riscv32i/lib/gcc/riscv32-unknown-elf/15.1.0/libgcc.a(muldi3.o)
+ .debug_line    0x00000000      0x153 /opt/riscv32i/lib/gcc/riscv32-unknown-elf/15.1.0/libgcc.a(div.o)
+ .debug_line_str
+                0x00000000       0x89 /opt/riscv32i/lib/gcc/riscv32-unknown-elf/15.1.0/libgcc.a(div.o)
+ .debug_info    0x00000000       0x5f /opt/riscv32i/lib/gcc/riscv32-unknown-elf/15.1.0/libgcc.a(div.o)
+ .debug_abbrev  0x00000000       0x28 /opt/riscv32i/lib/gcc/riscv32-unknown-elf/15.1.0/libgcc.a(div.o)
+ .debug_aranges
+                0x00000000       0x20 /opt/riscv32i/lib/gcc/riscv32-unknown-elf/15.1.0/libgcc.a(div.o)
+ .debug_str     0x00000000       0xce /opt/riscv32i/lib/gcc/riscv32-unknown-elf/15.1.0/libgcc.a(div.o)
+
+Memory Configuration
+
+Name             Origin             Length             Attributes
+IMEM             0x80000000         0x00001000         xr
+DMEM             0x80010000         0x00000800         xrw
+*default*        0x00000000         0xffffffff
+
+Linker script and memory map
+
+LOAD build/main.o
+LOAD build/start.o
+LOAD /opt/riscv32i/lib/gcc/riscv32-unknown-elf/15.1.0/libgcc.a
+
+.text           0x80000000      0xa40
+                0x80000000                        _text_start = .
+ *(.text._start)
+ .text._start   0x80000000       0x30 build/start.o
+                0x80000000                _start
+ *(.text*)
+ .text          0x80000030      0x844 build/main.o
+                0x80000030                maxim_peaks_above_min_height(long*, long*, long*, long, long)
+                0x800000d8                maxim_sort_ascend(long*, long)
+                0x80000124                maxim_sort_indices_descend(long*, long*, long)
+                0x80000188                maxim_remove_close_peaks(long*, long*, long*, long)
+                0x8000025c                maxim_find_peaks(long*, long*, long*, long, long, long, long)
+                0x800002b8                maxim_heart_rate_and_oxygen_saturation(unsigned short*, long, unsigned short*, long*, signed char*, long*, signed char*)
+ .text.startup  0x80000874       0x3c build/main.o
+                0x80000874                main
+ .text          0x800008b0        0x0 build/start.o
+ .text          0x800008b0       0x24 /opt/riscv32i/lib/gcc/riscv32-unknown-elf/15.1.0/libgcc.a(muldi3.o)
+                0x800008b0                __mulsi3
+ .text          0x800008d4       0xb4 /opt/riscv32i/lib/gcc/riscv32-unknown-elf/15.1.0/libgcc.a(div.o)
+                0x800008d4                __divsi3
+                0x800008dc                __hidden___udivsi3
+                0x800008dc                __udivsi3
+                0x80000924                __umodsi3
+                0x80000958                __modsi3
+ *(.rodata*)
+ .rodata        0x80000988       0xb8 build/main.o
+                0x80000a40                        _text_end = .
+
+.rela.dyn       0x80000a40        0x0
+ .rela.text._start
+                0x80000a40        0x0 build/main.o
+
+.data           0x80010000      0x190
+                0x80010000                        _data_start = .
+ *(.data*)
+ .data          0x80010000      0x190 build/main.o
+ .data          0x80010190        0x0 build/start.o
+ .data          0x80010190        0x0 /opt/riscv32i/lib/gcc/riscv32-unknown-elf/15.1.0/libgcc.a(muldi3.o)
+ .data          0x80010190        0x0 /opt/riscv32i/lib/gcc/riscv32-unknown-elf/15.1.0/libgcc.a(div.o)
+                0x80010190                        _data_end = .
+
+.bss            0x80010190      0x320
+                0x80010190                        _bss_start = .
+ *(.bss*)
+ .bss           0x80010190      0x320 build/main.o
+ .bss           0x800104b0        0x0 build/start.o
+ .bss           0x800104b0        0x0 /opt/riscv32i/lib/gcc/riscv32-unknown-elf/15.1.0/libgcc.a(muldi3.o)
+ .bss           0x800104b0        0x0 /opt/riscv32i/lib/gcc/riscv32-unknown-elf/15.1.0/libgcc.a(div.o)
+ *(COMMON)
+                0x800104b0                        _bss_end = .
+                0x00000200                        _stack_size = 0x200
+                0x80010800                        _stack_top = (ORIGIN (DMEM) + LENGTH (DMEM))
+                0x80010600                        _stack_bottom = (_stack_top - _stack_size)
+
+/DISCARD/
+ *(.eh_frame*)
+ *(.gcc_except_table*)
+ *(.comment*)
+ *(.debug*)
+OUTPUT(build/main.elf elf32-littleriscv)
+
+.note.GNU-stack
+                0x00000000        0x0
+ .note.GNU-stack
+                0x00000000        0x0 build/main.o
+
+.riscv.attributes
+                0x00000000       0x1c
+ .riscv.attributes
+                0x00000000       0x1c build/main.o
+ .riscv.attributes
+                0x0000001c       0x1a build/start.o
+ .riscv.attributes
+                0x00000036       0x1a /opt/riscv32i/lib/gcc/riscv32-unknown-elf/15.1.0/libgcc.a(muldi3.o)
+ .riscv.attributes
+                0x00000050       0x1a /opt/riscv32i/lib/gcc/riscv32-unknown-elf/15.1.0/libgcc.a(div.o)

@@ -295,8 +295,8 @@ module testbench;
     $display("REG[3] = %h", dut_reg_file.registers[3]);
     $display("");
     $display("addr[0] = 0x%08h", d_memory[0]);
-    $display("addr[1] = 0x%08h", d_memory[1]);
-    $display("addr[2] = 0x%08h", d_memory[2]);
+    $display("addr[4] = 0x%08h", d_memory[1]);
+    $display("addr[8] = 0x%08h", d_memory[2]);
     $display("");
     $finish;
   end

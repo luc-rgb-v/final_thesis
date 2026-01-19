@@ -5,7 +5,7 @@ task run_test;
     $display("================ i2c assemply test ==============");
     $display("=================================================");
 
-    #2000;
+    #10000000;
     $display("");
     compare_regs();
     $display("");

@@ -6,7 +6,7 @@
 
 ---
 # Project structure
-```mermaid
+```text
 .
 ├── Readme.md
 ├── doc
@@ -66,7 +66,7 @@
 
 An ESP32 is used to collect data from the MAX30102 sensor, and Python converts the raw samples into a static buffer for use in main.cpp. The firmware is cross compiled with the RISC V toolchain using a Makefile. Below are some useful Makefile commands in ./fw/Makefile.
 
-```mermaid
+```text
 # SPIKE build
 spike: $(SPIKE_ELF)
         @echo "============================="
@@ -96,7 +96,7 @@ help:
 ```
 output file in ./fw/build/
 
-```mermaid
+```text
 dmem.bin  dmem.coe  dmem.hex  imem.bin  imem.coe  imem.hex  main.S  main.bin  main.elf  main.hex  main.map  main.o  main.txt  start.o
 ```
 - .coe file is used for initial dmem IP in vivado
@@ -109,7 +109,7 @@ dmem.bin  dmem.coe  dmem.hex  imem.bin  imem.coe  imem.hex  main.S  main.bin  ma
 
 The hardware is designed to generate a bitstream for FPGA deployment, so all modules need to be fully synthesizable and use block RAM for on chip memory. Vivado is used for BRAM IP generation, Questa for simulation and testing, and Makefile for design automation.
 
-```mermaid
+```text
 help:
         @echo "=================================================================================="
         @echo "vivado  -vivado gui"

@@ -5,7 +5,7 @@ set SCRIPT_DIR [file dirname [file normalize [info script]]]
 set ROOT_DIR   [file normalize "$SCRIPT_DIR/.."]
 
 # Project name and directory
-set PROJ_NAME top_sys_vivado
+set PROJ_NAME top_sys_vivado_test
 set PROJ_DIR  [file normalize "$ROOT_DIR/$PROJ_NAME"]
 
 # -------------------------------------------------

@@ -3,11 +3,9 @@
 // I2C single-byte master (7-bit addr) : write 1 byte or read 1 byte
 // - Open-drain SDA (drive low or Z), SCL generated internally
 // - Data changes while SCL low (low_pulse), sampling while SCL high (high_pulse)
-// - Correct ACK timing (release SDA during 9th clock low, sample on 9th clock high)
-// - Guaranteed STOP: SDA low while SCL low -> SDA release while SCL high
 // ------------------------------------------------------------
 module i2c_master #(
-  parameter integer CLK_DIV = 4  // must be even for MID = CLK_DIV/2
+  parameter integer CLK_DIV = 4  // must be even for MID = CLK_DIV/2 default is 4 for simulation and 500 if want 100khz at #5 clk = ~clk
 )(
   input  wire       clk,
   input  wire       rst,       // active-high synchronous reset

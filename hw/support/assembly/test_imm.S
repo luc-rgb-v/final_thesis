@@ -148,5 +148,3 @@ ok_r:
 
   sw   x31, 0(x7)
 
-done:
-  j done

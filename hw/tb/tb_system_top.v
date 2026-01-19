@@ -1,4 +1,4 @@
-`timescale 10ns / 1ps
+`timescale 1ns / 1ps
 //`define _IMEM_IP_
 //`define _DMEM_IP_
 module tb_system_top;
@@ -36,10 +36,10 @@ module tb_system_top;
   //wire [1:0] memwb_wb_se_w = u_top_dut.memwb_wb_se_w;
   wire [4:0] rd_addr;
   wire [31:0] rd_data;
-  wire [31:0] memwb_pc_plus_w = u_top_dut.memwb_pc_plus_w;
-  wire [31:0] memwb_alu_result_w = u_top_dut.memwb_alu_result_w;
-  wire [31:0] memwb_mem_data_w = u_top_dut.memwb_mem_data_w;
-  wire [31:0] mem_r_data_w = u_top_dut.mem_r_data_w;
+  //wire [31:0] memwb_pc_plus_w = u_top_dut.memwb_pc_plus_w;
+  //wire [31:0] memwb_alu_result_w = u_top_dut.memwb_alu_result_w;
+  //wire [31:0] memwb_mem_data_w = u_top_dut.memwb_mem_data_w;
+  //wire [31:0] mem_r_data_w = u_top_dut.mem_r_data_w;
   
   //wire uart_en_w = u_top_dut.uart_en_w;
   //wire [1:0] uart_we_w = u_top_dut.uart_we_w;
@@ -84,15 +84,6 @@ module tb_system_top;
 */
   // I2C
   wire i2c_ready;
-  /*
-  wire op_i = u_top_dut.u_mem_stage.load_cvt_u.op_i;
-  wire [2:0] width_se_i = u_top_dut.u_mem_stage.load_cvt_u.width_se_i;
-  wire we_i = u_top_dut.u_mem_stage.load_cvt_u.we_i;
-  wire en_i = u_top_dut.u_mem_stage.load_cvt_u.en_i;
-  wire read_error_o = u_top_dut.u_mem_stage.load_cvt_u.read_error_o;
-  wire dmem_dout_i = u_top_dut.u_mem_stage.load_cvt_u.dmem_dout_i;
-  wire data_o = u_top_dut.u_mem_stage.load_cvt_u.data_o;
-  */
   wire i2c_sda;
   wire i2c_scl;
   
@@ -236,6 +227,7 @@ module tb_system_top;
   );
 
   integer i;
+  integer fd;
 
 `ifndef _IMEM_IP_
   initial begin
@@ -252,12 +244,28 @@ module tb_system_top;
       dut_dmem.dmem_uut2.mem[i] = 8'h00;
       dut_dmem.dmem_uut3.mem[i] = 8'h00;
     end
+     $readmemh("data_0.mem", dut_dmem.dmem_uut0.mem);
+     $readmemh("data_1.mem", dut_dmem.dmem_uut1.mem);
+     $readmemh("data_2.mem", dut_dmem.dmem_uut2.mem);
+     $readmemh("data_3.mem", dut_dmem.dmem_uut3.mem);
   end
 `endif
+
+  task dump_regfile;
+    begin
+      $fdisplay(fd, "==== Regfile dump @ time %0t ====", $time);
+      for (i = 0; i < 32; i = i + 1) begin
+          $fdisplay(fd, "x%0d = 0x%08h", i, dut_reg_file.registers[i]);
+      end
+      $fdisplay(fd, "");
+    end
+  endtask
 
   initial begin
     for (i = 0; i < 32; i = i + 1)
       dut_reg_file.registers[i] = 32'b0;
+    // dump file
+    fd = $fopen("regfile_dump.txt", "w");
   end
 
   always #5 clk = ~clk;
@@ -291,6 +299,8 @@ module tb_system_top;
     $display("REG[2] = %h", dut_reg_file.registers[2]);
     $display("REG[3] = %h", dut_reg_file.registers[3]);
     $display("");
+    
+    dump_regfile;
     $finish;
   end
 
