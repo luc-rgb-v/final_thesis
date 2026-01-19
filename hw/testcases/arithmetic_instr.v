@@ -13,34 +13,9 @@ task run_test;
     $display("  - R-type   : add, sub, sll, slt, sltu, xor, srl, sra, or, and");
 
     $display("");
-    $display("[EXPECTED FINAL REGISTER VALUES]");
-    $display(" ------------------------------------------------");
-    $display("  x1  = 0x%08h", 32'h1234_5000);
-    $display("  x2  = PC + 0x00001000   (AUIPC result)");
-    $display("  x3  = %0d", 10);
-    $display("  x4  = %0d", 40);
-    $display("  x5  = %0d", 1);
-    $display("  x6  = %0d", 1);
-    $display("  x7  = %0d", 5);
-    $display("  x8  = %0d", 20);
-    $display("  x9  = %0d", 20);
-    $display("  x10 = %0d", 42);
-    $display("  x11 = %0d", 2);
-    $display("  x12 = %0d", 50);
-    $display("  x13 = %0d", 30);
-    $display("  x14 = %0d", 20);
-    $display("  x15 = %0d", 1);
-    $display("  x16 = %0d", 1);
-    $display("  x17 = %0d", 34);
-    $display("  x18 = %0d", 20);
-    $display("  x19 = %0d", 20);
-    $display("  x20 = %0d", 42);
-    $display("  x21 = %0d", 8);
-
-    $display("");
     $display("=================================================");
 
-    #1000;
+    #100000;
     $display("");
     compare_regs();
     $display("");

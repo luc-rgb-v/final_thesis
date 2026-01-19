@@ -3,7 +3,7 @@
 # ============================================================
 
 # -------- user-configurable variables --------
-TESTNAME  ?= test_inigow
+TESTNAME  ?= random_instructions
 TB_NAME   ?= testbench
 RADIX     ?= decimal
 

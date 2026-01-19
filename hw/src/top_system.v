@@ -103,7 +103,6 @@ module top_system (
   wire        exif_bj_taken_w;
 
   assign id_flush_w = exif_bj_taken_w;
-  //assign ex_flush_w = exif_bj_taken_w;
 
   wire [4:0] idex_rs1_addr_w;
   wire [4:0] idex_rs2_addr_w;
@@ -376,6 +375,7 @@ module top_system (
   //assign mem_r_data_w = (exmem_alu_result_w[31:16] == 16'h32769) ? dmem_r_data_i : 
   assign mem_r_data_w = (exmem_alu_result_w[31:30] == 2'b10) ? dmem_r_data_i : 
                                (exmem_alu_result_w == 32'hC000000C) ? {31'b0, uart_data_ready_w} :
+                               (exmem_alu_result_w == 32'h40000014) ? {31'b0, i2c_ready_w} :
                                (exmem_alu_result_w == 32'h40000010) ? {24'b0, i2c_rdata_w} : 32'b0;
 
   // valid dmem interface 32'h80000000 30 bit

@@ -2,24 +2,70 @@
 .globl _start
 _start:
 
-lui x1,0x40000        #x1=0x40000000
+lui x1,0x40000
 
-addi x2,x0,0xA5       #x2=0x000000A5
-addi x3,x0,0x57       #x3=0x00000057
-addi x4,x0,0x00       #x4=0x00000000
-addi x5,x0,0x01       #x5=0x00000001
-add x11,x0,x5
+addi x2,x0,0x57
 
-sw x2,0(x1)           #mem[0x40000000] I2C_WDATA =0x1F
-sw x3,4(x1)           #mem[0x40000004] I2C_ADDR =0x57
-sw x5,8(x1)           #mem[0x40000008] I2C_RW =0x00
-sw x5,12(x1)          #mem[0x4000000C] I2C_ENABLE =0x01
-sw x4,12(x1)         #mem[0x4000000C] I2C_ENABLE =0x00
+addi x3,x0,0x77  # w
+addi x4,x0,0x6F  # o
+addi x5,x0,0x72  # r
+addi x6,x0,0x6C  # l
+addi x7,x0,0x64  # d
 
-addi x10,x0,0x01
+addi x30,x0,0x1
 
-sw x3,4(x1)           #mem[0x40000004]=0x55
-sw x5,8(x1)           #mem[0x40000008]=0x01
-sw x5,12(x1)          #mem[0x4000000C]=0x01
+sw x2,4(x1)           #I2C_ADDR
+sw x0,8(x1)           #I2C_RW
 
-lw x6,16(x1)          #x6=I2C_RDATA
+sw x3,0(x1)           #I2C_WDATA
+sw x30,12(x1)         #I2C_ENABLE
+sw x0,12(x1)          #I2C_ENABLE
+
+WAIT_LOOP:
+    lw   x29, 20(x1)
+    beq  x29, x0, WAIT_LOOP
+
+sw x4,0(x1)           #I2C_WDATA
+sw x30,12(x1)         #I2C_ENABLE
+sw x0,12(x1)          #I2C_ENABLE
+
+WAIT_LOOP_1:
+    lw   x29, 20(x1)
+    beq  x29, x0, WAIT_LOOP_1
+
+sw x5,0(x1)           #I2C_WDATA
+sw x30,12(x1)         #I2C_ENABLE
+sw x0,12(x1)          #I2C_ENABLE
+
+WAIT_LOOP_2:
+    lw   x29, 20(x1)
+    beq  x29, x0, WAIT_LOOP_2
+
+sw x6,0(x1)           #I2C_WDATA
+sw x30,12(x1)         #I2C_ENABLE
+sw x0,12(x1)          #I2C_ENABLE
+
+WAIT_LOOP_3:
+    lw   x29, 20(x1)
+    beq  x29, x0, WAIT_LOOP_3
+
+sw x7,0(x1)           #I2C_WDATA
+sw x30,12(x1)         #I2C_ENABLE
+sw x0,12(x1)          #I2C_ENABLE
+
+WAIT_LOOP_4:
+    lw   x29, 20(x1)
+    beq  x29, x0, WAIT_LOOP_4
+
+sw x30,8(x1)          #I2C_RW
+sw x30,12(x1)         #I2C_ENABLE
+sw x0,12(x1)          #I2C_ENABLE
+
+WAIT_LOOP_5:
+    lw   x29, 20(x1)
+    beq  x29, x0, WAIT_LOOP_5
+
+lw x8,16(x1)          #x6=I2C_RDATA
+sw x30,8(x1)          #I2C_RW
+
+addi x31,x31,0x1

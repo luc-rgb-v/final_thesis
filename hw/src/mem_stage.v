@@ -40,7 +40,7 @@ module mem_stage (
   reg read_error;
   reg [31:0] data_r_cvt_w;
   assign mem_data_w = data_r_cvt_w;
-  
+
   wire [1:0] mem_stage_err_w;
   wire [1:0] op = mem_alu_result_i [1:0];
   assign addr_o = (mem_en_i == 1) ? mem_alu_result_i [31:0] : 32'b0;

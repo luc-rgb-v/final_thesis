@@ -12,17 +12,23 @@ WIN_BAT     := D:\Github\final_thesis\hw\scripts\run_vivado.bat
 # ============================================================
 # Config variable build assembly
 # ------------------------------------------------------------
+export TESTNAME ?= test_instructions
 #export TESTNAME ?= branch_jump
 #export TESTNAME ?= arithmetic_instr
 #export TESTNAME ?= dmem_access
-#export TESTNAME ?= uart_s_sim
+#export TESTNAME ?= uart_assembly
 #export TESTNAME ?= i2c_assembly
-#export TESTNAME ?= main_assembly
-export TESTNAME ?= test_instructions
-#export TESTNAME ?= sum_1_to_10
+#export TESTNAME ?= sum_1_to_100
 #export TESTNAME ?= fibonacci
 #export TESTNAME ?= bubble_sort
 #export TESTNAME ?= factorial
+#export TESTNAME ?= for_loop
+#export TESTNAME ?= if_else
+#export TESTNAME ?= mul_test
+#export TESTNAME ?= div_test
+#export TESTNAME ?= extreme_test
+#export TESTNAME ?= random_test
+#export TESTNAME ?= test_imm
 
 # ============================================================
 # Config variable build c file
@@ -32,10 +38,11 @@ export TESTNAME ?= test_instructions
 
 export TESTCASE = $(TESTNAME)
 
-TESTCASEVERILOG = $(TESTCASE).v
 #TESTCASEVERILOG = $(C_TESTCASE).v
 
 TESTCASE_DIR 	= testcases
+#TESTCASEVERILOG = $(TESTCASE).v
+TESTCASEVERILOG   := testcase.v
 
 FILES_SUPPORT 	:= instructions.mem data.mem registers.mem
 FILES_TB 		:= testbench.v
@@ -57,7 +64,6 @@ h: gen_IP_cov_html_cov
 # ------------------------------------------------------------
 fw_spike_build:
 	$(MAKE) -C $(SUPPORT_DIR) all_asm
-#	$(MAKE) -C $(SUPPORT_DIR) all_c
 
 fw_clean:
 	$(MAKE) -C $(SUPPORT_DIR) clean
@@ -94,12 +100,23 @@ group:
 	make b TESTNAME:=arithmetic_instr
 	make b TESTNAME:=dmem_access
 	make b TESTNAME:=i2c_assembly
-	make b TESTNAME:=uart_s_sim
-	make b TESTNAME:=i2c_assembly
-	make b TESTNAME:=sum_1_to_10
+	make b TESTNAME:=uart_assembly
+	make b TESTNAME:=sum_1_to_100
 	make b TESTNAME:=fibonacci
-	make b TESTNAME:=bubble_sort
 	make b TESTNAME:=factorial
+	make b TESTNAME:=bubble_sort
+	make b TESTNAME:=for_loop
+	make b TESTNAME:=if_else
+	make b TESTNAME:=mul_test
+	make b TESTNAME:=div_test
+	make b TESTNAME:=test_imm
+	make b TESTNAME:=random_test
+	make b TESTNAME:=extreme_test
+	make b TESTNAME:=test_instructions
+	make b TESTNAME:=test_bj_mul_equation
+	make b TESTNAME:=test_count_number
+	make b TESTNAME:=test_forwarding
+	make b TESTNAME:=test_moving_average
 	$(MAKE) -C $(SIM_DIR) gen_cov
 	$(MAKE) -C $(SIM_DIR) view_cov
 
@@ -124,7 +141,7 @@ drc:
 	$(MAKE) -C $(SIM_DIR) drc
 
 vivado:
-	$(MAKE) -C $(SUPPORT_DIR) instructions
+	$(MAKE) -C $(SUPPORT_DIR) instructions_asm
 	cmd.exe /c "$(WIN_BAT)"
 
 license:

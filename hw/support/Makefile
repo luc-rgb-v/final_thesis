@@ -129,7 +129,6 @@ mem_asm: run_asm
 	    else       printf "00000000\n"; \
 	  } \
 	}' > $(REGMEM)
-
 	@echo "== Extracting data memory (ASM) =="
 	grep -E " mem 0x[0-9a-fA-F]+ 0x" $(LOG) | \
 	awk '{ \
@@ -157,7 +156,6 @@ mem_c: run_c
 	    else       printf "00000000\n"; \
 	  } \
 	}' > $(REGMEM)
-
 	@echo "== Extracting data memory (C) =="
 	grep -E " mem 0x[0-9a-fA-F]+ 0x" $(LOG) | \
 	awk '{ \
@@ -179,4 +177,4 @@ clean:
 	  $(REGMEM) $(DATAMEM) \
 	  $(IMEM_BIN) $(IMEM_HEX) $(IMEM_COE) $(IMEM_MEM)
 
-.PHONY: all all_asm all_c run_asm run_c mem_asm mem_c instructions_asm instructions_c clean
+.PHONY: all_asm all_c run_asm run_c mem_asm mem_c instructions_asm instructions_c clean

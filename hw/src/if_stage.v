@@ -27,7 +27,8 @@ module if_stage (
   reg  [31:0] pc_r;
   wire [31:0] pc_next_w;
 
-  assign pc_next_w   = if_bj_taken_i ? if_pc_bj_i : (pc_r + 32'h4);
+  //(pc_r == 32'h80000ffc) ? 32'h80000ffc :
+  assign pc_next_w   = if_bj_taken_i ? if_pc_bj_i : (pc_r == 32'h80000ffc) ? 32'h80000ffc : (pc_r + 32'h4);
   assign imem_addr_o = pc_r;
 
   // imem always enabled unless stall/reset

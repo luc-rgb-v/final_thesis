@@ -1,14 +1,17 @@
 task run_test;
   begin
-
+    
+    $display("");
     $display("=================================================");
-    $display("=================== add C test ==================");
+    $display("================== random test ==================");
     $display("=================================================");
 
-    #2000;
+    #1000000;
     $display("");
     compare_regs();
     $display("");
     compare_mem();
+    $display("");
+
   end
 endtask
