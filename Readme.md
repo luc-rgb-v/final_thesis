@@ -138,8 +138,8 @@ help:
 | lui auipc instruction | ✅ |
 | system instruction | ❌ |
 | forwarding alu result | ✅ |
-| forwarding data load | ❌ |
-| forwarding PC + 4 | ❌ |
+| forwarding data load | ✅ |
+| forwarding PC + 4 | ✅ |
 
 ---
 <!-- [To the top](#final-thesis) -->
